@@ -1,14 +1,13 @@
-# OpenStack Works on ARM Installation Guide
+# OpenStack on Packet Installation Guide
 
 ## Overview
 
-Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Armv8 bare metal.
+Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Packet bare metal.
 
-The deployment defaults to a minimum 4 node OpenStack cloud, consisting of 3 Armv8 nodes and a single x86 node. The x86 node is included to showcase how OpenStack can concurrently manage Arm and x86 virtual workloads atop a heterogenous cloud. 
-
-- The controller and dashboard nodes are configured to run on Armv8 hardware. 
+The deployment defaults to a minimum 4 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 node compute node. 
+ 
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
-- By default, the template uses the smallest sized ARM (baremetal_2a) and x86 (baremetal_0) hardware available.
+- By default, the template uses second generation Packet hardware.
 
 If you require support, please email [support@packet.com](mailto:support@packet.com), visit the Packet IRC channel (#packethost on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.com) or post an issue within this repository.
 
@@ -54,10 +53,10 @@ https://www.terraform.io/downloads.html
 
 ## Deployment Prep
 
-Download the OpenStackWorksOnARM manifests from GitHub into a local directory.
+Download the OpenStackOnPacket manifests from GitHub into a local directory.
 
 ```bash
-git clone https://github.com/WorksOnArm/OpenStackWorksOnArm
+git clone URL_TO_REPO
 cd OpenStackWorksOnArm
 ```
 
@@ -88,10 +87,9 @@ If the Packet API Token and Project ID were not saved as environment variables t
 
 | Name        | Bare Metal Type | Software               | Default Count | Minimum Count | 
 | :---------- | :-------------- | :----------------------| -------------:| -------------:|
-| Controller  | baremetal_2a    | Keystone, Glance, Nova | 1             | 1             |
-| Dashboard   | baremetal_2a    | Horizon                | 1             | 0 or more     |
-| Compute ARM | baremetal_2a    | Neutron, Nova          | 1             | 0 or more     |
-| Compute x86 | baremetal_0     | Neutron                | 1             | 0 or more     |
+| Controller  | c2.medium.x86   | Keystone, Glance, Nova | 1             | 1             |
+| Dashboard   | c2.medium.x86   | Horizon                | 1             | 0 or more     |
+| Compute x86 | n2.xlarge.x86   | Neutron                | 1             | 0 or more     |
 
 
 In terraform.tfvars, the type of all these nodes can be changed. The size of the cloud can also be grown by increasing the count of ARM and x86 compute nodes above the default count of 1. A count of 0 of any compute node type (ARM or x86) will render the cloud unable to provision virtual machines of said type. While this deployment will cluster and support multiple compute nodes, it does not support multiple controller or dashboard nodes.
@@ -111,14 +109,10 @@ terraform output
 
 Sample output as follows:
 ```
-Compute ARM IPs = [
-    157.75.73.186
-]
-Compute ARM Type = baremetal_2a
 Compute x86 IPs = [
     157.75.106.151
 ]
-Compute x86 Type = baremetal_0
+Compute x86 Type = n2.xlarge.x86
 Controller SSH = ssh root@157.75.79.194 -i ./packet-key
 Controller Type = baremetal_0
 Horizon dashboard available at = http://157.75.106.119/horizon/ username/password
@@ -132,7 +126,7 @@ The OpenStack Controller (CLI) can be accessed at the SSH address listed with th
 
 This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines. For more information on the deployed workloads, please see:
 
-https://github.com/WorksOnArm/OpenStackWorksOnArm/blob/master/SampleOpenStackWorkload.sh
+https://github.com/PacketLabs/OpenStackOnPacket/blob/master/SampleOpenStackWorkload.sh
 
 
 ## Validation
@@ -156,7 +150,6 @@ root@controller:~# openstack compute service list
 |  2 | nova-scheduler   | controller     | internal | enabled | up    | 2017-10-16T20:08:46.000000 |
 |  3 | nova-conductor   | controller     | internal | enabled | up    | 2017-10-16T20:08:47.000000 |
 |  6 | nova-compute     | compute-x86-00 | nova     | enabled | up    | 2017-10-16T20:08:42.000000 |
-|  7 | nova-compute     | compute-arm-00 | nova     | enabled | up    | 2017-10-16T20:08:50.000000 |
 +----+------------------+----------------+----------+---------+-------+----------------------------+
 ```
 
@@ -167,27 +160,9 @@ root@controller:~# openstack image list
 +--------------------------------------+-----------------+--------+
 | ID                                   | Name            | Status |
 +--------------------------------------+-----------------+--------+
-| d7252321-01ff-4e2d-bff3-746bf3f3cfe6 | CentOS-7-x86_64 | active |
-| fd6f2190-b6f0-433d-b36f-8f20389d83ff | Fedora-26-arm64 | active |
 | 4baf4977-98c3-4261-8240-2d57d83d5b1c | cirros-x86_64   | active |
-| b16d5474-da5f-449b-ab20-5ad4dfdf6bf6 | xenial-arm64    | active |
 +--------------------------------------+-----------------+--------+
 ```
-
-* Validate that all the ARM compute node has the appropriate number of vCPUs and memory
-* Horizon: Admin->Compute->Hypervisors
-```
-root@controller:~# openstack hypervisor show compute-arm-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
-+--------------+----------------+
-| Field        | Value          |
-+--------------+----------------+
-| memory_mb    | 128873         |
-| running_vms  | 2              |
-| service_host | compute-arm-00 |
-| vcpus        | 96             |
-+--------------+----------------+
-```
-
 
 * Validate that all the x86 compute node has the appropriate number of vCPUs and memory
 ```
@@ -209,8 +184,6 @@ root@controller:~# openstack server list
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
 | ID                                   | Name         | Status | Networks                                      | Image           | Flavor   |
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
-| 161c63bc-7a15-4f1a-bed9-727c371ed8ae | fedora-arm64 | ACTIVE | sample-workload=192.168.100.13                | Fedora-26-arm64 | m1.small |
-| d5ad6fe5-317c-4e81-ad33-48070970a810 | xenial-arm64 | ACTIVE | sample-workload=192.168.100.11                | xenial-arm64    | m1.small |
 | fde4add6-391f-4597-8cf5-0f151f732203 | centos-x86   | ACTIVE | sample-workload=192.168.100.5, 192.168.100.15 | CentOS-7-x86_64 | m1.small |
 | 9288f3f3-dd10-4cd5-8bd3-ec0fe1ac3025 | cirros-x86   | ACTIVE | sample-workload=192.168.100.8, 192.168.100.12 | cirros-x86_64   | m1.small |
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
