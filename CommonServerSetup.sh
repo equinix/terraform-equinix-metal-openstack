@@ -10,12 +10,13 @@ fi
 # private IP addr (10...)
 MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
+# disable restart prompts
+echo '* libraries/restart-without-asking boolean true' | sudo debconf-set-selections
+export DEBIAN_FRONTEND=noninteractive
 
 # general system updates
 apt-get -y update
 
-# non-interactively set a timezone so we're not interactively prompted
-export DEBIAN_FRONTEND=noninteractive
 apt-get install -y tzdata
 ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
 dpkg-reconfigure --frontend noninteractive tzdata
@@ -25,9 +26,11 @@ apt-get -y install chrony
 service chrony restart
 
 apt-get -y install software-properties-common
-add-apt-repository -y cloud-archive:pike
+add-apt-repository -y cloud-archive:train
 apt-get -y update
-apt-get -y install python-openstackclient
+
+# conflicts with openstack-dashboard so removed from Common
+#apt-get -y install python-openstackclient
 
 
 # easy modification of .ini configuration files
