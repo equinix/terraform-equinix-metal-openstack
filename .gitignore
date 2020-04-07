@@ -1,2 +1,5 @@
 terraform.tfstate
 terraform.tfstate.backup
+hostfile
+terraform.tfstate
+terraform.tfstate.backup
