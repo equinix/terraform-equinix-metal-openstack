@@ -16,12 +16,12 @@ resource "null_resource" "controller-openstack" {
     destination = "ControllerKeystone.sh"
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash CommonServerSetup.sh > CommonServerSetup.out",
-#      "bash ControllerKeystone.sh > ControllerKeystone.out",
-#    ]
-#  }
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "bash ControllerKeystone.sh > ControllerKeystone.out",
+    ]
+  }
 
   provisioner "file" {
     source      = "ControllerGlance.sh"

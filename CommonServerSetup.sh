@@ -25,13 +25,12 @@ dpkg-reconfigure --frontend noninteractive tzdata
 apt-get -y install chrony
 service chrony restart
 
-apt-get -y install software-properties-common
+# OpenStack Train for Ubuntu 18.04 LTS
 add-apt-repository -y cloud-archive:train
 apt-get -y update
 
-# conflicts with openstack-dashboard so removed from Common
-#apt-get -y install python-openstackclient
-
+# Client for Ubuntu 18.04 LTS
+apt install python3-openstackclient
 
 # easy modification of .ini configuration files
 apt-get -y install crudini
