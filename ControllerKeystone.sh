@@ -38,53 +38,18 @@ rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ## end of rabbitmq
 
 ## etcd
-groupadd --system etcd
-useradd --home-dir "/var/lib/etcd" \
-      --system \
-      --shell /bin/false \
-      -g etcd \
-      etcd
-      
-mkdir -p /etc/etcd
-chown etcd:etcd /etc/etcd
-mkdir -p /var/lib/etcd
-chown etcd:etcd /var/lib/etcd
+apt install -y etcd
 
-ETCD_VER=v3.2.7
-rm -rf /tmp/etcd && mkdir -p /tmp/etcd
-ARCH=`dpkg --print-architecture`
-curl -L https://github.com/coreos/etcd/releases/download/${ETCD_VER}/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz
-tar xzvf /tmp/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz -C /tmp/etcd --strip-components=1
-cp /tmp/etcd/etcd /usr/bin/etcd
-cp /tmp/etcd/etcdctl /usr/bin/etcdctl
-
-cat > /etc/etcd/etcd.conf.yml << EOF
-name: controller
-data-dir: /var/lib/etcd
-initial-cluster-state: 'new'
-initial-cluster-token: 'etcd-cluster-01'
-initial-cluster: controller=http://${MY_IP}:2380
-initial-advertise-peer-urls: http://${MY_IP}:2380
-advertise-client-urls: http://${MY_IP}:2379
-listen-peer-urls: http://0.0.0.0:2380
-listen-client-urls: http://${MY_IP}:2379
-EOF
-      
-cat > /lib/systemd/system/etcd.service << EOF
-[Unit]
-After=network.target
-Description=etcd - highly-available key value store
-
-[Service]
-Environment="ETCD_UNSUPPORTED_ARCH=arm64"
-LimitNOFILE=65536
-Restart=on-failure
-Type=notify
-ExecStart=/usr/bin/etcd --config-file /etc/etcd/etcd.conf.yml
-User=etcd
-
-[Install]
-WantedBy=multi-user.target
+cat > /etc/default/etcd << EOF
+ETCD_NAME="controller"
+ETCD_DATA_DIR="/var/lib/etcd"
+ETCD_INITIAL_CLUSTER_STATE="new"
+ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"
+ETCD_INITIAL_CLUSTER="controller=http://${MY_IP}:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://${MY_IP}:2380"
+ETCD_ADVERTISE_CLIENT_URLS="http://${MY_IP}:2379"
+ETCD_LISTEN_PEER_URLS="http://0.0.0.0:2380"
+ETCD_LISTEN_CLIENT_URLS="http://${MY_IP}:2379"
 EOF
 
 systemctl enable etcd
