@@ -15,7 +15,7 @@ export OS_PASSWORD=ADMIN_PASS
 export OS_PROJECT_NAME=admin
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default
-export OS_AUTH_URL=http://controller:35357/v3
+export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
   
 openstack user create --domain default --password GLANCE_PASS glance
@@ -37,8 +37,8 @@ apt-get -y install glance
   
 crudini --set /etc/glance/glance-api.conf database connection mysql+pymysql://glance:GLANCE_DBPASS@controller/glance
 
-crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_uri http://controller:5000
-crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_url http://controller:35357
+crudini --set /etc/glance/glance-api.conf keystone_authtoken www_authenticate_uri http://controller:5000
+crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_url http://controller:5000
 crudini --set /etc/glance/glance-api.conf keystone_authtoken memcached_servers controller:11211
 crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_type password
 crudini --set /etc/glance/glance-api.conf keystone_authtoken project_domain_name Default
@@ -57,8 +57,8 @@ crudini --set /etc/glance/glance-api.conf glance_store filesystem_store_datadir 
 
 crudini --set /etc/glance/glance-registry.conf database connection mysql+pymysql://glance:GLANCE_DBPASS@controller/glance
 
-crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_uri http://controller:5000
-crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_url http://controller:35357
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken www_authenticate_uri http://controller:5000
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_url http://controller:5000
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken memcached_servers controller:11211
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_type password
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken project_domain_name Default
