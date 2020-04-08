@@ -30,7 +30,7 @@ add-apt-repository -y cloud-archive:train
 apt-get -y update
 
 # Client for Ubuntu 18.04 LTS
-apt install python3-openstackclient
+apt-get -y install python3-openstackclient
 
 # easy modification of .ini configuration files
 apt-get -y install crudini
