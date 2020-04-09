@@ -77,14 +77,14 @@ resource "null_resource" "dashboard-openstack" {
     ]
   }
 
-#  provisioner "file" {
-#    source      = "local_settings.py"
-#    destination = "/etc/openstack-dashboard/local_settings.py"
-#  }
+  provisioner "file" {
+    source      = "local_settings.py"
+    destination = "/etc/openstack-dashboard/local_settings.py"
+  }
 
   provisioner "remote-exec" {
     inline = [
-      "service apache2 reload",
+      "systemctl reload apache2.service",
     ]
   }
 }
