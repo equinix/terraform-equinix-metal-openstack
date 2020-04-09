@@ -6,6 +6,57 @@ CONTROLLER_PRIVATE_IP=$2
 # private IP addr (10...)
 MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
+# replaces sourcing admin-openrc
+export OS_USERNAME=admin
+export OS_PASSWORD=ADMIN_PASS
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://controller:5000/v3
+export OS_IDENTITY_API_VERSION=3
+
+
+## placement
+mysql --batch -e "\
+CREATE DATABASE placement; \
+GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'localhost' IDENTIFIED BY 'PLACEMENT_DBPASS'; \
+GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'%' IDENTIFIED BY 'PLACEMENT_DBPASS'; \
+FLUSH PRIVILEGES;"
+
+openstack user create --domain default --password PLACEMENT_PASS placement
+
+openstack role add --project service --user placement admin
+
+openstack service create --name placement \
+  --description "Placement API" placement
+
+openstack endpoint create --region RegionOne \
+  placement public http://controller:8778
+
+openstack endpoint create --region RegionOne \
+  placement internal http://controller:8778
+
+openstack endpoint create --region RegionOne \
+  placement admin http://controller:8778
+
+apt-get -y install placement-api      
+
+crudini --set /etc/placement/placement.conf placement_database connection mysql+pymysql://placement:PLACEMENT_DBPASS@${CONTROLLER_PRIVATE_IP}/placement
+
+crudini --set /etc/placement/placement.conf keystone_authtoken auth_url http://controller:5000
+crudini --set /etc/placement/placement.conf keystone_authtoken memcached_servers controller:11211
+crudini --set /etc/placement/placement.conf keystone_authtoken auth_type password
+crudini --set /etc/placement/placement.conf keystone_authtoken project_domain_name Default
+crudini --set /etc/placement/placement.conf keystone_authtoken user_domain_name Default
+crudini --set /etc/placement/placement.conf keystone_authtoken project_name service
+crudini --set /etc/placement/placement.conf keystone_authtoken username placement
+crudini --set /etc/placement/placement.conf keystone_authtoken password PLACEMENT_PASS
+
+/bin/sh -c "placement-manage db sync" placement
+
+service apache2 restart
+
+## end of placement
 
 ## nova
 mysql --batch -e "\
@@ -19,15 +70,6 @@ GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'NOVA_DBPASS'; \
 GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY 'NOVA_DBPASS'; \
 GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY 'NOVA_DBPASS'; \
 FLUSH PRIVILEGES;"
-
-# replaces sourcing admin-openrc
-export OS_USERNAME=admin
-export OS_PASSWORD=ADMIN_PASS
-export OS_PROJECT_NAME=admin
-export OS_USER_DOMAIN_NAME=Default
-export OS_PROJECT_DOMAIN_NAME=Default
-export OS_AUTH_URL=http://controller:35357/v3
-export OS_IDENTITY_API_VERSION=3
 
 openstack user create --domain default --password NOVA_PASS nova
 
@@ -45,37 +87,24 @@ openstack endpoint create --region RegionOne \
 openstack endpoint create --region RegionOne \
   compute admin http://controller:8774/v2.1
     
-openstack user create --domain default --password PLACEMENT_PASS placement
-  
-openstack role add --project service --user placement admin
-   
-openstack service create --name placement --description "Placement API" placement
-   
-openstack endpoint create --region RegionOne placement public http://controller:8778
-    
-openstack endpoint create --region RegionOne placement internal http://controller:8778
-    
-openstack endpoint create --region RegionOne placement admin http://controller:8778
-    
-apt-get -y install nova-api nova-conductor nova-consoleauth \
-  nova-novncproxy nova-scheduler nova-placement-api
+apt-get -y install nova-api nova-conductor nova-novncproxy nova-scheduler
 
-apt-get -y install nova-serialproxy nova-console
+apt-get -y install nova-serialproxy
   
 crudini --set /etc/nova/nova.conf api_database connection mysql+pymysql://nova:NOVA_DBPASS@${CONTROLLER_PRIVATE_IP}/nova_api
 
 crudini --set /etc/nova/nova.conf database connection mysql+pymysql://nova:NOVA_DBPASS@${CONTROLLER_PRIVATE_IP}/nova
 
-crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@${CONTROLLER_PRIVATE_IP}
+crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@${CONTROLLER_PRIVATE_IP}:5672/
 
 crudini --set /etc/nova/nova.conf api auth_strategy keystone
 
-crudini --set /etc/nova/nova.conf keystone_authtoken auth_uri http://controller:5000
-crudini --set /etc/nova/nova.conf keystone_authtoken auth_url http://controller:35357
+crudini --set /etc/nova/nova.conf keystone_authtoken www_authenticate_uri http://controller:5000/
+crudini --set /etc/nova/nova.conf keystone_authtoken auth_url http://controller:5000/
 crudini --set /etc/nova/nova.conf keystone_authtoken memcached_servers controller:11211
 crudini --set /etc/nova/nova.conf keystone_authtoken auth_type password
-crudini --set /etc/nova/nova.conf keystone_authtoken project_domain_name default
-crudini --set /etc/nova/nova.conf keystone_authtoken user_domain_name default
+crudini --set /etc/nova/nova.conf keystone_authtoken project_domain_name Default
+crudini --set /etc/nova/nova.conf keystone_authtoken user_domain_name Default
 crudini --set /etc/nova/nova.conf keystone_authtoken project_name service
 crudini --set /etc/nova/nova.conf keystone_authtoken username nova
 crudini --set /etc/nova/nova.conf keystone_authtoken password NOVA_PASS
@@ -94,12 +123,12 @@ crudini --set /etc/nova/nova.conf glance api_servers http://controller:9292
 
 crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 
-crudini --set /etc/nova/nova.conf placement os_region_name RegionOne
+crudini --set /etc/nova/nova.conf placement region_name RegionOne
 crudini --set /etc/nova/nova.conf placement project_domain_name Default
 crudini --set /etc/nova/nova.conf placement project_name service
 crudini --set /etc/nova/nova.conf placement auth_type password
 crudini --set /etc/nova/nova.conf placement user_domain_name Default
-crudini --set /etc/nova/nova.conf placement auth_url http://controller:35357/v3
+crudini --set /etc/nova/nova.conf placement auth_url http://controller:5000/v3
 crudini --set /etc/nova/nova.conf placement username placement
 crudini --set /etc/nova/nova.conf placement password PLACEMENT_PASS
 
@@ -115,7 +144,6 @@ su -s /bin/sh -c "nova-manage db sync" nova
 crudini --set /etc/nova/nova.conf scheduler discover_hosts_in_cells_interval 300
 
 service nova-api restart
-service nova-consoleauth restart
 service nova-scheduler restart
 service nova-conductor restart
 service nova-novncproxy restart

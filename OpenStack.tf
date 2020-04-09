@@ -28,11 +28,11 @@ resource "null_resource" "controller-openstack" {
     destination = "ControllerGlance.sh"
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash ControllerGlance.sh > ControllerGlance.out",
-#    ]
-#  }
+  provisioner "remote-exec" {
+    inline = [
+      "bash ControllerGlance.sh > ControllerGlance.out",
+    ]
+  }
 
   provisioner "file" {
     source      = "ControllerNova.sh"
@@ -44,12 +44,12 @@ resource "null_resource" "controller-openstack" {
     destination = "ControllerNeutron.sh"
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
+  provisioner "remote-exec" {
+    inline = [
+      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
 #      "bash ControllerNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNeutron.out",
-#    ]
-#  }
+    ]
+  }
 }
 
 resource "null_resource" "dashboard-openstack" {
