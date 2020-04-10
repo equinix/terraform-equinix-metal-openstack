@@ -4,7 +4,7 @@
 
 Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Packet bare metal.
 
-The deployment defaults to a minimum 4 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 node compute node. 
+The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 node compute node. 
  
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
 - By default, the template uses second generation Packet hardware.
@@ -57,7 +57,7 @@ Download the OpenStackOnPacket manifests from GitHub into a local directory.
 
 ```bash
 git clone URL_TO_REPO
-cd OpenStackWorksOnArm
+cd OpenStackOnPacket
 ```
 
 From that directory, generate an ssh keypair or copy an existing public/private keypair (packet-key and packet-key.pub).
@@ -109,13 +109,18 @@ terraform output
 
 Sample output as follows:
 ```
-Compute x86 IPs = [
-    157.75.106.151
+Cloud_ID_Tag = 2dd4409b
+Compute_ARM_IPs = []
+Compute_ARM_Type = []
+Compute_x86_IPs = [
+  "147.75.65.85",
 ]
-Compute x86 Type = n2.xlarge.x86
-Controller SSH = ssh root@157.75.79.194 -i ./packet-key
-Controller Type = baremetal_0
-Horizon dashboard available at = http://157.75.106.119/horizon/ username/password
+Compute_x86_Type = [
+  "n2.xlarge.x86",
+]
+Controller_SSH = ssh root@147.75.75.90 -i ./packet-key
+Controller_Type = c2.medium.x86
+Horizon_dashboard_via_IP = http://147.75.64.78/horizon/ username/password
 ```
 
 The OpenStack Horizon dashboard can be pulled up at the URL listed with the username/password provided.
@@ -143,14 +148,13 @@ source admin-openrc
 * Horizon: Admin->System Information->Compute Services
 ```
 root@controller:~# openstack compute service list
-+----+------------------+----------------+----------+---------+-------+----------------------------+
-| ID | Binary           | Host           | Zone     | Status  | State | Updated At                 |
-+----+------------------+----------------+----------+---------+-------+----------------------------+
-|  1 | nova-consoleauth | controller     | internal | enabled | up    | 2017-10-16T20:08:45.000000 |
-|  2 | nova-scheduler   | controller     | internal | enabled | up    | 2017-10-16T20:08:46.000000 |
-|  3 | nova-conductor   | controller     | internal | enabled | up    | 2017-10-16T20:08:47.000000 |
-|  6 | nova-compute     | compute-x86-00 | nova     | enabled | up    | 2017-10-16T20:08:42.000000 |
-+----+------------------+----------------+----------+---------+-------+----------------------------+
++----+----------------+----------------+----------+---------+-------+----------------------------+
+| ID | Binary         | Host           | Zone     | Status  | State | Updated At                 |
++----+----------------+----------------+----------+---------+-------+----------------------------+
+|  1 | nova-conductor | controller     | internal | enabled | up    | 2020-04-10T22:34:31.000000 |
+| 10 | nova-scheduler | controller     | internal | enabled | up    | 2020-04-10T22:34:32.000000 |
+| 16 | nova-compute   | compute-x86-00 | nova     | enabled | up    | 2020-04-10T22:34:39.000000 |
++----+----------------+----------------+----------+---------+-------+----------------------------+
 ```
 
 * Validate that all the images have been installed
@@ -160,8 +164,17 @@ root@controller:~# openstack image list
 +--------------------------------------+-----------------+--------+
 | ID                                   | Name            | Status |
 +--------------------------------------+-----------------+--------+
-| 4baf4977-98c3-4261-8240-2d57d83d5b1c | cirros-x86_64   | active |
+| 2f873bcc-e4ef-471d-a413-6c7bd17c6be0 | Bionic-amd64    | active |
+| bc1cac00-996a-4d69-be24-dcdcbc80b812 | Bionic-arm64    | active |
+| 4928c2c6-a27d-4e0f-ad71-746ee6d6ab3d | CentOS-8-arm64  | active |
+| 6bbb17d2-16df-45a9-bd68-70e89147996c | CentOS-8-x86_64 | active |
+| 0c41cdcb-0f8e-488c-9732-4f549aafe640 | Cirros-arm64    | active |
+| 68368d34-48d0-4b47-85d4-990457621f97 | Cirros-x86_64   | active |
+| 039a1fff-f9d7-45b5-af6f-76c7c0e6f2d3 | Fedora-32-arm64 | active |
+| ef2958fc-5ad0-4780-8d1f-0900eaeedf22 | Trusty-arm64    | active |
+| 8708ae1b-210d-4bff-8547-93be0c787072 | Xenial-arm64    | active |
 +--------------------------------------+-----------------+--------+
+
 ```
 
 * Validate that all the x86 compute node has the appropriate number of vCPUs and memory
@@ -170,10 +183,10 @@ root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_
 +--------------+----------------+
 | Field        | Value          |
 +--------------+----------------+
-| memory_mb    | 7968           |
-| running_vms  | 2              |
+| memory_mb    | 385434         |
+| running_vms  | 1              |
 | service_host | compute-x86-00 |
-| vcpus        | 4              |
+| vcpus        | 56             |
 +--------------+----------------+
 ```
 
@@ -181,12 +194,11 @@ root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_
 * Horizon: Admin->Compute->Instances
 ```
 root@controller:~# openstack server list
-+--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
-| ID                                   | Name         | Status | Networks                                      | Image           | Flavor   |
-+--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
-| fde4add6-391f-4597-8cf5-0f151f732203 | centos-x86   | ACTIVE | sample-workload=192.168.100.5, 192.168.100.15 | CentOS-7-x86_64 | m1.small |
-| 9288f3f3-dd10-4cd5-8bd3-ec0fe1ac3025 | cirros-x86   | ACTIVE | sample-workload=192.168.100.8, 192.168.100.12 | cirros-x86_64   | m1.small |
-+--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
++--------------------------------------+------+--------+---------------------------+---------------+-----------+
+| ID                                   | Name | Status | Networks                  | Image         | Flavor    |
++--------------------------------------+------+--------+---------------------------+---------------+-----------+
+| 841ab626-9ad9-492c-ad83-ecdf0d8680b8 | foo  | ACTIVE | 192.168.0.0=192.168.0.116 | Cirros-x86_64 | m1.medium |
++--------------------------------------+------+--------+---------------------------+---------------+-----------+
 ```
 
 ## Serial Console Support
