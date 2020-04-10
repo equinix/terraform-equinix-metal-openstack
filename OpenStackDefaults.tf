@@ -89,18 +89,6 @@ resource "null_resource" "openstack-image-Artful-17_10-ARM" {
     private_key = file(var.cloud_ssh_key_path)
   }
 
-  provisioner "file" {
-    source      = "Artful-17_10-ARM-Image.sh"
-    destination = "Artful-17_10-ARM-Image.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "bash Artful-17_10-ARM-Image.sh > Artful-17_10-ARM-Image.out",
-    ]
-  }
-}
-
 resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
   depends_on = [null_resource.controller-openstack]
 
