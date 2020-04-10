@@ -11,7 +11,10 @@ sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
 service memcached restart
 ## end of memcached
 
-## mysql
+## mysql - Bionic ships with an older version that breaks Neutron so grab the latest MariaDB
+apt-get -y install software-properties-common
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://www.ftp.saix.net/DB/mariadb/repo/10.3/ubuntu bionic main'
 apt-get -y install mariadb-server python-pymysql
 
 cat > /etc/mysql/mariadb.conf.d/99-openstack.cnf << EOF
