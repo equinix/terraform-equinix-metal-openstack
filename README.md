@@ -4,6 +4,8 @@
 
 Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Packet bare metal.
 
+This deploys the ["Train" release of OpenStack](https://www.openstack.org/software/train/).
+
 The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 node compute node. 
  
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
