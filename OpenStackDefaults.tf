@@ -81,14 +81,6 @@ resource "null_resource" "openstack-image-Cirros-x86" {
   }
 }
 
-resource "null_resource" "openstack-image-Artful-17_10-ARM" {
-  depends_on = [null_resource.controller-openstack]
-
-  connection {
-    host        = packet_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
-  }
-
 resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
   depends_on = [null_resource.controller-openstack]
 
