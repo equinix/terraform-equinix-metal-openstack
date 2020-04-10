@@ -11,6 +11,10 @@ MY_PUBLIC_IP=`hostname -I | xargs -n1 | head -1`
 sed -i 's/#net.ipv4.ip_forward/net.ipv4.ip_forward/g' /etc/sysctl.conf
 sysctl -w net.ipv4.ip_forward=1
 
+# bridge networking
+modprobe br_netfilter
+
+
 ## nova
 mysql --batch -e "\
 CREATE DATABASE neutron; \
@@ -26,7 +30,7 @@ export OS_PASSWORD=ADMIN_PASS
 export OS_PROJECT_NAME=admin
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default
-export OS_AUTH_URL=http://controller:35357/v3
+export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 
 openstack user create --domain default --password NEUTRON_PASS neutron
@@ -56,8 +60,8 @@ crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips true
 crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@${CONTROLLER_PRIVATE_IP}
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 
-crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_uri http://controller:5000
-crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_url http://controller:35357
+crudini --set /etc/neutron/neutron.conf keystone_authtoken www_authenticate_uri http://controller:5000
+crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_url http://controller:5000
 crudini --set /etc/neutron/neutron.conf keystone_authtoken memcached_servers controller:11211
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_type password
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_name default
@@ -69,7 +73,7 @@ crudini --set /etc/neutron/neutron.conf keystone_authtoken password NEUTRON_PASS
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_status_changes true
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_data_changes true
 
-crudini --set /etc/neutron/neutron.conf nova auth_url http://controller:35357
+crudini --set /etc/neutron/neutron.conf nova auth_url http://controller:5000
 crudini --set /etc/neutron/neutron.conf nova auth_type password
 crudini --set /etc/neutron/neutron.conf nova project_domain_name default
 crudini --set /etc/neutron/neutron.conf nova user_domain_name default
@@ -77,6 +81,8 @@ crudini --set /etc/neutron/neutron.conf nova region_name RegionOne
 crudini --set /etc/neutron/neutron.conf nova project_name service
 crudini --set /etc/neutron/neutron.conf nova username nova
 crudini --set /etc/neutron/neutron.conf nova password NOVA_PASS
+
+crudini --set /etc/neutron/neutron.conf oslo_concurrency /var/lib/neutron/tmp
 
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers flat,vxlan
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types vxlan
@@ -110,8 +116,7 @@ crudini --set /etc/neutron/dhcp_agent.ini DEFAULT enable_isolated_metadata true
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_ip controller
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secret METADATA_SECRET
 
-crudini --set /etc/nova/nova.conf neutron url http://controller:9696
-crudini --set /etc/nova/nova.conf neutron auth_url http://controller:35357
+crudini --set /etc/nova/nova.conf neutron auth_url http://controller:5000
 crudini --set /etc/nova/nova.conf neutron auth_type password
 crudini --set /etc/nova/nova.conf neutron project_domain_name default
 crudini --set /etc/nova/nova.conf neutron user_domain_name default
