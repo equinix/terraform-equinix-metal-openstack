@@ -1,7 +1,7 @@
 #
 # load up the OpenStack cloud with some default settings and images
 #
-resource "null_resource" "openstack-image-CentOS-7-ARM" {
+resource "null_resource" "openstack-image-CentOS-8-ARM" {
   depends_on = [null_resource.controller-openstack]
 
   connection {
@@ -10,18 +10,18 @@ resource "null_resource" "openstack-image-CentOS-7-ARM" {
   }
 
   provisioner "file" {
-    source      = "CentOS-7-ARM-Image.sh"
-    destination = "CentOS-7-ARM-Image.sh"
+    source      = "CentOS-8-ARM-Image.sh"
+    destination = "CentOS-8-ARM-Image.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "bash CentOS-7-ARM-Image.sh > CentOS-7-ARM-Image.out",
+      "bash CentOS-8-ARM-Image.sh > CentOS-8-ARM-Image.out",
     ]
   }
 }
 
-resource "null_resource" "openstack-image-CentOS-7-x86" {
+resource "null_resource" "openstack-image-CentOS-8-x86" {
   depends_on = [null_resource.controller-openstack]
 
   connection {
@@ -30,13 +30,13 @@ resource "null_resource" "openstack-image-CentOS-7-x86" {
   }
 
   provisioner "file" {
-    source      = "CentOS-7-x86-Image.sh"
-    destination = "CentOS-7-x86-Image.sh"
+    source      = "CentOS-8-x86-Image.sh"
+    destination = "CentOS-8-x86-Image.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "bash CentOS-7-x86-Image.sh > CentOS-7-x86-Image.out",
+      "bash CentOS-8-x86-Image.sh > CentOS-8-x86-Image.out",
     ]
   }
 }
@@ -121,7 +121,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
   }
 }
 
-resource "null_resource" "openstack-image-Bionic-18_04-AMD" {
+resource "null_resource" "openstack-image-Bionic-18_04-AMD64" {
   depends_on = [null_resource.controller-openstack]
 
   connection {
@@ -130,13 +130,13 @@ resource "null_resource" "openstack-image-Bionic-18_04-AMD" {
   }
 
   provisioner "file" {
-    source      = "Bionic-18_04-AMD-Image.sh"
-    destination = "Bionic-18_04-AMD-Image.sh"
+    source      = "Bionic-18_04-AMD64-Image.sh"
+    destination = "Bionic-18_04-AMD64-Image.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "bash Bionic-18_04-AMD-Image.sh > Bionic-18_04-AMD-Image.out",
+      "bash Bionic-18_04-AMD64-Image.sh > Bionic-18_04-AMD64-Image.out",
     ]
   }
 }
