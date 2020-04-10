@@ -114,13 +114,13 @@ resource "null_resource" "compute-x86-openstack" {
     destination = "ComputeNeutron.sh"
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash CommonServerSetup.sh > CommonServerSetup.out",
-#      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
-#      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
-#    ]
-#  }
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
+      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
+    ]
+  }
 }
 
 resource "null_resource" "compute-arm-openstack" {
@@ -148,13 +148,12 @@ resource "null_resource" "compute-arm-openstack" {
     destination = "ComputeNeutron.sh"
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash CommonServerSetup.sh > CommonServerSetup.out",
-#      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
-#      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
-#      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
-#    ]
-#  }
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
+      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
+    ]
+  }
 }
 
