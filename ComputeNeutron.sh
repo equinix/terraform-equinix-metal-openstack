@@ -8,7 +8,7 @@ MY_PUBLIC_IP=`hostname -I | xargs -n1 | head -1`
 # bridge networking
 modprobe br_netfilter
 
-apt-get -y install install nova-compute
+apt-get -y install nova-compute
 apt-get -y install neutron-linuxbridge-agent
 
 # compute server doesn't use a database so remove entire section
