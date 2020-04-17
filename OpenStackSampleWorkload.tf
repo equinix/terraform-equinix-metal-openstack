@@ -5,6 +5,8 @@
 resource "null_resource" "openstack-sample-workload" {
   depends_on = [
     null_resource.controller-openstack,
+    null_resource.compute-x86-openstack,
+    null_resource.compute-arm-openstack,
     null_resource.openstack-image-CentOS-8-ARM,
     null_resource.openstack-image-CentOS-8-x86,
     null_resource.openstack-image-Fedora-ARM,
