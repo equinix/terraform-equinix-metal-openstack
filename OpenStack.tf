@@ -53,7 +53,6 @@ resource "null_resource" "controller-openstack" {
 }
 
 resource "null_resource" "dashboard-openstack" {
-  depends_on = [null_resource.controller-openstack]
 
   connection {
     host        = packet_device.dashboard.access_public_ipv4
@@ -89,9 +88,7 @@ resource "null_resource" "dashboard-openstack" {
   }
 }
 
-resource "null_resource" "compute-x86-openstack" {
-  depends_on = [null_resource.controller-openstack]
-
+resource "null_resource" "compute-x86-common" {
   count = var.openstack_compute-x86_count
 
   connection {
@@ -102,6 +99,24 @@ resource "null_resource" "compute-x86-openstack" {
   provisioner "file" {
     source      = "CommonServerSetup.sh"
     destination = "CommonServerSetup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+    ]
+  }
+}
+
+resource "null_resource" "compute-x86-openstack" {
+  depends_on = [null_resource.controller-openstack,
+                null_resource.compute-x86-common]
+
+  count = var.openstack_compute-x86_count
+
+  connection {
+    host        = element(packet_device.compute-x86.*.access_public_ipv4, count.index)
+    private_key = file(var.cloud_ssh_key_path)
   }
 
   provisioner "file" {
@@ -116,15 +131,13 @@ resource "null_resource" "compute-x86-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash CommonServerSetup.sh > CommonServerSetup.out",
       "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
       "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
     ]
   }
 }
 
-resource "null_resource" "compute-arm-openstack" {
-  depends_on = [null_resource.controller-openstack]
+resource "null_resource" "compute-arm-common" {
 
   count = var.openstack_compute-arm_count
 
@@ -138,6 +151,24 @@ resource "null_resource" "compute-arm-openstack" {
     destination = "CommonServerSetup.sh"
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+    ]
+  }
+}
+
+resource "null_resource" "compute-arm-openstack" {
+  depends_on = [null_resource.controller-openstack,
+                null_resource.compute-arm-common]
+
+  count = var.openstack_compute-arm_count
+
+  connection {
+    host        = element(packet_device.compute-arm.*.access_public_ipv4, count.index)
+    private_key = file(var.cloud_ssh_key_path)
+  }
+
   provisioner "file" {
     source      = "ComputeNova.sh"
     destination = "ComputeNova.sh"
@@ -150,10 +181,8 @@ resource "null_resource" "compute-arm-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash CommonServerSetup.sh > CommonServerSetup.out",
       "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
       "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
     ]
   }
 }
-
