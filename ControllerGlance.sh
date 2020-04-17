@@ -71,5 +71,4 @@ crudini --set /etc/glance/glance-registry.conf keystone_authtoken paste_deploy f
 
 su -s /bin/sh -c "glance-manage db_sync" glance
 
-service glance-registry restart
 service glance-api restart
