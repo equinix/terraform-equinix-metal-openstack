@@ -41,7 +41,7 @@ resource "null_resource" "openstack-image-CentOS-8-x86" {
   }
 }
 
-resource "null_resource" "openstack-image-Fedora-26-ARM" {
+resource "null_resource" "openstack-image-Fedora-ARM" {
   depends_on = [null_resource.controller-openstack]
 
   connection {
@@ -50,13 +50,13 @@ resource "null_resource" "openstack-image-Fedora-26-ARM" {
   }
 
   provisioner "file" {
-    source      = "Fedora-26-ARM-Image.sh"
-    destination = "Fedora-26-ARM-Image.sh"
+    source      = "Fedora-ARM-Image.sh"
+    destination = "Fedora-ARM-Image.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "bash Fedora-26-ARM-Image.sh > Fedora-26-ARM-Image.out",
+      "bash Fedora-ARM-Image.sh > Fedora-ARM-Image.out",
     ]
   }
 }
