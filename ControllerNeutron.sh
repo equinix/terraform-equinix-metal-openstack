@@ -4,8 +4,8 @@ CONTROLLER_PUBLIC_IP=$1
 CONTROLLER_PRIVATE_IP=$2
 
 # private IP addr (10...)
-MY_PRIVATE_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
-MY_PUBLIC_IP=`hostname -I | xargs -n1 | head -1`
+MY_PRIVATE_IP=`hostname -I | xargs -n1 2>/dev/null | grep "^10\." | head -1`
+MY_PUBLIC_IP=`hostname -I | xargs -n1 2>/dev/null | head -1`
 
 # enable IP forwarding for external traffic passing (uncomment it in with value of 1)
 sed -i 's/#net.ipv4.ip_forward/net.ipv4.ip_forward/g' /etc/sysctl.conf
