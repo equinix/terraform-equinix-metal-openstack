@@ -19,7 +19,7 @@ apt-get -y update
 apt-get -y -o Dpkg::Options::='--force-confold' upgrade
 
 apt-get install -y tzdata
-ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+timedatectl set-timezone UTC
 dpkg-reconfigure --frontend noninteractive tzdata
 
 # OpenStack needs precise time services
