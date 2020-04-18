@@ -9,7 +9,7 @@ This deploys the ["Train" release of OpenStack](https://www.openstack.org/softwa
 The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 node compute node. 
  
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
-- By default, the template uses second generation Packet hardware.
+- By default, the template uses third generation Packet hardware.
 
 If you require support, please email [support@packet.com](mailto:support@packet.com), visit the Packet IRC channel (#packethost on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.com) or post an issue within this repository.
 
@@ -80,7 +80,7 @@ Several configurations files are available each building the cloud with a differ
 
 | Filename                      | Description         | Controller    | Dashboard     | x86 Compute Nodes| ARM Compute Nodes| 
 | :----------                   | :--------------     | :------------ | :------------ | :--------------- | :--------------- |
-| default                       | Minimal Config      | c2.medium.x86 | c2.medium.x86 | c2.medium.x86    | none             |
+| default                       | Minimal Config      | c3.medium.x86 | c3.medium.x86 | c3.medium.x86    | none             |
 | sample.terraform.tfvars       | ARM & x86 compute   | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | c2.large.arm     |
 | sample-arm.terraform.tfvars   | Packet Gen 2 ARM    | c2.large.arm  | c2.large.arm  | none             | c2.large.arm     |
 | sample-gen2.terraform.tfvars  | Packet Gen 2 x86    | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | none             |
