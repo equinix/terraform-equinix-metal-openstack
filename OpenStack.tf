@@ -112,8 +112,7 @@ resource "null_resource" "compute-x86-common" {
 }
 
 resource "null_resource" "compute-x86-openstack" {
-  depends_on = [null_resource.controller-openstack,
-                null_resource.compute-x86-common]
+  depends_on = [null_resource.compute-x86-common]
 
   count = var.openstack_compute-x86_count
 
@@ -163,8 +162,7 @@ resource "null_resource" "compute-arm-common" {
 }
 
 resource "null_resource" "compute-arm-openstack" {
-  depends_on = [null_resource.controller-openstack,
-                null_resource.compute-arm-common]
+  depends_on = [null_resource.compute-arm-common]
 
   count = var.openstack_compute-arm_count
 
