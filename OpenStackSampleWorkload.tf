@@ -14,7 +14,7 @@ resource "null_resource" "openstack-sample-workload" {
     null_resource.openstack-image-Cirros-ARM,
     null_resource.openstack-image-Trusty-14_04-ARM,
     null_resource.openstack-image-Xenial-16_04-ARM,
-    null_resource.openstack-image-Bionic-18_04-AMD64,
+    null_resource.openstack-image-Bionic-18_04-x86,
     null_resource.openstack-flavors,
   ]
 

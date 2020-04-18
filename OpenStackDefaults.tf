@@ -101,7 +101,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
   }
 }
 
-resource "null_resource" "openstack-image-Bionic-18_04-AMD64" {
+resource "null_resource" "openstack-image-Bionic-18_04-x86" {
   depends_on = [null_resource.controller-openstack]
 
   connection {
@@ -110,13 +110,13 @@ resource "null_resource" "openstack-image-Bionic-18_04-AMD64" {
   }
 
   provisioner "file" {
-    source      = "Bionic-18_04-AMD64-Image.sh"
-    destination = "Bionic-18_04-AMD64-Image.sh"
+    source      = "Bionic-18_04-x86-Image.sh"
+    destination = "Bionic-18_04-x86-Image.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "bash Bionic-18_04-AMD64-Image.sh > Bionic-18_04-AMD64-Image.out",
+      "bash Bionic-18_04-x86-Image.sh > Bionic-18_04-x86-Image.out",
     ]
   }
 }
