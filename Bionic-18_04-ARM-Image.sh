@@ -16,6 +16,6 @@ wget -q -O - $IMG_URL | \
 openstack image create \
 	--disk-format qcow2 --container-format bare \
 	--property hw_firmware_type=uefi \
-	--property architecture=arm \
+	--property architecture=aarch64 \
 	--public \
 	$IMG_NAME
