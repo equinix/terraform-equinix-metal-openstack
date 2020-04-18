@@ -8,7 +8,7 @@ if [ $? -ne 0 ] ; then
 fi
 
 # private IP addr (10...)
-MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+MY_IP=`hostname -I | xargs -n1 2>/dev/null | grep "^10\." | head -1`
 
 # disable restart prompts
 echo '* libraries/restart-without-asking boolean true' | sudo debconf-set-selections
@@ -19,7 +19,7 @@ apt-get -y update
 apt-get -y -o Dpkg::Options::='--force-confold' upgrade
 
 apt-get install -y tzdata
-ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+timedatectl set-timezone UTC
 dpkg-reconfigure --frontend noninteractive tzdata
 
 # OpenStack needs precise time services

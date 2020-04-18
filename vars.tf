@@ -24,7 +24,7 @@ variable "packet_dashboard_type" {
 
 variable "packet_compute-x86_type" {
   description = "Instance type of OpenStack x86 compute nodes"
-  default     = "n2.xlarge.x86"
+  default     = "c2.medium.x86"
 }
 
 variable "openstack_compute-x86_count" {

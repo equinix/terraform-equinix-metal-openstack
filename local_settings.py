@@ -431,7 +431,7 @@ SECURITY_GROUP_RULES = {
 ###############################################################################
 
 # The default theme if no cookie is present
-DEFAULT_THEME = 'ubuntu'
+DEFAULT_THEME = 'default'
 
 # Default Ubuntu apache configuration uses /horizon as the application root.
 WEBROOT='/horizon/'

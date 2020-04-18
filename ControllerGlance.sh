@@ -1,7 +1,7 @@
 # Controller only below
 
 # private IP addr (10...)
-MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+MY_IP=`hostname -I | xargs -n1 2>/dev/null | grep "^10\." | head -1`
 
 mysql --batch -e "\
 CREATE DATABASE glance; \
@@ -71,5 +71,4 @@ crudini --set /etc/glance/glance-registry.conf keystone_authtoken paste_deploy f
 
 su -s /bin/sh -c "glance-manage db_sync" glance
 
-service glance-registry restart
 service glance-api restart

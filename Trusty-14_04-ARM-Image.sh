@@ -17,6 +17,7 @@ openstack image create \
 	--disk-format qcow2 --container-format bare \
 	--file trusty-server-cloudimg-arm64.img \
 	--property hw_firmware_type=uefi \
+        --property architecture=aarch64 \
 	--public \
 	$IMG_NAME
 rm trusty-server-cloudimg-arm64.img

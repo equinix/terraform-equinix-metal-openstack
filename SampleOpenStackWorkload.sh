@@ -26,8 +26,7 @@ SUBNET_ID=`openstack subnet create              \
         --subnet-range $INTERNAL_SUBNET         \
         $INTERNAL_SUBNET -f value -c id`
 
-GATEWAY_ID=`openstack router create \
-		gateway -f value -c id`
+GATEWAY_ID=`openstack router create gateway -f value -c id`
 
 openstack router add subnet $GATEWAY_ID $SUBNET_ID
 
@@ -49,7 +48,7 @@ openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
-	--image CentOS-7-x86_64 \
+	--image CentOS-8-x86_64 \
 	--key-name default \
 	--user-data userdata.txt \
 	Centos-x86
@@ -57,15 +56,6 @@ openstack server create \
 #
 # create ARM machines with password based logins enabled
 #
-openstack server create \
-	--flavor m1.small \
-	--network ${NETWORK_ID} \
-	--security-group ${SEC_GROUP} \
-	--image Artful-arm64 \
-	--key-name default \
-	--user-data userdata.txt \
-	Artful-arm64
-
 openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \
@@ -88,7 +78,7 @@ openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
-  --image CentOS-7-arm64 \
+  --image CentOS-8-arm64 \
   --key-name default \
   --user-data userdata.txt \
   Centos-arm64
@@ -106,7 +96,7 @@ openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
-	--image Fedora-26-arm64 \
+	--image Fedora-arm64 \
 	--key-name default \
 	--user-data userdata.txt \
 	Fedora-arm64

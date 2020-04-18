@@ -4,7 +4,7 @@ CONTROLLER_PUBLIC_IP=$1
 CONTROLLER_PRIVATE_IP=$2
 
 # private IP addr (10...)
-MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+MY_IP=`hostname -I | xargs -n1 2>/dev/null | grep "^10\." | head -1`
 
 # replaces sourcing admin-openrc
 export OS_USERNAME=admin

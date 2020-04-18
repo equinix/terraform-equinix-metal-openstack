@@ -1,7 +1,7 @@
 # Controller Only Below
 
 # private IP addr (10...)
-MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+MY_IP=`hostname -I | xargs -n1 2>/dev/null | grep "^10\." | head -1`
 
 
 ## memcached

@@ -11,11 +11,10 @@ IMG_URL=http://download.cirros-cloud.net/0.5.1/cirros-0.5.1-aarch64-disk.img
 IMG_NAME=Cirros-arm64
 OS_DISTRO=cirros
 
-openstack image delete $IMG_NAME
-
 wget -q -O - $IMG_URL | \
 openstack image create \
 	--disk-format qcow2 --container-format bare \
 	--property hw_firmware_type=uefi \
+        --property architecture=aarch64 \
 	--public \
 	$IMG_NAME
