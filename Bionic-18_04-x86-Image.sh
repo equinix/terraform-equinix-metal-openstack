@@ -8,13 +8,13 @@ export OS_IDENTITY_API_VERSION=3
 
 # Download image and upload into OpenStack (Glance)
 
-IMG_URL=http://cloud.centos.org/centos/8/aarch64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.aarch64.qcow2
-IMG_NAME=CentOS-8-arm64
-OS_DISTRO=centos
+IMG_URL=https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+IMG_NAME=Bionic-x86
+OS_DISTRO=ubuntu
+
 wget -q -O - $IMG_URL | \
 openstack image create \
 	--disk-format qcow2 --container-format bare \
-	--property hw_firmware_type=uefi \
-        --property architecture=arm \
+	--property architecture=x86_64 \
 	--public \
 	$IMG_NAME

@@ -17,6 +17,7 @@ openstack image create \
 	--disk-format qcow2 --container-format bare \
 	--file xenial-server-cloudimg-arm64.img \
 	--property hw_firmware_type=uefi \
+        --property architecture=arm \
 	--public \
 	$IMG_NAME
 rm xenial-server-cloudimg-arm64.img

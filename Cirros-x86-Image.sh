@@ -14,5 +14,6 @@ OS_DISTRO=Cirros
 wget -q -O - $IMG_URL | \
 openstack image create \
 	--disk-format qcow2 --container-format bare \
+        --property architecture=x86_64 \
 	--public \
 	$IMG_NAME
