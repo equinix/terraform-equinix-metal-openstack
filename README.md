@@ -73,7 +73,21 @@ Download the Terraform providers required:
 terraform init
 ```
 
-## Defaults
+## Cloud Sizing Defaults
+
+Several configurations files are available each building the cloud with a different mix of hardware architectures and capacity.
+
+
+| Filename                      | Description         | Controller    | Dashboard     | x86 Compute Nodes| ARM Compute Nodes| 
+| :----------                   | :--------------     | :------------ | :------------ | :--------------- | :--------------- |
+| default                       | Minimal Config      | c2.medium.x86 | c2.medium.x86 | c2.medium.x86    | none             |
+| sample.terraform.tfvars       | ARM & x86 compute   | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | c2.large.arm     |
+| sample-arm.terraform.tfvars   | Packet Gen 2 ARM    | c2.large.arm  | c2.large.arm  | none             | c2.large.arm     |
+| sample-gen2.terraform.tfvars  | Packet Gen 2 x86    | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | none             |
+| sample-gen3.terraform.tfvars  | Packet Gen 3 x86    | c3.medium.x86 | c3.medium.x86 | s3.xlarge.x86    | none             |
+
+Running without a "terraform.tfvars" will result in the "default" configuration using Packet c2.medium.x86 hardware devices
+and no ARM capabilities. The other sample configurations deploy a mix of ARM and x86 hardware across different Packet hardware generations.
 
 There are a number of defaults that can be modified as desired. Any deviations from the defaults can be set in terraform.tfvars. No modifications to defaults are required except for the Packet Project ID and API Token if not set as environment variables.
 
@@ -84,14 +98,11 @@ cp sample.terraform.tfvars terraform.tfvars
 
 If the Packet API Token and Project ID were not saved as environment variables then they'll need to be stored in the terraform.tfvars.
 
-### Cloud Sizing Defaults
-
-
-| Name        | Bare Metal Type | Software               | Default Count | Minimum Count | 
-| :---------- | :-------------- | :----------------------| -------------:| -------------:|
-| Controller  | c2.medium.x86   | Keystone, Glance, Nova | 1             | 1             |
-| Dashboard   | c2.medium.x86   | Horizon                | 1             | 0 or more     |
-| Compute x86 | n2.xlarge.x86   | Neutron                | 1             | 0 or more     |
+| Name        | Software               | Default Count | Minimum Count | 
+| :---------- | :----------------------| -------------:| -------------:|
+| Controller  | Keystone, Glance, Nova | 1             | 1             |
+| Dashboard   | Horizon                | 1             | 0 or more     |
+| Compute x86 | Neutron                | 1             | 0 or more     |
 
 
 In terraform.tfvars, the type of all these nodes can be changed. The size of the cloud can also be grown by increasing the count of ARM and x86 compute nodes above the default count of 1. A count of 0 of any compute node type (ARM or x86) will render the cloud unable to provision virtual machines of said type. While this deployment will cluster and support multiple compute nodes, it does not support multiple controller or dashboard nodes.
