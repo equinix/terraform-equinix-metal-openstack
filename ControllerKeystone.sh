@@ -46,7 +46,7 @@ rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ## end of rabbitmq
 
 ## etcd
-apt install -y etcd
+apt-get -y install etcd
 
 cat > /etc/default/etcd << EOF
 ETCD_NAME="controller"
