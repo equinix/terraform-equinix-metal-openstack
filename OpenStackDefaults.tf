@@ -200,7 +200,8 @@ resource "null_resource" "openstack-image-Cirros-ARM" {
 }
 
 resource "null_resource" "openstack-flavors" {
-  depends_on = [null_resource.controller-nova-neutron]
+  depends_on = [null_resource.controller-nova,
+                null_resource.controller-neutron]
 
   connection {
     host        = packet_device.controller.access_public_ipv4

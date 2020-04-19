@@ -45,7 +45,7 @@ resource "null_resource" "controller-glance" {
   }
 }
 
-resource "null_resource" "controller-nova-neutron" {
+resource "null_resource" "controller-nova" {
   depends_on = [null_resource.controller-glance]
 
   connection {
@@ -58,6 +58,21 @@ resource "null_resource" "controller-nova-neutron" {
     destination = "ControllerNova.sh"
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
+    ]
+  }
+}
+
+resource "null_resource" "controller-neutron" {
+  depends_on = [null_resource.controller-nova]
+
+  connection {
+    host        = packet_device.controller.access_public_ipv4
+    private_key = file(var.cloud_ssh_key_path)
+  }
+
   provisioner "file" {
     source      = "ControllerNeutron.sh"
     destination = "ControllerNeutron.sh"
@@ -65,7 +80,6 @@ resource "null_resource" "controller-nova-neutron" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
       "bash ControllerNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNeutron.out",
     ]
   }
