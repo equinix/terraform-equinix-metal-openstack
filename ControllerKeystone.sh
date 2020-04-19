@@ -13,6 +13,7 @@ service memcached restart
 
 ## mysql - Bionic ships with an older version that breaks Neutron so grab the latest MariaDB
 apt-get -y install software-properties-common
+APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 \
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://www.ftp.saix.net/DB/mariadb/repo/10.3/ubuntu bionic main'
 
@@ -46,7 +47,7 @@ rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ## end of rabbitmq
 
 ## etcd
-apt install -y etcd
+apt-get -y install etcd
 
 cat > /etc/default/etcd << EOF
 ETCD_NAME="controller"

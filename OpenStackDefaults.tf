@@ -2,7 +2,9 @@
 # load up the OpenStack cloud with some default settings and images
 #
 resource "null_resource" "openstack-image-CentOS-8-ARM" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-arm_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -22,7 +24,9 @@ resource "null_resource" "openstack-image-CentOS-8-ARM" {
 }
 
 resource "null_resource" "openstack-image-CentOS-8-x86" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-x86_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -42,7 +46,9 @@ resource "null_resource" "openstack-image-CentOS-8-x86" {
 }
 
 resource "null_resource" "openstack-image-Fedora-ARM" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-arm_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -62,7 +68,9 @@ resource "null_resource" "openstack-image-Fedora-ARM" {
 }
 
 resource "null_resource" "openstack-image-Cirros-x86" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-x86_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -82,7 +90,9 @@ resource "null_resource" "openstack-image-Cirros-x86" {
 }
 
 resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-arm_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -102,7 +112,9 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
 }
 
 resource "null_resource" "openstack-image-Bionic-18_04-x86" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-x86_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -122,7 +134,9 @@ resource "null_resource" "openstack-image-Bionic-18_04-x86" {
 }
 
 resource "null_resource" "openstack-image-Trusty-14_04-ARM" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-arm_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -142,7 +156,9 @@ resource "null_resource" "openstack-image-Trusty-14_04-ARM" {
 }
 
 resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-arm_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -162,7 +178,9 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
 }
 
 resource "null_resource" "openstack-image-Cirros-ARM" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-glance]
+
+  count = var.openstack_compute-arm_count ? 1 : 0
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -182,7 +200,8 @@ resource "null_resource" "openstack-image-Cirros-ARM" {
 }
 
 resource "null_resource" "openstack-flavors" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-nova,
+                null_resource.controller-neutron]
 
   connection {
     host        = packet_device.controller.access_public_ipv4

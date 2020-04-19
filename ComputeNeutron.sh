@@ -54,4 +54,6 @@ crudini --set  /etc/nova/nova.conf neutron password NEUTRON_PASS
 service nova-compute restart
 service neutron-linuxbridge-agent restart
 
+timeout 300s bash -c 'until systemctl is-active --quiet nova-compute; do sleep 5; echo waiting for nova-compute to restart; done'
+
 # end of neutron

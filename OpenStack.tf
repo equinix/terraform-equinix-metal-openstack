@@ -1,4 +1,4 @@
-resource "null_resource" "controller-openstack" {
+resource "null_resource" "controller-keystone" {
   depends_on = [null_resource.hostfile-distributed]
 
   connection {
@@ -22,6 +22,16 @@ resource "null_resource" "controller-openstack" {
       "bash ControllerKeystone.sh > ControllerKeystone.out",
     ]
   }
+}
+
+# we setup glance early so the images can start download while the rest of the cloud builds
+resource "null_resource" "controller-glance" {
+  depends_on = [null_resource.controller-keystone]
+
+  connection {
+    host        = packet_device.controller.access_public_ipv4
+    private_key = file(var.cloud_ssh_key_path)
+  }
 
   provisioner "file" {
     source      = "ControllerGlance.sh"
@@ -33,10 +43,34 @@ resource "null_resource" "controller-openstack" {
       "bash ControllerGlance.sh > ControllerGlance.out",
     ]
   }
+}
+
+resource "null_resource" "controller-nova" {
+  depends_on = [null_resource.controller-glance]
+
+  connection {
+    host        = packet_device.controller.access_public_ipv4
+    private_key = file(var.cloud_ssh_key_path)
+  }
 
   provisioner "file" {
     source      = "ControllerNova.sh"
     destination = "ControllerNova.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
+    ]
+  }
+}
+
+resource "null_resource" "controller-neutron" {
+  depends_on = [null_resource.controller-nova]
+
+  connection {
+    host        = packet_device.controller.access_public_ipv4
+    private_key = file(var.cloud_ssh_key_path)
   }
 
   provisioner "file" {
@@ -46,7 +80,6 @@ resource "null_resource" "controller-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
       "bash ControllerNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNeutron.out",
     ]
   }
@@ -112,8 +145,7 @@ resource "null_resource" "compute-x86-common" {
 }
 
 resource "null_resource" "compute-x86-openstack" {
-  depends_on = [null_resource.controller-openstack,
-                null_resource.compute-x86-common]
+  depends_on = [null_resource.compute-x86-common]
 
   count = var.openstack_compute-x86_count
 
@@ -163,8 +195,7 @@ resource "null_resource" "compute-arm-common" {
 }
 
 resource "null_resource" "compute-arm-openstack" {
-  depends_on = [null_resource.controller-openstack,
-                null_resource.compute-arm-common]
+  depends_on = [null_resource.compute-arm-common]
 
   count = var.openstack_compute-arm_count
 
