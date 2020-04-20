@@ -85,7 +85,7 @@ resource "null_resource" "controller-neutron" {
   }
 }
 
-resource "null_resource" "dashboard-openstack" {
+resource "null_resource" "dashboard-install" {
   depends_on = [null_resource.hostfile-distributed]
 
   connection {
@@ -108,6 +108,15 @@ resource "null_resource" "dashboard-openstack" {
     inline = [
       "apt-get -y install openstack-dashboard > Dashboard.out",
     ]
+  }
+}
+
+resource "null_resource" "dashboard-config" {
+  depends_on = [null_resource.dashboard-install]
+
+  connection {
+    host        = packet_device.dashboard.access_public_ipv4
+    private_key = file(var.cloud_ssh_key_path)
   }
 
   provisioner "file" {
