@@ -115,6 +115,16 @@ resource "null_resource" "dashboard-openstack" {
     destination = "/etc/openstack-dashboard/local_settings.py"
   }
 
+  provisioner "file" {
+    source      = "Packet-splash.svg"
+    destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo-splash.svg"
+  }
+
+  provisioner "file" {
+    source      = "Packet-logo.svg"
+    destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo.svg"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "systemctl reload apache2.service",
