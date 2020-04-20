@@ -29,7 +29,7 @@ variable "packet_compute-x86_type" {
 
 variable "openstack_compute-x86_count" {
   description = "Number of OpenStack x86 compute nodes to deploy"
-  default     = "1"
+  default     = 5
 }
 
 variable "packet_compute-arm_type" {
@@ -39,7 +39,7 @@ variable "packet_compute-arm_type" {
 
 variable "openstack_compute-arm_count" {
   description = "Number of OpenStack ARM compute nodes to deploy"
-  default     = "0"
+  default     = 0
 }
 
 variable "cloud_ssh_public_key_path" {
