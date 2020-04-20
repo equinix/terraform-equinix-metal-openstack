@@ -43,7 +43,7 @@ resource "null_resource" "openstack-sample-workload-arm" {
     null_resource.openstack-flavors,
  ]
 
-  count = var.openstack_compute-arm_count ? 1 : 0
+  count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -71,7 +71,7 @@ resource "null_resource" "openstack-sample-workload-x86" {
     null_resource.openstack-flavors,
   ]
 
-  count = var.openstack_compute-x86_count ? 1 : 0
+  count = var.openstack_compute-x86_count == 0 ? 0 : 1
 
   connection {
     host        = packet_device.controller.access_public_ipv4
