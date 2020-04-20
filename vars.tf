@@ -29,7 +29,7 @@ variable "packet_compute-x86_type" {
 
 variable "openstack_compute-x86_count" {
   description = "Number of OpenStack x86 compute nodes to deploy"
-  default     = 5
+  default     = 1
 }
 
 variable "packet_compute-arm_type" {
