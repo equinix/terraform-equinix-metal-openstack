@@ -50,5 +50,6 @@ PROVIDER_CIDR_SIZE="$(echo $PROVIDER_CIDR | cut -d/ -f2)"
 #echo $PROVIDER_CIDR_SIZE
 
 PROVIDER_IP=${PROVIDER_CIDR_MSV}.${PROVIDER_CIDR_LSV}/${PROVIDER_CIDR_SIZE}
-PROVIDER_BRIDGE=`brctl show | grep bond0 | cut -f1`
-ip a a ${PROVIDER_IP} dev $PROVIDER_BRIDGE
+#PROVIDER_BRIDGE=`brctl show | grep bond0 | cut -f1`
+#ip a a ${PROVIDER_IP} dev $PROVIDER_BRIDGE
+ip a a ${PROVIDER_IP} dev lo:0
