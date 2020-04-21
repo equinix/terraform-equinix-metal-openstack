@@ -32,6 +32,7 @@ innodb_file_per_table = on
 max_connections = 4096
 collation-server = utf8_general_ci
 character-set-server = utf8
+wait_timeout = 28800
 EOF
 
 service mysql restart
