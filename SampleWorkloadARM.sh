@@ -17,6 +17,7 @@ openstack server create \
 	--image Trusty-arm64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	--user-data userdata.txt \
 	Trusty-arm64
 
@@ -25,6 +26,7 @@ openstack server create \
 	--image Bionic-arm64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	--user-data userdata.txt \
 	Bionic-arm64
 
@@ -33,6 +35,7 @@ openstack server create \
 	--image CentOS-8-arm64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	--user-data userdata.txt \
 	Centos-arm64
 
@@ -41,6 +44,7 @@ openstack server create \
 	--image Xenial-arm64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	--user-data userdata.txt \
 	Xenial-arm64
 
@@ -49,6 +53,7 @@ openstack server create \
 	--image Fedora-arm64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	--user-data userdata.txt \
 	Fedora-arm64
 
@@ -57,5 +62,6 @@ openstack server create \
 	--image Cirros-arm64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	--user-data userdata.txt \
 	Cirros-arm64

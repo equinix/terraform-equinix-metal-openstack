@@ -8,7 +8,10 @@ export OS_PROJECT_DOMAIN_NAME=Default
 export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 
-#timeout 300s bash -c 'until openstack server list; do sleep 5; echo waiting for services...; done'
+exit
+
+export NETWORK_ID=`openstack network show sample-workload -f value -c id`
+
 #
 # create x86 machines with password based logins enabled
 #
@@ -17,6 +20,7 @@ openstack server create \
 	--image Cirros-x86_64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	Cirros-x86
 
 openstack server create \
@@ -24,6 +28,7 @@ openstack server create \
 	--image CentOS-8-x86_64 \
 	--key-name default \
         --security-group ssh-icmp \
+        --network sample-workload \
 	--user-data userdata.txt \
 	Centos-x86
 
