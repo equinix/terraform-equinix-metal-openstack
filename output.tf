@@ -30,6 +30,14 @@ output "Controller_SSH" {
   value = "ssh root@${packet_device.controller.access_public_ipv4} -i ${var.cloud_ssh_key_path}"
 }
 
+output "Controller_Provider_Private_IPv4" {
+  value = packet_ip_attachment.controller_private_ipv4.cidr_notation
+}
+
+output "Controller_Provider_Public_IPv6" {
+  value = packet_ip_attachment.controller_public_ipv6.cidr_notation
+}
+
 #output "Horizon dashboard via DNS" {
 #  value = "http://${dnsimple_record.dashboard-dns.hostname}/horizon/ admin/ADMIN_PASS"
 #}
