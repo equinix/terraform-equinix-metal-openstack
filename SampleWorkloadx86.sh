@@ -10,8 +10,6 @@ export OS_IDENTITY_API_VERSION=3
 
 exit
 
-export NETWORK_ID=`openstack network show sample-workload -f value -c id`
-
 #
 # create x86 machines with password based logins enabled
 #
