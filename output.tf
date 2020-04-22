@@ -26,8 +26,16 @@ output "Horizon_dashboard_via_IP" {
   value = "http://${packet_device.dashboard.access_public_ipv4}/horizon/ admin/ADMIN_PASS"
 }
 
+output "Horizon_dashboard_via_IP6" {
+  value = "http://[${packet_device.dashboard.access_public_ipv6}]/horizon/ admin/ADMIN_PASS"
+}
+
 output "Controller_SSH" {
   value = "ssh root@${packet_device.controller.access_public_ipv4} -i ${var.cloud_ssh_key_path}"
+}
+
+output "Controller_SSH6" {
+  value = "ssh root@${packet_device.controller.access_public_ipv6} -i ${var.cloud_ssh_key_path}"
 }
 
 output "Controller_Provider_Private_IPv4" {
