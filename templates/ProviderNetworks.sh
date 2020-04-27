@@ -1,7 +1,7 @@
 #
-#
 # associate elastic IP subnet with the controller node via the Packet Web GUI
 #
+
 export OS_USERNAME=admin
 export OS_PASSWORD=ADMIN_PASS
 export OS_PROJECT_NAME=admin
@@ -33,3 +33,9 @@ for ROUTER_ID in `openstack router list -f value -c ID`
 do
 openstack router set --external-gateway $PROVIDER_4_ID $ROUTER_ID
 done
+
+#
+# assign the subnet to an interface attached to the external bridge
+#
+brctl addbr br-public
+ip a add $PROVIDER_4_CIDR dev br-public

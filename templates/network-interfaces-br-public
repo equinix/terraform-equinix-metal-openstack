@@ -1,0 +1,5 @@
+
+auto br-public
+iface br-public inet static
+    address ${provider_ipv4_cidr}
+    bridge_ports none

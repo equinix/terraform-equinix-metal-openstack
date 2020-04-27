@@ -36,6 +36,9 @@ apt-get -y install python3-openstackclient
 # easy modification of .ini configuration files
 apt-get -y install crudini
 
+# setup bridge networking for provider networks
+apt-get -y install bridge-utils
+
 
   
 cat >> admin-openrc << EOF
