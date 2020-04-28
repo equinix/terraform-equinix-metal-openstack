@@ -67,6 +67,7 @@ resource "null_resource" "enable-br-public" {
       "ifup br-public",
     ]
   }
+
 }
 
 data "template_file" "provider-networks" {
@@ -89,5 +90,11 @@ resource "null_resource" "controller-provider-networks" {
   provisioner "file" {
     content     = data.template_file.provider-networks.rendered
     destination = "ProviderNetworks.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash ProviderNetworks.sh > ProviderNetworks.out"
+    ]
   }
 }
