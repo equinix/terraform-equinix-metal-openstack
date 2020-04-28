@@ -8,8 +8,6 @@ export OS_PROJECT_DOMAIN_NAME=Default
 export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 
-exit
-
 #
 # create x86 machines with password based logins enabled
 #
