@@ -66,7 +66,8 @@ resource "null_resource" "controller-nova" {
 }
 
 resource "null_resource" "controller-neutron" {
-  depends_on = [null_resource.controller-nova]
+  depends_on = [null_resource.controller-nova,
+                null_resource.enable-br-public]
 
   connection {
     host        = packet_device.controller.access_public_ipv4

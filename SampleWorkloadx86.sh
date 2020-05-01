@@ -8,10 +8,6 @@ export OS_PROJECT_DOMAIN_NAME=Default
 export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 
-exit
-
-export NETWORK_ID=`openstack network show sample-workload -f value -c id`
-
 #
 # create x86 machines with password based logins enabled
 #
@@ -32,3 +28,8 @@ openstack server create \
 	--user-data userdata.txt \
 	Centos-x86
 
+#FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+#
+#openstack server add floating ip Cirros-x86 $FLOATING_IP_ID
+#
+#

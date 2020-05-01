@@ -41,6 +41,8 @@ resource "null_resource" "openstack-sample-workload-arm" {
     null_resource.openstack-image-Trusty-14_04-ARM,
     null_resource.openstack-image-Xenial-16_04-ARM,
     null_resource.openstack-flavors,
+    null_resource.enable-br-public,
+    null_resource.controller-provider-networks,
  ]
 
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
@@ -69,6 +71,8 @@ resource "null_resource" "openstack-sample-workload-x86" {
     null_resource.openstack-image-Cirros-x86,
     null_resource.openstack-image-CentOS-8-x86,
     null_resource.openstack-flavors,
+    null_resource.enable-br-public,
+    null_resource.controller-provider-networks,
   ]
 
   count = var.openstack_compute-x86_count == 0 ? 0 : 1

@@ -8,7 +8,6 @@ export OS_PROJECT_DOMAIN_NAME=Default
 export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 
-#timeout 300s bash -c 'until openstack server list; do sleep 5; echo waiting for services...; done'
 #
 # create ARM machines with password based logins enabled
 #

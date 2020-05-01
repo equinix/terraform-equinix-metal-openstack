@@ -9,6 +9,7 @@ export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 
 openstack keypair create default > default.pem
+chmod 400 default.pem
 
 #
 SEC_GROUP=`openstack security group create ssh-icmp -f value -c id`
