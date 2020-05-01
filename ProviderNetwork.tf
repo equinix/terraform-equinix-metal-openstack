@@ -42,8 +42,9 @@ data "template_file" "network-interfaces-br-public" {
   template = file("templates/network-interfaces-br-public") 
 
   vars = {
-    provider_ipv4_cidr = packet_ip_attachment.controller_private_ipv4.cidr_notation
-    provider_ipv6_cidr = packet_ip_attachment.controller_public_ipv6.cidr_notation
+    # Use the first IP in each subnet for gateway
+    provider_ipv4_cidr = "${cidrhost(packet_ip_attachment.controller_private_ipv4.cidr_notation, 1)}/${packet_ip_attachment.controller_private_ipv4.cidr}"
+    provider_ipv6_cidr = "${cidrhost(packet_ip_attachment.controller_public_ipv6.cidr_notation, 1)}/${packet_ip_attachment.controller_public_ipv6.cidr}"
   }
 }
 
