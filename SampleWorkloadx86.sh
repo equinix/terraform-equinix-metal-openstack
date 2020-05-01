@@ -28,3 +28,8 @@ openstack server create \
 	--user-data userdata.txt \
 	Centos-x86
 
+#FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+#
+#openstack server add floating ip Cirros-x86 $FLOATING_IP_ID
+#
+#
