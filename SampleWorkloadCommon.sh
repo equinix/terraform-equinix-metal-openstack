@@ -27,6 +27,6 @@ SUBNET_ID=`openstack subnet create              \
         --subnet-range $INTERNAL_SUBNET         \
         $INTERNAL_SUBNET -f value -c id`
 
-GATEWAY_ID=`openstack router create gateway -f value -c id`
+GATEWAY_ID=`openstack router create sample-workload-gateway -f value -c id`
 
 openstack router add subnet $GATEWAY_ID $SUBNET_ID
