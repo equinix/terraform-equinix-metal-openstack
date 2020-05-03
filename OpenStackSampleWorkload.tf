@@ -8,6 +8,7 @@ resource "null_resource" "openstack-sample-workload-common" {
     null_resource.controller-neutron,
     null_resource.compute-x86-openstack,
     null_resource.compute-arm-openstack,
+    null_resource.controller-register-compute-hosts,
   ]
 
   connection {
@@ -59,7 +60,7 @@ resource "null_resource" "openstack-sample-workload-arm" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash SampleWorkloadARM.sh > SampleWorkloadARM.out",
+      "sleep 60; bash SampleWorkloadARM.sh > SampleWorkloadARM.out",
     ]
   }
 }
@@ -89,7 +90,7 @@ resource "null_resource" "openstack-sample-workload-x86" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash SampleWorkloadx86.sh > SampleWorkloadx86.out",
+      "sleep 60; bash SampleWorkloadx86.sh > SampleWorkloadx86.out",
     ]
   }
 }

@@ -82,6 +82,8 @@ data "template_file" "provider-networks" {
 }
 
 resource "null_resource" "controller-provider-networks" {
+  depends_on = [null_resource.controller-neutron,
+                null_resource.openstack-sample-workload-common]
 
   connection {
     host        = packet_device.controller.access_public_ipv4

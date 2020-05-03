@@ -241,3 +241,25 @@ resource "null_resource" "compute-arm-openstack" {
     ]
   }
 }
+
+#
+# once all the compute hosts are online have them registered by the controller
+# this eliminates the need to wait the timeout internal in discover_hosts_in_cells_internal
+#
+resource "null_resource" "controller-register-compute-hosts" {
+  depends_on = [null_resource.compute-arm-openstack,
+                null_resource.compute-x86-openstack,
+                null_resource.controller-neutron,
+                null_resource.controller-nova]
+              
+  connection {
+    host        = packet_device.controller.access_public_ipv4
+    private_key = file(var.cloud_ssh_key_path)
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "nova-manage cell_v2 discover_hosts",
+    ]
+  }
+}
