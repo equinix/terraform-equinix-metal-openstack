@@ -20,6 +20,9 @@ openstack server create \
 	--user-data userdata.txt \
 	Trusty-arm64
 
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Trusty-arm64 $FLOATING_IP_ID
+
 openstack server create \
 	--flavor m1.small \
 	--image Bionic-arm64 \
@@ -28,6 +31,9 @@ openstack server create \
         --network sample-workload \
 	--user-data userdata.txt \
 	Bionic-arm64
+
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Bionic-arm64 $FLOATING_IP_ID
 
 openstack server create \
 	--flavor m1.small \
@@ -38,6 +44,9 @@ openstack server create \
 	--user-data userdata.txt \
 	Centos-arm64
 
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Centos-arm64 $FLOATING_IP_ID
+
 openstack server create \
 	--flavor m1.small \
 	--image Xenial-arm64 \
@@ -46,6 +55,9 @@ openstack server create \
         --network sample-workload \
 	--user-data userdata.txt \
 	Xenial-arm64
+
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Xenial-arm64 $FLOATING_IP_ID
 
 openstack server create \
 	--flavor m1.small \
@@ -56,6 +68,9 @@ openstack server create \
 	--user-data userdata.txt \
 	Fedora-arm64
 
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Fedora-arm64 $FLOATING_IP_ID
+
 openstack server create \
 	--flavor m1.tiny \
 	--image Cirros-arm64 \
@@ -64,3 +79,7 @@ openstack server create \
         --network sample-workload \
 	--user-data userdata.txt \
 	Cirros-arm64
+
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Cirros-arm64 $FLOATING_IP_ID
+

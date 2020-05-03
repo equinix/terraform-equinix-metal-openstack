@@ -19,6 +19,9 @@ openstack server create \
         --network sample-workload \
 	Cirros-x86
 
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Cirros-x86 $FLOATING_IP_ID
+
 openstack server create \
 	--flavor m1.small \
 	--image CentOS-8-x86_64 \
@@ -28,8 +31,5 @@ openstack server create \
 	--user-data userdata.txt \
 	Centos-x86
 
-#FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
-#
-#openstack server add floating ip Cirros-x86 $FLOATING_IP_ID
-#
-#
+FLOATING_IP_ID=`openstack floating ip create provider -f value -c id`
+openstack server add floating ip Centos-x86 $FLOATING_IP_ID
