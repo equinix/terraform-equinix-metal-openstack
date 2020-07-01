@@ -26,8 +26,8 @@ dpkg-reconfigure --frontend noninteractive tzdata
 apt-get -y install chrony
 service chrony restart
 
-# OpenStack Train for Ubuntu 18.04 LTS
-add-apt-repository -y cloud-archive:train
+# OpenStack Ussuri for Ubuntu 18.04 LTS
+add-apt-repository -y cloud-archive:ussuri
 apt-get -y update
 
 # Client for Ubuntu 18.04 LTS
