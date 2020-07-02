@@ -18,10 +18,10 @@ resource "packet_device" "controller" {
   facilities    = var.packet_facilities
   project_id    = var.packet_project_id
   billing_cycle = "hourly"
-#  ip_address {
-#    type = "public_ipv4"
-#    cidr = "29"
-#  }
+  #  ip_address {
+  #    type = "public_ipv4"
+  #    cidr = "29"
+  #  }
 }
 
 resource "packet_device" "dashboard" {

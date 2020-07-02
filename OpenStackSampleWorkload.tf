@@ -44,7 +44,7 @@ resource "null_resource" "openstack-sample-workload-arm" {
     null_resource.openstack-flavors,
     null_resource.enable-br-public,
     null_resource.controller-provider-networks,
- ]
+  ]
 
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 

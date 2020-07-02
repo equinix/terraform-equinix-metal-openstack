@@ -15,8 +15,8 @@ data "packet_precreated_ip_block" "private_ipv4" {
 # /28 provides 16 IPs
 resource "packet_ip_attachment" "controller_private_ipv4" {
 
-  device_id      = packet_device.controller.id
-  cidr_notation  = cidrsubnet(data.packet_precreated_ip_block.private_ipv4.cidr_notation,3,1)
+  device_id     = packet_device.controller.id
+  cidr_notation = cidrsubnet(data.packet_precreated_ip_block.private_ipv4.cidr_notation, 3, 1)
 
 }
 
@@ -32,14 +32,14 @@ data "packet_precreated_ip_block" "public_ipv6" {
 
 resource "packet_ip_attachment" "controller_public_ipv6" {
 
-  device_id      = packet_device.controller.id
-  cidr_notation  = cidrsubnet(data.packet_precreated_ip_block.public_ipv6.cidr_notation,8,1)
+  device_id     = packet_device.controller.id
+  cidr_notation = cidrsubnet(data.packet_precreated_ip_block.public_ipv6.cidr_notation, 8, 1)
 
 }
 
 data "template_file" "network-interfaces-br-public" {
 
-  template = file("templates/network-interfaces-br-public") 
+  template = file("templates/network-interfaces-br-public")
 
   vars = {
     # Use the first IP in each subnet for gateway
@@ -49,7 +49,7 @@ data "template_file" "network-interfaces-br-public" {
 }
 
 resource "null_resource" "enable-br-public" {
- depends_on = [null_resource.controller-keystone]
+  depends_on = [null_resource.controller-keystone]
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -61,7 +61,7 @@ resource "null_resource" "enable-br-public" {
     destination = "network-interfaces-br-public"
   }
 
-# controller-keystone is required for the bridge-utils package to ifup br-public
+  # controller-keystone is required for the bridge-utils package to ifup br-public
   provisioner "remote-exec" {
     inline = [
       "cat network-interfaces-br-public >> /etc/network/interfaces",
@@ -83,7 +83,7 @@ data "template_file" "provider-networks" {
 
 resource "null_resource" "controller-provider-networks" {
   depends_on = [null_resource.controller-neutron,
-                null_resource.openstack-sample-workload-common]
+  null_resource.openstack-sample-workload-common]
 
   connection {
     host        = packet_device.controller.access_public_ipv4
