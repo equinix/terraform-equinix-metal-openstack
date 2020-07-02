@@ -67,7 +67,7 @@ resource "null_resource" "controller-nova" {
 
 resource "null_resource" "controller-neutron" {
   depends_on = [null_resource.controller-nova,
-                null_resource.enable-br-public]
+  null_resource.enable-br-public]
 
   connection {
     host        = packet_device.controller.access_public_ipv4
@@ -248,10 +248,10 @@ resource "null_resource" "compute-arm-openstack" {
 #
 resource "null_resource" "controller-register-compute-hosts" {
   depends_on = [null_resource.compute-arm-openstack,
-                null_resource.compute-x86-openstack,
-                null_resource.controller-neutron,
-                null_resource.controller-nova]
-              
+    null_resource.compute-x86-openstack,
+    null_resource.controller-neutron,
+  null_resource.controller-nova]
+
   connection {
     host        = packet_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
