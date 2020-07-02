@@ -30,6 +30,9 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
+    
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
       
     - name: Terraform Plan	
       run: terraform plan
@@ -38,3 +41,6 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: terraform apply -auto-approve
+    
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
