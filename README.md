@@ -7,8 +7,8 @@
 Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Packet bare metal.
 
 This repo has multiple branches, one for each OpenStack release.  The following OpenStack releases are supported:
-* ["Train"](https://www.openstack.org/software/train/)
-* ["Ussuri"](https://www.openstack.org/software/ussuri/)
+* [Train](https://www.openstack.org/software/train/)
+* [Ussuri](https://www.openstack.org/software/ussuri/)
 
 The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 node compute node. 
  
