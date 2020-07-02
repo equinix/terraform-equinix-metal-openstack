@@ -1,7 +1,5 @@
 # OpenStack on Packet Installation Guide
 
-![Terraform](https://github.com/packet-labs/OpenStackOnPacket/workflows/Terraform/badge.svg)
-
 ## Overview
 
 Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Packet bare metal.
