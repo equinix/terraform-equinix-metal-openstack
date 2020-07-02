@@ -6,7 +6,7 @@
 data "packet_precreated_ip_block" "private_ipv4" {
 
   facility       = packet_device.controller.deployed_facility
-  project_id     = var.packet_project_id
+  project_id     = packet_project.project.id
   address_family = 4
   public         = false
 
@@ -24,7 +24,7 @@ resource "packet_ip_attachment" "controller_private_ipv4" {
 data "packet_precreated_ip_block" "public_ipv6" {
 
   facility       = packet_device.controller.deployed_facility
-  project_id     = var.packet_project_id
+  project_id     = packet_project.project.id
   address_family = 6
   public         = true
 

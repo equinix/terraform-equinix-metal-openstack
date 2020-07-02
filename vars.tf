@@ -2,10 +2,6 @@ variable "packet_auth_token" {
   description = "Your packet API key"
 }
 
-variable "packet_project_id" {
-  description = "Packet Project ID"
-}
-
 # for best results deploy all hosts in the same facility - list a single facility
 variable "packet_facilities" {
   description = "Packet facilities: US East(ewr1), US West(sjc1), Tokyo (nrt1) or EU(ams1). Default: ewr1"
