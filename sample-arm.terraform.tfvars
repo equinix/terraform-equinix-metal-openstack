@@ -11,4 +11,4 @@ packet_compute-arm_type     = "c2.large.arm"
 openstack_compute-arm_count = 1
 openstack_compute-x86_count = 0
 
-packet_facilities           = ["ewr1"]
+packet_facilities = ["ewr1"]
