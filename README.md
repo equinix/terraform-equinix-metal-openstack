@@ -270,7 +270,7 @@ service nova-compute stop
 # Create and assign a storage volume
 
 Create the volume via the Packet Web App and assign to the compute node.
-See the steps at: https://support.packet.com/kb/articles/elastic-block-storage
+See the steps at: https://www.packet.com/resources/guides/elastic-block-storage/
 
 ```
 apt-get -y install jq
