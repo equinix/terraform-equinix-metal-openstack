@@ -144,7 +144,7 @@ The OpenStack Controller (CLI) can be accessed at the SSH address listed with th
 
 This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines. For more information on the deployed workloads, please see:
 
-https://github.com/PacketLabs/OpenStackOnPacket/blob/master/SampleOpenStackWorkload.sh
+https://github.com/Packet-Labs/OpenStackOnPacket/blob/master/OpenStackSampleWorkload.tf
 
 
 ## Validation
