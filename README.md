@@ -6,7 +6,7 @@ Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 a
 
 This repo supports the Ussuri version of OpenStack.
 
-The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 node compute node. 
+The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 compute node. 
  
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
 - By default, the template uses third generation Packet hardware.
@@ -17,7 +17,7 @@ Contributions are welcome to help extend this work!
 
 ## Cloud Abilities
 
-The default deployment supports both ARM and x86 based virtual workloads across multiple compute nodes. Inter-node communication is setup allowing virtual machines within the same overlay network but on different compute nodes to communicate with each other across underlying VXLAN networks. This is a transparent capability of OpenStack. Management and inter-node traffic travers the private Packet project network (10 subnet). Public OpenStack services are available via the public IP addresses assigned by Packet. DNS is not setup as part of this deployment so use IP addresses to access the services. The backend private IP addresses are mapped automatically into the node hostfiles via the deployment process.
+The default deployment supports both ARM and x86 based virtual workloads across multiple compute nodes. Inter-node communication is setup allowing virtual machines within the same overlay network but on different compute nodes to communicate with each other across underlying VXLAN networks. This is a transparent capability of OpenStack. Management and inter-node traffic traverses the private Packet project network (10 subnet). Public OpenStack services are available via the public IP addresses assigned by Packet. DNS is not setup as part of this deployment so use IP addresses to access the services. The backend private IP addresses are mapped automatically into the node hostfiles via the deployment process.
 
 The virtual machine images are deployed with enabled usernames and passwords allowing console login. For more details please see "userdata.txt", the cloud-init file that is used for the CentOS, Fedora, and Ubuntu virtual machines. The Cirros default login information is displayed on the console when logging in. The controller and compute nodes are configured with VNC console access for all the x86 machines. Console access is via the Horizon GUI dashboard. Since the ARM virtual machines do not support VNC console access, novaconsole has been made available on the controller via CLI.
 
@@ -46,7 +46,7 @@ You will find your API Key on the left side of the portal. If you have existing 
 https://app.packet.net/portal#/api-keys/new
 
 #### Ensure that your Packet account has an SSh key attached
-When provisioning the machines, Packet will preset an SSH key to allow administrative access. If no SSH keys are available, it will fail with a "Must have at least one SSH key" error. To fix this, add an ssh key in you Packet account.
+When provisioning the machines, Packet will preset an SSH key to allow administrative access. If no SSH keys are available, it will fail with a "Must have at least one SSH key" error. To fix this, [add an ssh key](https://www.packet.com/developers/docs/servers/key-features/ssh-keys/) in your Packet account.
 
 ### Terraform
 
