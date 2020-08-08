@@ -86,7 +86,7 @@ Several configurations files are available each building the cloud with a differ
 | sample-gen2.terraform.tfvars  | Packet Gen 2 x86    | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | none             |
 | sample-gen3.terraform.tfvars  | Packet Gen 3 x86    | c3.medium.x86 | c3.medium.x86 | s3.xlarge.x86    | none             |
 
-Running without a "terraform.tfvars" will result in the "default" configuration using Packet c2.medium.x86 hardware devices
+Running without a "terraform.tfvars" will result in the "default" configuration using Packet c3.medium.x86 hardware devices
 and no ARM capabilities. The other sample configurations deploy a mix of ARM and x86 hardware across different Packet hardware generations.
 
 There are a number of defaults that can be modified as desired. Any deviations from the defaults can be set in terraform.tfvars. No modifications to defaults are required except for the Packet Project ID and API Token if not set as environment variables.
