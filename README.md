@@ -15,6 +15,10 @@ If you require support, please email [support@packet.com](mailto:support@packet.
 
 Contributions are welcome to help extend this work!
 
+## Walk Throughs
+
+To see a walk through of this repo, please checkout this [Twitch feed](https://www.twitch.tv/videos/714872615). 
+
 ## Cloud Abilities
 
 The default deployment supports both ARM and x86 based virtual workloads across multiple compute nodes. Inter-node communication is setup allowing virtual machines within the same overlay network but on different compute nodes to communicate with each other across underlying VXLAN networks. This is a transparent capability of OpenStack. Management and inter-node traffic traverses the private Packet project network (10 subnet). Public OpenStack services are available via the public IP addresses assigned by Packet. DNS is not setup as part of this deployment so use IP addresses to access the services. The backend private IP addresses are mapped automatically into the node hostfiles via the deployment process.
