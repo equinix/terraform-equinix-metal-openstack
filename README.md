@@ -17,7 +17,7 @@ Contributions are welcome to help extend this work!
 
 ## Walk Throughs
 
-To see a walk through of this repo, please checkout this [Twitch feed](https://www.twitch.tv/videos/714872615). 
+To see a walk through of this repo, please checkout this [YouTube video](https://www.youtube.com/watch?v=2I5YG6gq1cE). 
 
 ## Cloud Abilities
 
