@@ -15,7 +15,7 @@ The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
 - By default, the template uses third generation Packet hardware.
 
-If you require support, please email [support@packet.com](mailto:support@packet.com), visit the Packet IRC channel (#packethost on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.com) or post an issue within this repository.
+If you require support, please email [support@packet.com](mailto:support@packet.com), visit the Packet IRC channel (#equinixmetal on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.com) or post an issue within this repository.
 
 Contributions are welcome to help extend this work!
 
