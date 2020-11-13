@@ -17,12 +17,12 @@ resource "null_resource" "openstack-sample-workload-common" {
   }
 
   provisioner "file" {
-    source      = "userdata.txt"
+    source      = "${path.module}/assets/userdata.txt"
     destination = "userdata.txt"
   }
 
   provisioner "file" {
-    source      = "SampleWorkloadCommon.sh"
+    source      = "${path.module}/assets/SampleWorkloadCommon.sh"
     destination = "SampleWorkloadCommon.sh"
   }
 
@@ -54,7 +54,7 @@ resource "null_resource" "openstack-sample-workload-arm" {
   }
 
   provisioner "file" {
-    source      = "SampleWorkloadARM.sh"
+    source      = "${path.module}/assets/SampleWorkloadARM.sh"
     destination = "SampleWorkloadARM.sh"
   }
 
@@ -84,7 +84,7 @@ resource "null_resource" "openstack-sample-workload-x86" {
   }
 
   provisioner "file" {
-    source      = "SampleWorkloadx86.sh"
+    source      = "${path.module}/assets/SampleWorkloadx86.sh"
     destination = "SampleWorkloadx86.sh"
   }
 

@@ -7,12 +7,12 @@ resource "null_resource" "controller-keystone" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    source      = "${path.module}/assets/CommonServerSetup.sh"
     destination = "CommonServerSetup.sh"
   }
 
   provisioner "file" {
-    source      = "ControllerKeystone.sh"
+    source      = "${path.module}/assets/ControllerKeystone.sh"
     destination = "ControllerKeystone.sh"
   }
 
@@ -34,7 +34,7 @@ resource "null_resource" "controller-glance" {
   }
 
   provisioner "file" {
-    source      = "ControllerGlance.sh"
+    source      = "${path.module}/assets/ControllerGlance.sh"
     destination = "ControllerGlance.sh"
   }
 
@@ -54,7 +54,7 @@ resource "null_resource" "controller-nova" {
   }
 
   provisioner "file" {
-    source      = "ControllerNova.sh"
+    source      = "${path.module}/assets/ControllerNova.sh"
     destination = "ControllerNova.sh"
   }
 
@@ -75,7 +75,7 @@ resource "null_resource" "controller-neutron" {
   }
 
   provisioner "file" {
-    source      = "ControllerNeutron.sh"
+    source      = "${path.module}/assets/ControllerNeutron.sh"
     destination = "ControllerNeutron.sh"
   }
 
@@ -95,7 +95,7 @@ resource "null_resource" "dashboard-install" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    source      = "${path.module}/assets/CommonServerSetup.sh"
     destination = "CommonServerSetup.sh"
   }
 
@@ -121,17 +121,17 @@ resource "null_resource" "dashboard-config" {
   }
 
   provisioner "file" {
-    source      = "local_settings.py"
+    source      = "${path.module}/assets/local_settings.py"
     destination = "/etc/openstack-dashboard/local_settings.py"
   }
 
   provisioner "file" {
-    source      = "Packet-splash.svg"
+    source      = "${path.module}/assets/Packet-splash.svg"
     destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo-splash.svg"
   }
 
   provisioner "file" {
-    source      = "Packet-logo.svg"
+    source      = "${path.module}/assets/Packet-logo.svg"
     destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo.svg"
   }
 
@@ -153,7 +153,7 @@ resource "null_resource" "compute-x86-common" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    source      = "${path.module}/assets/CommonServerSetup.sh"
     destination = "CommonServerSetup.sh"
   }
 
@@ -175,12 +175,12 @@ resource "null_resource" "compute-x86-openstack" {
   }
 
   provisioner "file" {
-    source      = "ComputeNova.sh"
+    source      = "${path.module}/assets/ComputeNova.sh"
     destination = "ComputeNova.sh"
   }
 
   provisioner "file" {
-    source      = "ComputeNeutron.sh"
+    source      = "${path.module}/assets/ComputeNeutron.sh"
     destination = "ComputeNeutron.sh"
   }
 
@@ -203,7 +203,7 @@ resource "null_resource" "compute-arm-common" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    source      = "${path.module}/assets/CommonServerSetup.sh"
     destination = "CommonServerSetup.sh"
   }
 
@@ -225,12 +225,12 @@ resource "null_resource" "compute-arm-openstack" {
   }
 
   provisioner "file" {
-    source      = "ComputeNova.sh"
+    source      = "${path.module}/assets/ComputeNova.sh"
     destination = "ComputeNova.sh"
   }
 
   provisioner "file" {
-    source      = "ComputeNeutron.sh"
+    source      = "${path.module}/assets/ComputeNeutron.sh"
     destination = "ComputeNeutron.sh"
   }
 

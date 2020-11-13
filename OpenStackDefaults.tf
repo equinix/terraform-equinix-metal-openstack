@@ -12,7 +12,7 @@ resource "null_resource" "openstack-image-CentOS-8-ARM" {
   }
 
   provisioner "file" {
-    source      = "CentOS-8-ARM-Image.sh"
+    source      = "${path.module}/assets/CentOS-8-ARM-Image.sh"
     destination = "CentOS-8-ARM-Image.sh"
   }
 
@@ -34,7 +34,7 @@ resource "null_resource" "openstack-image-CentOS-8-x86" {
   }
 
   provisioner "file" {
-    source      = "CentOS-8-x86-Image.sh"
+    source      = "${path.module}/assets/CentOS-8-x86-Image.sh"
     destination = "CentOS-8-x86-Image.sh"
   }
 
@@ -56,7 +56,7 @@ resource "null_resource" "openstack-image-Fedora-ARM" {
   }
 
   provisioner "file" {
-    source      = "Fedora-ARM-Image.sh"
+    source      = "${path.module}/assets/Fedora-ARM-Image.sh"
     destination = "Fedora-ARM-Image.sh"
   }
 
@@ -78,7 +78,7 @@ resource "null_resource" "openstack-image-Cirros-x86" {
   }
 
   provisioner "file" {
-    source      = "Cirros-x86-Image.sh"
+    source      = "${path.module}/assets/Cirros-x86-Image.sh"
     destination = "Cirros-x86-Image.sh"
   }
 
@@ -100,7 +100,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
   }
 
   provisioner "file" {
-    source      = "Bionic-18_04-ARM-Image.sh"
+    source      = "${path.module}/assets/Bionic-18_04-ARM-Image.sh"
     destination = "Bionic-18_04-ARM-Image.sh"
   }
 
@@ -122,7 +122,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-x86" {
   }
 
   provisioner "file" {
-    source      = "Bionic-18_04-x86-Image.sh"
+    source      = "${path.module}/assets/Bionic-18_04-x86-Image.sh"
     destination = "Bionic-18_04-x86-Image.sh"
   }
 
@@ -144,7 +144,7 @@ resource "null_resource" "openstack-image-Trusty-14_04-ARM" {
   }
 
   provisioner "file" {
-    source      = "Trusty-14_04-ARM-Image.sh"
+    source      = "${path.module}/assets/Trusty-14_04-ARM-Image.sh"
     destination = "Trusty-14_04-ARM-Image.sh"
   }
 
@@ -166,7 +166,7 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
   }
 
   provisioner "file" {
-    source      = "Xenial-16_04-ARM-Image.sh"
+    source      = "${path.module}/assets/Xenial-16_04-ARM-Image.sh"
     destination = "Xenial-16_04-ARM-Image.sh"
   }
 
@@ -188,7 +188,7 @@ resource "null_resource" "openstack-image-Cirros-ARM" {
   }
 
   provisioner "file" {
-    source      = "Cirros-ARM-Image.sh"
+    source      = "${path.module}/assets/Cirros-ARM-Image.sh"
     destination = "Cirros-ARM-Image.sh"
   }
 
@@ -209,7 +209,7 @@ resource "null_resource" "openstack-flavors" {
   }
 
   provisioner "file" {
-    source      = "DefaultOpenStackFlavors.sh"
+    source      = "${path.module}/assets/DefaultOpenStackFlavors.sh"
     destination = "DefaultOpenStackFlavors.sh"
   }
 

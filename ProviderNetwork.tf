@@ -39,7 +39,7 @@ resource "packet_ip_attachment" "controller_public_ipv6" {
 
 data "template_file" "network-interfaces-br-public" {
 
-  template = file("templates/network-interfaces-br-public")
+  template = file("${path.module}/templates/network-interfaces-br-public")
 
   vars = {
     # Use the first IP in each subnet for gateway
@@ -73,7 +73,7 @@ resource "null_resource" "enable-br-public" {
 
 data "template_file" "provider-networks" {
 
-  template = file("templates/ProviderNetworks.sh")
+  template = file("${path.module}/templates/ProviderNetworks.sh")
 
   vars = {
     provider_ipv4_cidr = packet_ip_attachment.controller_private_ipv4.cidr_notation
