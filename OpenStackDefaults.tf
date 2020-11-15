@@ -1,6 +1,14 @@
 #
 # load up the OpenStack cloud with some default settings and images
 #
+data "template_file" "CentOS-8-ARM-Image" {
+  template = file("${path.module}/templates/CentOS-8-ARM-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
+  }
+}
+
 resource "null_resource" "openstack-image-CentOS-8-ARM" {
   depends_on = [null_resource.controller-glance]
 
@@ -12,7 +20,7 @@ resource "null_resource" "openstack-image-CentOS-8-ARM" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/CentOS-8-ARM-Image.sh"
+    content     = data.template_file.CentOS-8-ARM-Image.rendered
     destination = "CentOS-8-ARM-Image.sh"
   }
 
@@ -20,6 +28,14 @@ resource "null_resource" "openstack-image-CentOS-8-ARM" {
     inline = [
       "bash CentOS-8-ARM-Image.sh > CentOS-8-ARM-Image.out",
     ]
+  }
+}
+
+data "template_file" "CentOS-8-x86-Image" {
+  template = file("${path.module}/templates/CentOS-8-x86-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -34,7 +50,7 @@ resource "null_resource" "openstack-image-CentOS-8-x86" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/CentOS-8-x86-Image.sh"
+    content     = data.template_file.CentOS-8-x86-Image.rendered
     destination = "CentOS-8-x86-Image.sh"
   }
 
@@ -42,6 +58,14 @@ resource "null_resource" "openstack-image-CentOS-8-x86" {
     inline = [
       "bash CentOS-8-x86-Image.sh > CentOS-8-x86-Image.out",
     ]
+  }
+}
+
+data "template_file" "Fedora-ARM-Image" {
+  template = file("${path.module}/templates/Fedora-ARM-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -56,7 +80,7 @@ resource "null_resource" "openstack-image-Fedora-ARM" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Fedora-ARM-Image.sh"
+    content     = data.template_file.Fedora-ARM-Image.rendered
     destination = "Fedora-ARM-Image.sh"
   }
 
@@ -64,6 +88,14 @@ resource "null_resource" "openstack-image-Fedora-ARM" {
     inline = [
       "bash Fedora-ARM-Image.sh > Fedora-ARM-Image.out",
     ]
+  }
+}
+
+data "template_file" "Cirros-x86-Image" {
+  template = file("${path.module}/templates/Cirros-x86-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -78,7 +110,7 @@ resource "null_resource" "openstack-image-Cirros-x86" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Cirros-x86-Image.sh"
+    content     = data.template_file.Cirros-x86-Image.rendered
     destination = "Cirros-x86-Image.sh"
   }
 
@@ -86,6 +118,14 @@ resource "null_resource" "openstack-image-Cirros-x86" {
     inline = [
       "bash Cirros-x86-Image.sh > Cirros-x86-Image.out",
     ]
+  }
+}
+
+data "template_file" "Bionic-18_04-ARM-Image" {
+  template = file("${path.module}/templates/Bionic-18_04-ARM-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -100,7 +140,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Bionic-18_04-ARM-Image.sh"
+    content     = data.template_file.Bionic-18_04-ARM-Image.rendered
     destination = "Bionic-18_04-ARM-Image.sh"
   }
 
@@ -108,6 +148,15 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
     inline = [
       "bash Bionic-18_04-ARM-Image.sh > Bionic-18_04-ARM-Image.out",
     ]
+  }
+}
+
+
+data "template_file" "Bionic-18_04-x86-Image" {
+  template = file("${path.module}/templates/Bionic-18_04-x86-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -122,7 +171,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-x86" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Bionic-18_04-x86-Image.sh"
+    content     = data.template_file.Bionic-18_04-x86-Image.rendered
     destination = "Bionic-18_04-x86-Image.sh"
   }
 
@@ -130,6 +179,14 @@ resource "null_resource" "openstack-image-Bionic-18_04-x86" {
     inline = [
       "bash Bionic-18_04-x86-Image.sh > Bionic-18_04-x86-Image.out",
     ]
+  }
+}
+
+data "template_file" "Trusty-14_04-ARM-Image" {
+  template = file("${path.module}/templates/Trusty-14_04-ARM-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -144,7 +201,7 @@ resource "null_resource" "openstack-image-Trusty-14_04-ARM" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Trusty-14_04-ARM-Image.sh"
+    content     = data.template_file.Trusty-14_04-ARM-Image.rendered
     destination = "Trusty-14_04-ARM-Image.sh"
   }
 
@@ -152,6 +209,14 @@ resource "null_resource" "openstack-image-Trusty-14_04-ARM" {
     inline = [
       "bash Trusty-14_04-ARM-Image.sh > Trusty-14_04-ARM-Image.out",
     ]
+  }
+}
+
+data "template_file" "Xenial-16_04-ARM-Image" {
+  template = file("${path.module}/templates/Xenial-16_04-ARM-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -166,7 +231,7 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Xenial-16_04-ARM-Image.sh"
+    content     = data.template_file.Xenial-16_04-ARM-Image.rendered
     destination = "Xenial-16_04-ARM-Image.sh"
   }
 
@@ -174,6 +239,14 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
     inline = [
       "bash Xenial-16_04-ARM-Image.sh > Xenial-16_04-ARM-Image.out",
     ]
+  }
+}
+
+data "template_file" "Cirros-ARM-Image" {
+  template = file("${path.module}/templates/Cirros-ARM-Image.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -188,7 +261,7 @@ resource "null_resource" "openstack-image-Cirros-ARM" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Cirros-ARM-Image.sh"
+    content     = data.template_file.Cirros-ARM-Image.rendered
     destination = "Cirros-ARM-Image.sh"
   }
 
@@ -196,6 +269,14 @@ resource "null_resource" "openstack-image-Cirros-ARM" {
     inline = [
       "bash Cirros-ARM-Image.sh > Cirros-ARM-Image.out",
     ]
+  }
+}
+
+data "template_file" "DefaultOpenStackFlavors" {
+  template = file("${path.module}/templates/DefaultOpenStackFlavors.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -209,7 +290,7 @@ resource "null_resource" "openstack-flavors" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/DefaultOpenStackFlavors.sh"
+    content     = data.template_file.DefaultOpenStackFlavors.rendered
     destination = "DefaultOpenStackFlavors.sh"
   }
 

@@ -25,7 +25,7 @@ apt-get -y install mariadb-server python-pymysql
 
 cat > /etc/mysql/mariadb.conf.d/99-openstack.cnf << EOF
 [mysqld]
-bind-address = ${MY_IP}
+bind-address = $MY_IP
 
 default-storage-engine = innodb
 innodb_file_per_table = on
@@ -55,11 +55,11 @@ ETCD_NAME="controller"
 ETCD_DATA_DIR="/var/lib/etcd"
 ETCD_INITIAL_CLUSTER_STATE="new"
 ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"
-ETCD_INITIAL_CLUSTER="controller=http://${MY_IP}:2380"
-ETCD_INITIAL_ADVERTISE_PEER_URLS="http://${MY_IP}:2380"
-ETCD_ADVERTISE_CLIENT_URLS="http://${MY_IP}:2379"
+ETCD_INITIAL_CLUSTER="controller=http://$MY_IP:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://$MY_IP:2380"
+ETCD_ADVERTISE_CLIENT_URLS="http://$MY_IP:2379"
 ETCD_LISTEN_PEER_URLS="http://0.0.0.0:2380"
-ETCD_LISTEN_CLIENT_URLS="http://${MY_IP}:2379"
+ETCD_LISTEN_CLIENT_URLS="http://$MY_IP:2379"
 EOF
 
 systemctl enable etcd
@@ -84,7 +84,7 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
 
-keystone-manage bootstrap --bootstrap-password ADMIN_PASS \
+keystone-manage bootstrap --bootstrap-password ${ADMIN_PASS} \
   --bootstrap-admin-url http://controller:5000/v3/ \
   --bootstrap-internal-url http://controller:5000/v3/ \
   --bootstrap-public-url http://controller:5000/v3/ \
@@ -95,7 +95,7 @@ service apache2 restart
 
 # replaces sourcing admin-openrc
 export OS_USERNAME=admin
-export OS_PASSWORD=ADMIN_PASS
+export OS_PASSWORD=${ADMIN_PASS}
 export OS_PROJECT_NAME=admin
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default
@@ -119,7 +119,7 @@ openstack role add --project demo --user demo user
 
 # replaces sourcing admin-openrc
 export OS_USERNAME=admin
-export OS_PASSWORD=ADMIN_PASS
+export OS_PASSWORD=${ADMIN_PASS}
 export OS_PROJECT_NAME=admin
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default

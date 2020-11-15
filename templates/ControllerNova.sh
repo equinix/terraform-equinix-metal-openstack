@@ -8,7 +8,7 @@ MY_IP=`hostname -I | xargs -n1 2>/dev/null | grep "^10\." | head -1`
 
 # replaces sourcing admin-openrc
 export OS_USERNAME=admin
-export OS_PASSWORD=ADMIN_PASS
+export OS_PASSWORD=${ADMIN_PASS}
 export OS_PROJECT_NAME=admin
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default
@@ -41,7 +41,7 @@ openstack endpoint create --region RegionOne \
 
 apt-get -y install placement-api      
 
-crudini --set /etc/placement/placement.conf placement_database connection mysql+pymysql://placement:PLACEMENT_DBPASS@${CONTROLLER_PRIVATE_IP}/placement
+crudini --set /etc/placement/placement.conf placement_database connection mysql+pymysql://placement:PLACEMENT_DBPASS@$CONTROLLER_PRIVATE_IP/placement
 
 crudini --set /etc/placement/placement.conf keystone_authtoken auth_url http://controller:5000
 crudini --set /etc/placement/placement.conf keystone_authtoken memcached_servers controller:11211
@@ -91,11 +91,11 @@ apt-get -y install nova-api nova-conductor nova-novncproxy nova-scheduler
 
 apt-get -y install nova-serialproxy
   
-crudini --set /etc/nova/nova.conf api_database connection mysql+pymysql://nova:NOVA_DBPASS@${CONTROLLER_PRIVATE_IP}/nova_api
+crudini --set /etc/nova/nova.conf api_database connection mysql+pymysql://nova:NOVA_DBPASS@$CONTROLLER_PRIVATE_IP/nova_api
 
-crudini --set /etc/nova/nova.conf database connection mysql+pymysql://nova:NOVA_DBPASS@${CONTROLLER_PRIVATE_IP}/nova
+crudini --set /etc/nova/nova.conf database connection mysql+pymysql://nova:NOVA_DBPASS@$CONTROLLER_PRIVATE_IP/nova
 
-crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@${CONTROLLER_PRIVATE_IP}:5672/
+crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@$CONTROLLER_PRIVATE_IP:5672/
 
 crudini --set /etc/nova/nova.conf api auth_strategy keystone
 
@@ -109,15 +109,15 @@ crudini --set /etc/nova/nova.conf keystone_authtoken project_name service
 crudini --set /etc/nova/nova.conf keystone_authtoken username nova
 crudini --set /etc/nova/nova.conf keystone_authtoken password NOVA_PASS
 
-crudini --set /etc/nova/nova.conf DEFAULT my_ip ${MY_IP}
+crudini --set /etc/nova/nova.conf DEFAULT my_ip $MY_IP
 
 crudini --set /etc/nova/nova.conf DEFAULT use_neutron True
 crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
 
 crudini --set /etc/nova/nova.conf vnc enabled true
-crudini --set /etc/nova/nova.conf vnc server_listen ${MY_IP}
-crudini --set /etc/nova/nova.conf vnc server_proxyclient_address ${MY_IP}
-crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://${CONTROLLER_PUBLIC_IP}:6080/vnc_auto.html
+crudini --set /etc/nova/nova.conf vnc server_listen $MY_IP
+crudini --set /etc/nova/nova.conf vnc server_proxyclient_address $MY_IP
+crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://$CONTROLLER_PUBLIC_IP:6080/vnc_auto.html
 
 crudini --set /etc/nova/nova.conf glance api_servers http://controller:9292
 

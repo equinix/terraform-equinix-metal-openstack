@@ -22,12 +22,20 @@ output "Compute_ARM_IPs" {
   value = packet_device.compute-arm.*.access_public_ipv4
 }
 
+output "OpenStack_API_Endpoint" {
+  value = "http://${packet_device.controller.access_public_ipv4}:5000/v3"
+}
+
+output "OpenStack_admin_pass" {
+  value = random_password.os_admin_password.result
+}
+
 output "Horizon_dashboard_via_IP" {
-  value = "http://${packet_device.dashboard.access_public_ipv4}/horizon/ admin/ADMIN_PASS"
+  value = "http://${packet_device.dashboard.access_public_ipv4}/horizon/ admin/${random_password.os_admin_password.result}"
 }
 
 output "Horizon_dashboard_via_IP6" {
-  value = "http://[${packet_device.dashboard.access_public_ipv6}]/horizon/ admin/ADMIN_PASS"
+  value = "http://[${packet_device.dashboard.access_public_ipv6}]/horizon/ admin/${random_password.os_admin_password.result}"
 }
 
 output "Controller_SSH" {

@@ -1,6 +1,13 @@
 #
 # load up the cloud with some sample VMs and a network
 #
+data "template_file" "SampleWorkloadCommon" {
+  template = file("${path.module}/templates/SampleWorkloadCommon.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
+  }
+}
 
 resource "null_resource" "openstack-sample-workload-common" {
   depends_on = [
@@ -22,7 +29,7 @@ resource "null_resource" "openstack-sample-workload-common" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/SampleWorkloadCommon.sh"
+    content     = data.template_file.SampleWorkloadCommon.rendered
     destination = "SampleWorkloadCommon.sh"
   }
 
@@ -30,6 +37,14 @@ resource "null_resource" "openstack-sample-workload-common" {
     inline = [
       "bash SampleWorkloadCommon.sh > SampleWorkloadCommon.out",
     ]
+  }
+}
+
+data "template_file" "SampleWorkloadARM" {
+  template = file("${path.module}/templates/SampleWorkloadARM.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -54,7 +69,7 @@ resource "null_resource" "openstack-sample-workload-arm" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/SampleWorkloadARM.sh"
+    content     = data.template_file.SampleWorkloadARM.rendered
     destination = "SampleWorkloadARM.sh"
   }
 
@@ -62,6 +77,14 @@ resource "null_resource" "openstack-sample-workload-arm" {
     inline = [
       "sleep 60; bash SampleWorkloadARM.sh > SampleWorkloadARM.out",
     ]
+  }
+}
+
+data "template_file" "SampleWorkloadx86" {
+  template = file("${path.module}/templates/SampleWorkloadx86.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -84,7 +107,7 @@ resource "null_resource" "openstack-sample-workload-x86" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/SampleWorkloadx86.sh"
+    content     = data.template_file.SampleWorkloadx86.rendered
     destination = "SampleWorkloadx86.sh"
   }
 
