@@ -26,6 +26,10 @@ output "OpenStack_API_Endpoint" {
   value = "http://${packet_device.controller.access_public_ipv4}:5000/v3"
 }
 
+output "OpenStack_API_Endpoint_ipv6" {
+  value = "http://[${packet_device.controller.access_public_ipv6}]:5000/v3"
+}
+
 output "OpenStack_admin_pass" {
   value = random_password.os_admin_password.result
 }
