@@ -15,7 +15,7 @@ The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Equinix Metal). 
 - By default, the template uses third generation Equinix Metal hardware.
 
-If you require support, please email [metal@equinix.com](mailto:metal@equinix.com), visit the Equinix Metal IRC channel (#packet on freenode), subscribe to the [Equinix Metal Community Slack channel](https://slack.equinixmetal.com) or post an issue within this repository.
+If you require support, please email [metal@equinix.com](mailto:metal@equinix.com), visit the Equinix Metal IRC channel (#equinixmetal on freenode), subscribe to the [Equinix Metal Community Slack channel](https://slack.equinixmetal.com) or post an issue within this repository.
 
 Contributions are welcome to help extend this work!
 
