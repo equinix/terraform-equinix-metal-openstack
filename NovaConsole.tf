@@ -6,7 +6,7 @@ resource "null_resource" "novaconsole" {
   depends_on = [null_resource.controller-openstack]
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
