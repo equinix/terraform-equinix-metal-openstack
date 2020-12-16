@@ -25,14 +25,14 @@ crudini --set /etc/nova/nova.conf keystone_authtoken project_name service
 crudini --set /etc/nova/nova.conf keystone_authtoken username nova
 crudini --set /etc/nova/nova.conf keystone_authtoken password NOVA_PASS
 
-crudini --set /etc/nova/nova.conf DEFAULT my_ip ${MY_IP}
+crudini --set /etc/nova/nova.conf DEFAULT my_ip $MY_IP
 crudini --set /etc/nova/nova.conf DEFAULT use_neutron true
 crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
 
 crudini --set /etc/nova/nova.conf vnc enabled true
 crudini --set /etc/nova/nova.conf vnc server_listen 0.0.0.0
-crudini --set /etc/nova/nova.conf vnc server_proxyclient_address ${MY_IP}
-crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://${CONTROLLER_PUBLIC_IP}:6080/vnc_auto.html
+crudini --set /etc/nova/nova.conf vnc server_proxyclient_address $MY_IP
+crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://$CONTROLLER_PUBLIC_IP:6080/vnc_auto.html
 
 crudini --set /etc/nova/nova.conf glance api_servers http://controller:9292
 
@@ -50,8 +50,8 @@ crudini --set /etc/nova/nova.conf placement password PLACEMENT_PASS
 crudini --set /etc/nova/nova.conf libvirt virt_type kvm
 
 crudini --set /etc/nova/nova.conf serial_console enabled true
-crudini --set /etc/nova/nova.conf serial_console base_url ws://${CONTROLLER_PUBLIC_IP}:6083/
-crudini --set /etc/nova/nova.conf serial_console proxyclient_address ${MY_IP}
+crudini --set /etc/nova/nova.conf serial_console base_url ws://$CONTROLLER_PUBLIC_IP:6083/
+crudini --set /etc/nova/nova.conf serial_console proxyclient_address $MY_IP
 crudini --set /etc/nova/nova.conf serial_console listen 0.0.0.0 
 crudini --set /etc/nova/nova.conf serial_console serialproxy_port 6083
 

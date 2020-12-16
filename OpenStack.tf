@@ -1,3 +1,24 @@
+resource "random_password" "os_admin_password" {
+  length  = 16
+  special = false
+}
+
+data "template_file" "CommonServerSetup" {
+  template = file("${path.module}/templates/CommonServerSetup.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
+  }
+}
+
+data "template_file" "ControllerKeystone" {
+  template = file("${path.module}/templates/ControllerKeystone.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
+  }
+}
+
 resource "null_resource" "controller-keystone" {
   depends_on = [null_resource.hostfile-distributed]
 
@@ -7,12 +28,12 @@ resource "null_resource" "controller-keystone" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    content     = data.template_file.CommonServerSetup.rendered
     destination = "CommonServerSetup.sh"
   }
 
   provisioner "file" {
-    source      = "ControllerKeystone.sh"
+    content     = data.template_file.ControllerKeystone.rendered
     destination = "ControllerKeystone.sh"
   }
 
@@ -25,6 +46,14 @@ resource "null_resource" "controller-keystone" {
 }
 
 # we setup glance early so the images can start download while the rest of the cloud builds
+data "template_file" "ControllerGlance" {
+  template = file("${path.module}/templates/ControllerGlance.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
+  }
+}
+
 resource "null_resource" "controller-glance" {
   depends_on = [null_resource.controller-keystone]
 
@@ -34,7 +63,7 @@ resource "null_resource" "controller-glance" {
   }
 
   provisioner "file" {
-    source      = "ControllerGlance.sh"
+    content     = data.template_file.ControllerGlance.rendered
     destination = "ControllerGlance.sh"
   }
 
@@ -42,6 +71,14 @@ resource "null_resource" "controller-glance" {
     inline = [
       "bash ControllerGlance.sh > ControllerGlance.out",
     ]
+  }
+}
+
+data "template_file" "ControllerNova" {
+  template = file("${path.module}/templates/ControllerNova.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -54,7 +91,7 @@ resource "null_resource" "controller-nova" {
   }
 
   provisioner "file" {
-    source      = "ControllerNova.sh"
+    content     = data.template_file.ControllerNova.rendered
     destination = "ControllerNova.sh"
   }
 
@@ -62,6 +99,14 @@ resource "null_resource" "controller-nova" {
     inline = [
       "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
     ]
+  }
+}
+
+data "template_file" "ControllerNeutron" {
+  template = file("${path.module}/templates/ControllerNeutron.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -75,7 +120,7 @@ resource "null_resource" "controller-neutron" {
   }
 
   provisioner "file" {
-    source      = "ControllerNeutron.sh"
+    content     = data.template_file.ControllerNeutron.rendered
     destination = "ControllerNeutron.sh"
   }
 
@@ -95,7 +140,7 @@ resource "null_resource" "dashboard-install" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    content     = data.template_file.CommonServerSetup.rendered
     destination = "CommonServerSetup.sh"
   }
 
@@ -121,17 +166,17 @@ resource "null_resource" "dashboard-config" {
   }
 
   provisioner "file" {
-    source      = "local_settings.py"
+    source      = "${path.module}/assets/local_settings.py"
     destination = "/etc/openstack-dashboard/local_settings.py"
   }
 
   provisioner "file" {
-    source      = "Packet-splash.svg"
+    source      = "${path.module}/assets/Packet-splash.svg"
     destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo-splash.svg"
   }
 
   provisioner "file" {
-    source      = "Packet-logo.svg"
+    source      = "${path.module}/assets/Packet-logo.svg"
     destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo.svg"
   }
 
@@ -153,7 +198,7 @@ resource "null_resource" "compute-x86-common" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    content     = data.template_file.CommonServerSetup.rendered
     destination = "CommonServerSetup.sh"
   }
 
@@ -161,6 +206,22 @@ resource "null_resource" "compute-x86-common" {
     inline = [
       "bash CommonServerSetup.sh > CommonServerSetup.out",
     ]
+  }
+}
+
+data "template_file" "ComputeNova" {
+  template = file("${path.module}/templates/ComputeNova.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
+  }
+}
+
+data "template_file" "ComputeNeutron" {
+  template = file("${path.module}/templates/ComputeNeutron.sh")
+
+  vars = {
+    ADMIN_PASS = random_password.os_admin_password.result
   }
 }
 
@@ -175,12 +236,12 @@ resource "null_resource" "compute-x86-openstack" {
   }
 
   provisioner "file" {
-    source      = "ComputeNova.sh"
+    content     = data.template_file.CommonServerSetup.rendered
     destination = "ComputeNova.sh"
   }
 
   provisioner "file" {
-    source      = "ComputeNeutron.sh"
+    content     = data.template_file.ComputeNeutron.rendered
     destination = "ComputeNeutron.sh"
   }
 
@@ -203,7 +264,7 @@ resource "null_resource" "compute-arm-common" {
   }
 
   provisioner "file" {
-    source      = "CommonServerSetup.sh"
+    content     = data.template_file.CommonServerSetup.rendered
     destination = "CommonServerSetup.sh"
   }
 
@@ -225,12 +286,12 @@ resource "null_resource" "compute-arm-openstack" {
   }
 
   provisioner "file" {
-    source      = "ComputeNova.sh"
+    content     = data.template_file.CommonServerSetup.rendered
     destination = "ComputeNova.sh"
   }
 
   provisioner "file" {
-    source      = "ComputeNeutron.sh"
+    content     = data.template_file.ComputeNeutron.rendered
     destination = "ComputeNeutron.sh"
   }
 

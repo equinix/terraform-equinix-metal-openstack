@@ -9,7 +9,7 @@ resource "null_resource" "controller-removelocalhost-hostfile" {
   }
 
   provisioner "file" {
-    source      = "hostfile"
+    source      = "${path.module}/assets/hostfile"
     destination = "hostfile"
   }
 

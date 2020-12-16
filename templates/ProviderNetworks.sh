@@ -3,7 +3,7 @@
 #
 
 export OS_USERNAME=admin
-export OS_PASSWORD=ADMIN_PASS
+export OS_PASSWORD=${ADMIN_PASS}
 export OS_PROJECT_NAME=admin
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default
@@ -28,3 +28,4 @@ export SUBNET_4_ID=`openstack subnet create \
 echo "SUBNET_4_ID=$SUBNET_4_ID"
 
 openstack router set --external-gateway $PROVIDER_4_ID sample-workload-gateway
+

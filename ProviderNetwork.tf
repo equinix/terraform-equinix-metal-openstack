@@ -39,12 +39,12 @@ resource "packet_ip_attachment" "controller_public_ipv6" {
 
 data "template_file" "network-interfaces-br-public" {
 
-  template = file("templates/network-interfaces-br-public")
+  template = file("${path.module}/templates/network-interfaces-br-public")
 
   vars = {
     # Use the first IP in each subnet for gateway
-    provider_ipv4_cidr = "${cidrhost(packet_ip_attachment.controller_private_ipv4.cidr_notation, 1)}/${packet_ip_attachment.controller_private_ipv4.cidr}"
-    provider_ipv6_cidr = "${cidrhost(packet_ip_attachment.controller_public_ipv6.cidr_notation, 1)}/${packet_ip_attachment.controller_public_ipv6.cidr}"
+    provider_ipv4_cidr = join("/", [cidrhost(packet_ip_attachment.controller_private_ipv4.cidr_notation, 1), packet_ip_attachment.controller_private_ipv4.cidr])
+    provider_ipv6_cidr = join("/", [cidrhost(packet_ip_attachment.controller_public_ipv6.cidr_notation, 1), packet_ip_attachment.controller_public_ipv6.cidr])
   }
 }
 
@@ -73,9 +73,10 @@ resource "null_resource" "enable-br-public" {
 
 data "template_file" "provider-networks" {
 
-  template = file("templates/ProviderNetworks.sh")
+  template = file("${path.module}/templates/ProviderNetworks.sh")
 
   vars = {
+    ADMIN_PASS         = random_password.os_admin_password.result
     provider_ipv4_cidr = packet_ip_attachment.controller_private_ipv4.cidr_notation
     provider_ipv6_cidr = packet_ip_attachment.controller_public_ipv6.cidr_notation
   }
@@ -97,7 +98,7 @@ resource "null_resource" "controller-provider-networks" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ProviderNetworks.sh > ProviderNetworks.out"
+      "bash ProviderNetworks.sh > ProviderNetworks.out || cat ProviderNetworks.out"
     ]
   }
 }

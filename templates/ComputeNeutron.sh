@@ -34,7 +34,7 @@ crudini --set /etc/neutron/neutron.conf oslo_concurrency lock_path /var/lib/neut
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini linux_bridge physical_interface_mappings provider:bond0
 
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan enable_vxlan true
-crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip ${MY_PUBLIC_IP}
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip $MY_PUBLIC_IP
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan l2_population true
 
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini securitygroup enable_security_group true

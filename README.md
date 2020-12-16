@@ -1,21 +1,21 @@
 ![](https://img.shields.io/badge/Stability-Experimental-red.svg)
 
-# OpenStack on Packet Installation Guide
+# OpenStack on Equinix Metal
 
 This repository is [Experimental](https://github.com/packethost/standards/blob/master/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
  
 ## Overview
 
-Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Packet bare metal.
+Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Equinix Metal. Specifically, this deployment showcases how a multi-node cloud can be deployed on Equinix Metal bare metal.
 
 This repo supports the Ussuri version of OpenStack.
 
 The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 compute node. 
  
-- It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
-- By default, the template uses third generation Packet hardware.
+- It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Equinix Metal). 
+- By default, the template uses third generation Equinix Metal hardware.
 
-If you require support, please email [support@packet.com](mailto:support@packet.com), visit the Packet IRC channel (#equinixmetal on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.com) or post an issue within this repository.
+If you require support, please email [metal@equinix.com](mailto:metal@equinix.com), visit the Equinix Metal IRC channel (#equinixmetal on freenode), subscribe to the [Equinix Metal Community Slack channel](https://slack.equinixmetal.com) or post an issue within this repository.
 
 Contributions are welcome to help extend this work!
 
@@ -25,7 +25,7 @@ To see a walk through of this repo, please checkout this [YouTube video](https:/
 
 ## Cloud Abilities
 
-The default deployment supports both ARM and x86 based virtual workloads across multiple compute nodes. Inter-node communication is setup allowing virtual machines within the same overlay network but on different compute nodes to communicate with each other across underlying VXLAN networks. This is a transparent capability of OpenStack. Management and inter-node traffic traverses the private Packet project network (10 subnet). Public OpenStack services are available via the public IP addresses assigned by Packet. DNS is not setup as part of this deployment so use IP addresses to access the services. The backend private IP addresses are mapped automatically into the node hostfiles via the deployment process.
+The default deployment supports both ARM and x86 based virtual workloads across multiple compute nodes. Inter-node communication is setup allowing virtual machines within the same overlay network but on different compute nodes to communicate with each other across underlying VXLAN networks. This is a transparent capability of OpenStack. Management and inter-node traffic traverses the private Equinix Metal project network (10 subnet). Public OpenStack services are available via the public IP addresses assigned by Equinix Metal. DNS is not setup as part of this deployment so use IP addresses to access the services. The backend private IP addresses are mapped automatically into the node hostfiles via the deployment process.
 
 The virtual machine images are deployed with enabled usernames and passwords allowing console login. For more details please see "userdata.txt", the cloud-init file that is used for the CentOS, Fedora, and Ubuntu virtual machines. The Cirros default login information is displayed on the console when logging in. The controller and compute nodes are configured with VNC console access for all the x86 machines. Console access is via the Horizon GUI dashboard. Since the ARM virtual machines do not support VNC console access, novaconsole has been made available on the controller via CLI.
 
@@ -33,28 +33,28 @@ By default, upstream connectivity from inside the cloud (virtual machines/networ
 
 ## Prerequisites
 
-### Packet Project ID & API Key
+### Equinix Metal Project ID & API Key
 
-This deployment requires a Packet account for the provisioned bare metal. You'll need your "Packet Project ID" and your "Packet API Key" to proceed. You can use an existing project or create a new project for the deployment.
+This deployment requires a Equinix Metal account for the provisioned bare metal. You'll need your "Equinix Metal Project ID" and your "Equinix Metal API Key" to proceed. You can use an existing project or create a new project for the deployment.
 
-We recommend setting the Packet API Token and Project ID as environment variables since this prevents tokens from being included in source code files. These values can also be stored within a variables file later if using environment variables isn't desired.
+We recommend setting the Equinix Metal API Token and Project ID as environment variables since this prevents tokens from being included in source code files. These values can also be stored within a variables file later if using environment variables isn't desired.
 ```bash
 export TF_VAR_packet_project_id=YOUR_PROJECT_ID_HERE
 export TF_VAR_packet_auth_token=YOUR_PACKET_TOKEN_HERE
 ```
 
-#### Where is my Packet Project ID?
+#### Where is my Equinix Metal Project ID?
 
-You can find your Project ID under the 'Manage' section in the Packet Portal. They are listed underneath each project in the listing. You can also find the project ID on the project 'Settings' tab, which also features a very handy "copy to clipboard" piece of functionality, for the clicky among us.
+You can find your Project ID under the 'Manage' section in the Equinix Metal Portal. They are listed underneath each project in the listing. You can also find the project ID on the project 'Settings' tab, which also features a very handy "copy to clipboard" piece of functionality, for the clicky among us.
 
-#### How can I create a Packet API Key? 
+#### How can I create a Equinix Metal API Key? 
 
 You will find your API Key on the left side of the portal. If you have existing keys you will find them listed on that page. If you haven't created one yet, you can click here:
 
-https://app.packet.net/portal#/api-keys/new
+https://console.equinix.com/#/api-keys/new
 
-#### Ensure that your Packet account has an SSh key attached
-When provisioning the machines, Packet will preset an SSH key to allow administrative access. If no SSH keys are available, it will fail with a "Must have at least one SSH key" error. To fix this, [add an ssh key](https://www.packet.com/developers/docs/servers/key-features/ssh-keys/) in your Packet account.
+#### Ensure that your Equinix Metal account has an SSh key attached
+When provisioning the machines, Equinix Metal will preset an SSH key to allow administrative access. If no SSH keys are available, it will fail with a "Must have at least one SSH key" error. To fix this, [add an ssh key](https://metal.equinix.com/developers/docs/accounts/ssh-keys/) in your Equinix Metal account.
 
 ### Terraform
 
@@ -90,21 +90,21 @@ Several configurations files are available each building the cloud with a differ
 | :----------                   | :--------------     | :------------ | :------------ | :--------------- | :--------------- |
 | default                       | Minimal Config      | c3.medium.x86 | c3.medium.x86 | c3.medium.x86    | none             |
 | sample.terraform.tfvars       | ARM & x86 compute   | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | c2.large.arm     |
-| sample-arm.terraform.tfvars   | Packet Gen 2 ARM    | c2.large.arm  | c2.large.arm  | none             | c2.large.arm     |
-| sample-gen2.terraform.tfvars  | Packet Gen 2 x86    | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | none             |
-| sample-gen3.terraform.tfvars  | Packet Gen 3 x86    | c3.medium.x86 | c3.medium.x86 | s3.xlarge.x86    | none             |
+| sample-arm.terraform.tfvars   | Equinix Metal Gen 2 ARM    | c2.large.arm  | c2.large.arm  | none             | c2.large.arm     |
+| sample-gen2.terraform.tfvars  | Equinix Metal Gen 2 x86    | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86    | none             |
+| sample-gen3.terraform.tfvars  | Equinix Metal Gen 3 x86    | c3.medium.x86 | c3.medium.x86 | s3.xlarge.x86    | none             |
 
-Running without a "terraform.tfvars" will result in the "default" configuration using Packet c3.medium.x86 hardware devices
-and no ARM capabilities. The other sample configurations deploy a mix of ARM and x86 hardware across different Packet hardware generations.
+Running without a "terraform.tfvars" will result in the "default" configuration using Equinix Metal c3.medium.x86 hardware devices
+and no ARM capabilities. The other sample configurations deploy a mix of ARM and x86 hardware across different Equinix Metal hardware generations.
 
-There are a number of defaults that can be modified as desired. Any deviations from the defaults can be set in terraform.tfvars. No modifications to defaults are required except for the Packet Project ID and API Token if not set as environment variables.
+There are a number of defaults that can be modified as desired. Any deviations from the defaults can be set in terraform.tfvars. No modifications to defaults are required except for the Equinix Metal Project ID and API Token if not set as environment variables.
 
 Copy over the sample terraform settings:
 ```bash
 cp sample.terraform.tfvars terraform.tfvars
 ``` 
 
-If the Packet API Token and Project ID were not saved as environment variables then they'll need to be stored in the terraform.tfvars.
+If the Equinix Metal API Token and Project ID were not saved as environment variables then they'll need to be stored in the terraform.tfvars.
 
 | Name        | Software               | Default Count | Minimum Count | 
 | :---------- | :----------------------| -------------:| -------------:|
@@ -152,7 +152,7 @@ The OpenStack Controller (CLI) can be accessed at the SSH address listed with th
 
 This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines. For more information on the deployed workloads, please see:
 
-https://github.com/Packet-Labs/OpenStackOnPacket/blob/master/OpenStackSampleWorkload.tf
+https://github.com/packet-labs/OpenStackOnPacket/blob/master/OpenStackSampleWorkload.tf
 
 
 ## Validation
@@ -248,11 +248,11 @@ novaconsole --url `openstack console url show --serial Cirros-x86 -f value -c ur
 
 ## External Networking Support
 
-External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Packet (elastic IP address). These can be requested through the Packet Web GUI. Please see https://www.packet.com/developers/docs/network/basic/elastic-ips/ for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
+External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Equinix Metal (elastic IP address). These can be requested through the Equinix Metal Web GUI. Please see https://www.packet.com/developers/docs/network/basic/elastic-ips/ for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
 
 Once the Terraform has finished, the following steps are required to enable the external networking.
 
-* Assign the elastic IP subnet to the "Controller" physical host via the Packet Web GUI.
+* Assign the elastic IP subnet to the "Controller" physical host via the Equinix Metal Web GUI.
 * Log into the Controller physical node via SSH and execute:
 
 ```
@@ -268,7 +268,7 @@ From there, assign a floating IPs via the dashboard and update security groups t
 
 ## External Block Storage
 
-Packet offeres block storage that can be attached to compute nodes and used as ephemeral storage for VMs. This involves creating the storage via the Packet Web App, associating the storage with a compute node, and setting up the volume within the compute node. In this example, a 1TB volume is being created for use as ephemeral storage.
+Equinix Metal offeres block storage that can be attached to compute nodes and used as ephemeral storage for VMs. This involves creating the storage via the Equinix Metal Web App, associating the storage with a compute node, and setting up the volume within the compute node. In this example, a 1TB volume is being created for use as ephemeral storage.
 
 # Stop the OpenStack Nova Compute service
 ```
@@ -277,8 +277,8 @@ service nova-compute stop
 
 # Create and assign a storage volume
 
-Create the volume via the Packet Web App and assign to the compute node.
-See the steps at: https://www.packet.com/resources/guides/elastic-block-storage/
+Create the volume via the Equinix Metal Web App and assign to the compute node.
+See the steps at: https://metal.equinix.com/developers/docs/servers/elastic-block-storage/
 
 ```
 apt-get -y install jq
@@ -313,5 +313,5 @@ umount /var/lib/nova
 packet-block-storage-deatach
 ```
 
-Via the Packet Web App, detach the volume from the host, and then delete the volume. The physical host can then be deprovisioned via Terraform destroy.
+Via the Equinix Metal Web App, detach the volume from the host, and then delete the volume. The physical host can then be deprovisioned via Terraform destroy.
 
