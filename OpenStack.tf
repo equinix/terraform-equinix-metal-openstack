@@ -23,7 +23,7 @@ resource "null_resource" "controller-keystone" {
   depends_on = [null_resource.hostfile-distributed]
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -58,7 +58,7 @@ resource "null_resource" "controller-glance" {
   depends_on = [null_resource.controller-keystone]
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -86,7 +86,7 @@ resource "null_resource" "controller-nova" {
   depends_on = [null_resource.controller-glance]
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -97,7 +97,7 @@ resource "null_resource" "controller-nova" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
+      "bash ControllerNova.sh ${metal_device.controller.access_public_ipv4} ${metal_device.controller.access_private_ipv4} > ControllerNova.out",
     ]
   }
 }
@@ -115,7 +115,7 @@ resource "null_resource" "controller-neutron" {
   null_resource.enable-br-public]
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -126,7 +126,7 @@ resource "null_resource" "controller-neutron" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ControllerNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNeutron.out",
+      "bash ControllerNeutron.sh ${metal_device.controller.access_public_ipv4} ${metal_device.controller.access_private_ipv4} > ControllerNeutron.out",
     ]
   }
 }
@@ -135,7 +135,7 @@ resource "null_resource" "dashboard-install" {
   depends_on = [null_resource.hostfile-distributed]
 
   connection {
-    host        = packet_device.dashboard.access_public_ipv4
+    host        = metal_device.dashboard.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -161,7 +161,7 @@ resource "null_resource" "dashboard-config" {
   depends_on = [null_resource.dashboard-install]
 
   connection {
-    host        = packet_device.dashboard.access_public_ipv4
+    host        = metal_device.dashboard.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -193,7 +193,7 @@ resource "null_resource" "compute-x86-common" {
   count = var.openstack_compute-x86_count
 
   connection {
-    host        = element(packet_device.compute-x86.*.access_public_ipv4, count.index)
+    host        = element(metal_device.compute-x86.*.access_public_ipv4, count.index)
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -231,7 +231,7 @@ resource "null_resource" "compute-x86-openstack" {
   count = var.openstack_compute-x86_count
 
   connection {
-    host        = element(packet_device.compute-x86.*.access_public_ipv4, count.index)
+    host        = element(metal_device.compute-x86.*.access_public_ipv4, count.index)
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -247,8 +247,8 @@ resource "null_resource" "compute-x86-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
-      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
+      "bash ComputeNova.sh ${metal_device.controller.access_public_ipv4} ${metal_device.controller.access_private_ipv4} > ComputeNova.out",
+      "bash ComputeNeutron.sh ${metal_device.controller.access_public_ipv4} ${metal_device.controller.access_private_ipv4} > ComputeNeutron.out",
     ]
   }
 }
@@ -259,7 +259,7 @@ resource "null_resource" "compute-arm-common" {
   count = var.openstack_compute-arm_count
 
   connection {
-    host        = element(packet_device.compute-arm.*.access_public_ipv4, count.index)
+    host        = element(metal_device.compute-arm.*.access_public_ipv4, count.index)
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -281,7 +281,7 @@ resource "null_resource" "compute-arm-openstack" {
   count = var.openstack_compute-arm_count
 
   connection {
-    host        = element(packet_device.compute-arm.*.access_public_ipv4, count.index)
+    host        = element(metal_device.compute-arm.*.access_public_ipv4, count.index)
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -297,8 +297,8 @@ resource "null_resource" "compute-arm-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
-      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
+      "bash ComputeNova.sh ${metal_device.controller.access_public_ipv4} ${metal_device.controller.access_private_ipv4} > ComputeNova.out",
+      "bash ComputeNeutron.sh ${metal_device.controller.access_public_ipv4} ${metal_device.controller.access_private_ipv4} > ComputeNeutron.out",
     ]
   }
 }
@@ -314,7 +314,7 @@ resource "null_resource" "controller-register-compute-hosts" {
   null_resource.controller-nova]
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
