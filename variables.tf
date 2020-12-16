@@ -1,10 +1,10 @@
 variable "metal_auth_token" {
-  description = "Your packet API key"
+  description = "Your metal API key"
 }
 
 # for best results deploy all hosts in the same facility - list a single facility
 variable "metal_facilities" {
-  description = "Packet facilities: US East(ewr1), US West(sjc1), Tokyo (nrt1) or EU(ams1). Default: ewr1"
+  description = "Metal facilities: US East(ewr1), US West(sjc1), Tokyo (nrt1) or EU(ams1). Default: ewr1"
   default     = ["sjc1"]
 }
 
@@ -40,12 +40,12 @@ variable "openstack_compute-arm_count" {
 
 variable "cloud_ssh_public_key_path" {
   description = "Path to your public SSH key path"
-  default     = "./packet-key.pub"
+  default     = "./metal-key.pub"
 }
 
 variable "cloud_ssh_key_path" {
   description = "Path to your private SSH key for the project"
-  default     = "./packet-key"
+  default     = "./metal-key"
 }
 
 variable "create_dns" {

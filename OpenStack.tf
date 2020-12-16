@@ -171,12 +171,12 @@ resource "null_resource" "dashboard-config" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Packet-splash.svg"
+    source      = "${path.module}/assets/Metal-splash.svg"
     destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo-splash.svg"
   }
 
   provisioner "file" {
-    source      = "${path.module}/assets/Packet-logo.svg"
+    source      = "${path.module}/assets/Metal-logo.svg"
     destination = "/var/lib/openstack-dashboard/static/dashboard/img/logo.svg"
   }
 
