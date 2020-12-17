@@ -1,8 +1,8 @@
-variable "packet_auth_token" {}
+variable "metal_auth_token" {}
 
 module "openstack" {
   source = "packet/openstack/packet"
-  packet_auth_token = var.packet_auth_token
+  metal_auth_token = var.metal_auth_token
 }
 
 output "OpenStack" {

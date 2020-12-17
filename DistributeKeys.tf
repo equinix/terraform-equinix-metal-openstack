@@ -4,7 +4,7 @@
 
 resource "null_resource" "controller-distribute-keys" {
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -23,7 +23,7 @@ resource "null_resource" "controller-distribute-keys" {
 
 resource "null_resource" "dashboard-distribute-keys" {
   connection {
-    host        = packet_device.dashboard.access_public_ipv4
+    host        = metal_device.dashboard.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 

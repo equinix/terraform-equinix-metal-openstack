@@ -7,11 +7,11 @@ This is an example of using the Equinix Metal Terraform provider to provision fo
 In each example, there is a module declaration such as:
 
 ```hcl
-variable "packet_auth_token" {}
+variable "metal_auth_token" {}
 
 module "openstack" {
-  source = "packet/openstack/packet"
-  packet_auth_token = var.packet_auth_token
+  source = "metal/openstack/metal"
+  metal_auth_token = var.metal_auth_token
 }
 ```
 

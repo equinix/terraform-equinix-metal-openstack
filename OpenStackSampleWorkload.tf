@@ -19,7 +19,7 @@ resource "null_resource" "openstack-sample-workload-common" {
   ]
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -64,7 +64,7 @@ resource "null_resource" "openstack-sample-workload-arm" {
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
@@ -102,7 +102,7 @@ resource "null_resource" "openstack-sample-workload-x86" {
   count = var.openstack_compute-x86_count == 0 ? 0 : 1
 
   connection {
-    host        = packet_device.controller.access_public_ipv4
+    host        = metal_device.controller.access_public_ipv4
     private_key = file(var.cloud_ssh_key_path)
   }
 
