@@ -6,6 +6,10 @@ on:
     - master
   pull_request:
 
+env:
+  TF_INPUT: 0
+  TF_IN_AUTOMATION: 1
+
 jobs:
   terraform:
     name: 'Terraform'
