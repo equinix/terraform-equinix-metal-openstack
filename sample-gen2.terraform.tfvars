@@ -1,5 +1,5 @@
 # 
-# Packet 2nd Generation Hardware
+# Equinix Metal 2nd Generation Hardware
 #
 # This configuration file will override the defaults in vars.tf
 #

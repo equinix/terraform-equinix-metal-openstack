@@ -1,5 +1,5 @@
 #
-# associate elastic IP subnet with the controller node via the Packet Web GUI
+# associate elastic IP subnet with the controller node via Equinix Metal console
 #
 
 export OS_USERNAME=admin
