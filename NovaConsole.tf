@@ -3,7 +3,7 @@
 #
 
 resource "null_resource" "novaconsole" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-nova]
 
   connection {
     host        = metal_device.controller.access_public_ipv4
