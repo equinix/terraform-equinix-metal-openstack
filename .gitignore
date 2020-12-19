@@ -1,3 +1,7 @@
+# Ignore Editors
+.vscode
+
+# Ignore State
 terraform.tfstate
 terraform.tfstate.backup
 hostfile
@@ -6,3 +10,8 @@ terraform.tfstate.backup
 .terraform/
 .terraform.tfstate.lock.info
 hostfile
+
+# Ignore secrets
+terraform.tfvars
+metal-key
+metal-key.pub
