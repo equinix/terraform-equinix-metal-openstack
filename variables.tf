@@ -38,16 +38,6 @@ variable "openstack_compute-arm_count" {
   default     = 0
 }
 
-variable "cloud_ssh_public_key_path" {
-  description = "Path to your public SSH key path"
-  default     = "./metal-key.pub"
-}
-
-variable "cloud_ssh_key_path" {
-  description = "Path to your private SSH key for the project"
-  default     = "./metal-key"
-}
-
 variable "create_dns" {
   description = "If set to true, DNSSimple will be setup"
   default     = false

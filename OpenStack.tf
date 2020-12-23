@@ -24,7 +24,7 @@ resource "null_resource" "controller-keystone" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -59,7 +59,7 @@ resource "null_resource" "controller-glance" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -87,7 +87,7 @@ resource "null_resource" "controller-nova" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -116,7 +116,7 @@ resource "null_resource" "controller-neutron" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -136,7 +136,7 @@ resource "null_resource" "dashboard-install" {
 
   connection {
     host        = metal_device.dashboard.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -162,7 +162,7 @@ resource "null_resource" "dashboard-config" {
 
   connection {
     host        = metal_device.dashboard.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -194,7 +194,7 @@ resource "null_resource" "compute-x86-common" {
 
   connection {
     host        = element(metal_device.compute-x86.*.access_public_ipv4, count.index)
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -232,7 +232,7 @@ resource "null_resource" "compute-x86-openstack" {
 
   connection {
     host        = element(metal_device.compute-x86.*.access_public_ipv4, count.index)
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -260,7 +260,7 @@ resource "null_resource" "compute-arm-common" {
 
   connection {
     host        = element(metal_device.compute-arm.*.access_public_ipv4, count.index)
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -282,7 +282,7 @@ resource "null_resource" "compute-arm-openstack" {
 
   connection {
     host        = element(metal_device.compute-arm.*.access_public_ipv4, count.index)
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -315,7 +315,7 @@ resource "null_resource" "controller-register-compute-hosts" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "remote-exec" {
