@@ -5,16 +5,16 @@
 resource "null_resource" "controller-distribute-keys" {
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
-    source      = var.cloud_ssh_key_path
+    source      = local_file.cluster_private_key_pem.filename
     destination = "openstack_rsa"
   }
 
   provisioner "file" {
-    source      = var.cloud_ssh_public_key_path
+    source      = local_file.cluster_public_key.filename
     destination = "openstack_rsa.pub"
   }
 }
@@ -24,16 +24,16 @@ resource "null_resource" "controller-distribute-keys" {
 resource "null_resource" "dashboard-distribute-keys" {
   connection {
     host        = metal_device.dashboard.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
-    source      = var.cloud_ssh_key_path
+    source      = local_file.cluster_private_key_pem.filename
     destination = "openstack_rsa"
   }
 
   provisioner "file" {
-    source      = var.cloud_ssh_public_key_path
+    source      = local_file.cluster_public_key.filename
     destination = "openstack_rsa.pub"
   }
 }

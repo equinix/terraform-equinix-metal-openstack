@@ -28,8 +28,8 @@ resource "local_file" "cluster_private_key_pem" {
 }
 
 resource "local_file" "cluster_public_key" {
-  content = chomp(tls_private_key.ssh_key_pair.public_key_openssh)
-  filename = pathexpand(format("%s.pub", local.ssh_key_name))
+  content         = chomp(tls_private_key.ssh_key_pair.public_key_openssh)
+  filename        = pathexpand(format("%s.pub", local.ssh_key_name))
   file_permission = "0600"
 }
 
@@ -43,9 +43,9 @@ resource "metal_device" "controller" {
     host        = self.access_public_ipv4
     type        = "ssh"
     user        = "root"
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
-  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${chomp(tls_private_key.ssh_key_pair.public_key_openssh)}\""
+  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
   facilities    = var.metal_facilities
   project_id    = metal_project.project.id
   billing_cycle = "hourly"
@@ -65,9 +65,9 @@ resource "metal_device" "dashboard" {
     host        = self.access_public_ipv4
     type        = "ssh"
     user        = "root"
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = file(local_file.cluster_private_key_pem)
   }
-  user_data = "#cloud-config\n\nssh_authorized_keys:\n  - \"${chomp(tls_private_key.ssh_key_pair.public_key_openssh)}\""
+  user_data = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
 
   facilities    = var.metal_facilities
   project_id    = metal_project.project.id
@@ -86,9 +86,9 @@ resource "metal_device" "compute-x86" {
     host        = self.access_public_ipv4
     type        = "ssh"
     user        = "root"
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = file(local_file.cluster_private_key_pem)
   }
-  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${chomp(tls_private_key.ssh_key_pair.public_key_openssh)}\""
+  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
   facilities    = var.metal_facilities
   project_id    = metal_project.project.id
   billing_cycle = "hourly"
@@ -106,9 +106,9 @@ resource "metal_device" "compute-arm" {
     host        = self.access_public_ipv4
     type        = "ssh"
     user        = "root"
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = file(local_file.cluster_private_key_pem)
   }
-  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${chomp(tls_private_key.ssh_key_pair.public_key_openssh)}\""
+  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
   facilities    = var.metal_facilities
   project_id    = metal_project.project.id
   billing_cycle = "hourly"

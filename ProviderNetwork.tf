@@ -53,7 +53,7 @@ resource "null_resource" "enable-br-public" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -88,7 +88,7 @@ resource "null_resource" "controller-provider-networks" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {

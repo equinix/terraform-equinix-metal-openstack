@@ -67,7 +67,7 @@ resource "null_resource" "controller-write-hostfile" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -87,7 +87,7 @@ resource "null_resource" "dashboard-write-hostfile" {
 
   connection {
     host        = metal_device.dashboard.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -109,7 +109,7 @@ resource "null_resource" "compute-x86-write-hostfile" {
 
   connection {
     host        = element(metal_device.compute-x86.*.access_public_ipv4, count.index)
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -131,7 +131,7 @@ resource "null_resource" "compute-arm-write-hostfile" {
 
   connection {
     host        = element(metal_device.compute-arm.*.access_public_ipv4, count.index)
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {

@@ -16,7 +16,7 @@ resource "null_resource" "openstack-image-CentOS-8-ARM" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -46,7 +46,7 @@ resource "null_resource" "openstack-image-CentOS-8-x86" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -76,7 +76,7 @@ resource "null_resource" "openstack-image-Fedora-ARM" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -106,7 +106,7 @@ resource "null_resource" "openstack-image-Cirros-x86" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -136,7 +136,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -167,7 +167,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-x86" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -197,7 +197,7 @@ resource "null_resource" "openstack-image-Trusty-14_04-ARM" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -227,7 +227,7 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -257,7 +257,7 @@ resource "null_resource" "openstack-image-Cirros-ARM" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -286,7 +286,7 @@ resource "null_resource" "openstack-flavors" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
