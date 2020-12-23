@@ -72,17 +72,13 @@ git clone URL_TO_REPO
 cd terraform-metal-openstack
 ```
 
-From that directory, generate an ssh keypair or copy an existing public/private keypair (metal-key and metal-key.pub).
-
-```bash
-ssh-keygen -N "" -t rsa -f ./metal-key
-```
-
 Download the Terraform providers required:
 
 ```bash
 terraform init
 ```
+
+An SSH keypair will be created and managed by this plan to access the hosts in your Metal account's project. 
 
 ## Cloud Sizing Defaults
 
