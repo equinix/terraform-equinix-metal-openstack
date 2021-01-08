@@ -3,11 +3,11 @@
 #
 
 resource "null_resource" "novaconsole" {
-  depends_on = [null_resource.controller-openstack]
+  depends_on = [null_resource.controller-nova]
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = file(local_file.cluster_private_key_pem.content)
   }
 
   provisioner "remote-exec" {
