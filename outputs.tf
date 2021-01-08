@@ -46,12 +46,12 @@ output "OpenStack_admin_pass" {
 
 output "Horizon_dashboard_via_IP" {
   description = "Access OpenStack Dashboard over IPv4"
-  value       = "http://${metal_device.dashboard.access_public_ipv4}/horizon/ admin/${random_password.os_admin_password.result}"
+  value       = "http://${metal_device.dashboard.access_public_ipv4}/horizon/ default/admin/${random_password.os_admin_password.result}"
 }
 
 output "Horizon_dashboard_via_IP6" {
   description = "Access OpenStack Dashboard over IPv6"
-  value       = "http://[${metal_device.dashboard.access_public_ipv6}]/horizon/ admin/${random_password.os_admin_password.result}"
+  value       = "http://[${metal_device.dashboard.access_public_ipv6}]/horizon/ default/admin/${random_password.os_admin_password.result}"
 }
 
 output "Controller_SSH" {
