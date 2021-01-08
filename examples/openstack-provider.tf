@@ -1,7 +1,7 @@
 variable "metal_auth_token" {}
 
 module "openstack" {
-  source = "packet/openstack/packet"
+  source = "equinix/openstack/metal"
   metal_auth_token = var.metal_auth_token
 }
 
