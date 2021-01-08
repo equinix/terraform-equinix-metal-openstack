@@ -20,7 +20,7 @@ resource "null_resource" "openstack-sample-workload-common" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -65,7 +65,7 @@ resource "null_resource" "openstack-sample-workload-arm" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {
@@ -103,7 +103,7 @@ resource "null_resource" "openstack-sample-workload-x86" {
 
   connection {
     host        = metal_device.controller.access_public_ipv4
-    private_key = file(var.cloud_ssh_key_path)
+    private_key = local_file.cluster_private_key_pem.content
   }
 
   provisioner "file" {

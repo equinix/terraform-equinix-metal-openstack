@@ -56,12 +56,12 @@ output "Horizon_dashboard_via_IP6" {
 
 output "Controller_SSH" {
   description = "SSH command to access OpenStack controller instance over IPv4"
-  value       = "ssh root@${metal_device.controller.access_public_ipv4} -i ${var.cloud_ssh_key_path}"
+  value       = "ssh root@${metal_device.controller.access_public_ipv4} -i ${local_file.cluster_private_key_pem.filename}"
 }
 
 output "Controller_SSH6" {
   description = "SSH command to access OpenStack controller instance over IPv6"
-  value       = "ssh root@${metal_device.controller.access_public_ipv6} -i ${var.cloud_ssh_key_path}"
+  value       = "ssh root@${metal_device.controller.access_public_ipv6} -i ${local_file.cluster_private_key_pem.filename}"
 }
 
 output "Controller_Provider_Private_IPv4" {
