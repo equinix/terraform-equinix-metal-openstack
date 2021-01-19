@@ -237,29 +237,6 @@ root@controller:~# openstack server list
 +--------------------------------------+------+--------+---------------------------+---------------+-----------+
 ```
 
-## Serial Console Support
-
-Access to the serial console is available via the "novaconsole" application installed from the controller node. The OpenStack CLI can be used to general a URL with a valid token to access the console.
-
-```bash
-source admin-openrc
-openstack console url show --serial Xenial-arm64
-```
-
-The provided URL can then be passed to the novaconsole command to pull up the serial console.
-
-```bash
-novaconsole --url ws://157.75.79.194:6083/?token=18510769-71ad-4e5a-8348-4218b5613b3d
-```
-
-Root logins and cloud account logins (centos/ubuntu) are permited using the password in userdata.txt. The cirros default logins are enabled by default.
-
-The two commands can be combined into one as shown below:
-
-```bash
-novaconsole --url `openstack console url show --serial Cirros-x86 -f value -c url`
-```
-
 ## External Networking Support
 
 External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Equinix Metal (elastic IP address). These can be requested through the Equinix Metal Web GUI. Please see https://www.packet.com/developers/docs/network/basic/elastic-ips/ for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
