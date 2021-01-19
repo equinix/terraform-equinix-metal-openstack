@@ -130,21 +130,32 @@ terraform output
 Sample output as follows:
 
 ```
-Cloud_ID_Tag = 2dd4409b
-Compute_ARM_IPs = []
-Compute_ARM_Type = []
+Cloud_ID_Tag = "5077f6895d12fce0"
+Compute_ARM_IPs = [
+  "139.178.89.34",
+]
+Compute_ARM_Type = [
+  "c2.large.arm",
+]
 Compute_x86_IPs = [
-  "147.75.65.85",
+  "147.75.70.59",
 ]
 Compute_x86_Type = [
   "n2.xlarge.x86",
 ]
-Controller_SSH = ssh root@147.75.75.90 -i ./packet-key
-Controller_Type = c2.medium.x86
-Horizon_dashboard_via_IP = http://147.75.64.78/horizon/ username/password
+Controller_Provider_Private_IPv4 = "10.88.70.16/28"
+Controller_Provider_Public_IPv6 = "2604:1380:1000:7c01::/64"
+Controller_SSH = "ssh root@147.75.70.123 -i metal-key"
+Controller_SSH6 = "ssh root@2604:1380:1000:7c00::7 -i metal-key"
+Controller_Type = "c2.medium.x86"
+Horizon_dashboard_via_IP = "http://147.75.109.135/horizon/ default/admin/GgT0VzyrX6Jm9Hd9"
+Horizon_dashboard_via_IP6 = "http://[2604:1380:1000:7c00::3]/horizon/ default/admin/GgT0VzyrX6Jm9Hd9"
+OpenStack_API_Endpoint = "http://147.75.70.123:5000/v3"
+OpenStack_API_Endpoint_ipv6 = "http://[2604:1380:1000:7c00::7]:5000/v3"
+OpenStack_admin_pass = <sensitive>
 ```
 
-The OpenStack Horizon dashboard can be pulled up at the URL listed with the username/password provided.
+The OpenStack Horizon dashboard can be pulled up at the URL listed with the domain/username/password provided.
 The OpenStack Controller (CLI) can be accessed at the SSH address listed with the key provided.
 
 ## Sample Workload
