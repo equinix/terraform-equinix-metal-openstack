@@ -35,14 +35,20 @@ By default, upstream connectivity from inside the cloud (virtual machines/networ
 
 ### Equinix Metal Project ID & API Key
 
-This deployment requires a Equinix Metal account for the provisioned bare metal. You'll need your "Equinix Metal Project ID" and your "Equinix Metal API Key" to proceed. You can use an existing project or create a new project for the deployment.
+This deployment requires a Equinix Metal account for the provisioned bare metal. You'll need your "Equinix Metal Organization ID" and your "Equinix Metal API Key" to proceed. You can use an existing project or create a new project for the deployment. [See the full list of inputs](https://registry.terraform.io/modules/equinix/openstack/metal/latest?tab=inputs) for details.
 
-We recommend setting the Equinix Metal API Token and Project ID as environment variables since this prevents tokens from being included in source code files. These values can also be stored within a variables file later if using environment variables isn't desired.
+In this walk-through, we will let Terraform create a randomly named project in the organization that you define.
+
+We recommend setting the Equinix Metal API Token and Organization ID as environment variables since this prevents tokens from being included in source code files. These values can also be stored within a variables file later if using environment variables isn't desired.
 
 ```bash
-export TF_VAR_metal_project_id=YOUR_PROJECT_ID_HERE
+export TF_VAR_metal_organization_id=YOUR_ORGANIZATION_ID_HERE
 export TF_VAR_metal_auth_token=YOUR_PACKET_TOKEN_HERE
 ```
+
+#### Where is my Equinix Metal Organization ID?
+
+You can find your Organization ID in the organization settings. Click "Settings" in the "Hello, ..." profile menu. Make sure you copy the Organization ID, not the Account ID.
 
 #### Where is my Equinix Metal Project ID?
 
@@ -52,7 +58,7 @@ You can find your Project ID under the 'Manage' section in the Equinix Metal Por
 
 You will find your API Key on the left side of the portal. If you have existing keys you will find them listed on that page. If you haven't created one yet, you can click here:
 
-https://console.equinix.com/#/api-keys/new
+<https://console.equinix.com/#/api-keys/new>
 
 #### Ensure that your Equinix Metal account has an SSh key attached
 
