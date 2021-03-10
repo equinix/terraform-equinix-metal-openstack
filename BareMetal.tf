@@ -1,6 +1,6 @@
 
 resource "metal_project" "project" {
-  name = format("opentack-%s", random_id.cloud.b64_url)
+  name = format("openstack-%s", random_id.cloud.b64_url)
 }
 
 provider "metal" {
