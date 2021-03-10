@@ -1,3 +1,8 @@
+resource "metal_project" "new_project" {
+  count           = var.metal_create_project ? 1 : 0
+  name            = (var.metal_project_name != "") ? var.metal_project_name : format("openstack-%s", random_id.cloud.b64_url)
+  organization_id = var.metal_organization_id
+}
 
 resource "metal_project" "project" {
   name = format("openstack-%s", random_id.cloud.b64_url)
@@ -8,7 +13,8 @@ provider "metal" {
 }
 
 locals {
-  ssh_key_name = "metal-key"
+  ssh_key_name     = "metal-key"
+  metal_project_id = var.metal_create_project ? metal_project.new_project[0].id : var.metal_project_id
 }
 
 resource "tls_private_key" "ssh_key_pair" {
@@ -47,7 +53,7 @@ resource "metal_device" "controller" {
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
   facilities    = var.metal_facilities
-  project_id    = metal_project.project.id
+  project_id    = local.metal_project_id
   billing_cycle = "hourly"
   #  ip_address {
   #    type = "public_ipv4"
@@ -70,7 +76,7 @@ resource "metal_device" "dashboard" {
   user_data = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
 
   facilities    = var.metal_facilities
-  project_id    = metal_project.project.id
+  project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }
 
@@ -90,7 +96,7 @@ resource "metal_device" "compute-x86" {
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
   facilities    = var.metal_facilities
-  project_id    = metal_project.project.id
+  project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }
 
@@ -110,7 +116,7 @@ resource "metal_device" "compute-arm" {
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
   facilities    = var.metal_facilities
-  project_id    = metal_project.project.id
+  project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }
 

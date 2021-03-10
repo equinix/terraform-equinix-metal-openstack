@@ -8,6 +8,30 @@ variable "metal_facilities" {
   default     = ["sjc1"]
 }
 
+variable "metal_project_id" {
+  type        = string
+  default     = "null"
+  description = "Equinix Metal Project ID"
+}
+
+variable "metal_organization_id" {
+  type        = string
+  default     = "null"
+  description = "Equinix Metal Organization ID"
+}
+
+variable "metal_create_project" {
+  type        = bool
+  default     = true
+  description = "Create a Metal Project if this is 'true'. Else use provided 'metal_project_id'"
+}
+
+variable "metal_project_name" {
+  type        = string
+  default     = "baremetal-anthos"
+  description = "The name of the Metal project if 'create_project' is 'true'."
+}
+
 variable "metal_controller_type" {
   description = "Instance type of OpenStack controller"
   default     = "c3.medium.x86"
