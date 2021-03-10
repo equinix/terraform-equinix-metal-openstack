@@ -26,9 +26,9 @@ jobs:
       SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       TF_IN_AUTOMATION: 1
       TF_VERSION: ${{ matrix.tf }}
-      TF_VAR_metal_compute-x86_type: "t1.small.x86"
-      TF_VAR_metal_controller_type: "t1.small.x86"
-      TF_VAR_metal_dashboard_type: "t1.small.x86"
+      TF_VAR_metal_compute-x86_type: "c3.small.x86"
+      TF_VAR_metal_controller_type: "c3.small.x86"
+      TF_VAR_metal_dashboard_type: "c3.small.x86"
       TF_VAR_metal_create_project: "false"
       TF_VAR_metal_organization_id: ${{ secrets.METAL_ORGANIZATION_ID }}
       # TODO only provide this to terraform steps that need it
