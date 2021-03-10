@@ -26,9 +26,11 @@ jobs:
       SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       TF_IN_AUTOMATION: 1
       TF_VERSION: ${{ matrix.tf }}
+      # Switch to t3.small when available
       TF_VAR_metal_compute-x86_type: "c3.small.x86"
       TF_VAR_metal_controller_type: "c3.small.x86"
       TF_VAR_metal_dashboard_type: "c3.small.x86"
+      # Let the project and sweeper actions manage the project
       TF_VAR_metal_create_project: "false"
       TF_VAR_metal_organization_id: ${{ secrets.METAL_ORGANIZATION_ID }}
       # TODO only provide this to terraform steps that need it
@@ -58,7 +60,7 @@ jobs:
         ssh-add <(echo $METAL_SSH_PRIVATE_KEY_BASE64 | base64 -d)   
     # Arrays of strings are hard to define via TF env vars (in yaml)
     - run: |
-        echo 'metal_facilities = ["dfw2"]' > terraform.tfvars
+        echo 'metal_facilities = ["da11"]' > terraform.tfvars
         echo 'metal_project_id = "${{ steps.project.outputs.projectID }}"' >> terraform.tfvars
     - name: Terraform Plan
       id: plan

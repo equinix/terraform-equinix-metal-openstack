@@ -4,10 +4,6 @@ resource "metal_project" "new_project" {
   organization_id = var.metal_organization_id
 }
 
-resource "metal_project" "project" {
-  name = format("openstack-%s", random_id.cloud.b64_url)
-}
-
 provider "metal" {
   auth_token = var.metal_auth_token
 }

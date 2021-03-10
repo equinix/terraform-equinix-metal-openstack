@@ -6,7 +6,7 @@
 data "metal_precreated_ip_block" "private_ipv4" {
 
   facility       = metal_device.controller.deployed_facility
-  project_id     = metal_project.project.id
+  project_id     = local.metal_project_id
   address_family = 4
   public         = false
 
@@ -24,7 +24,7 @@ resource "metal_ip_attachment" "controller_private_ipv4" {
 data "metal_precreated_ip_block" "public_ipv6" {
 
   facility       = metal_device.controller.deployed_facility
-  project_id     = metal_project.project.id
+  project_id     = local.metal_project_id
   address_family = 6
   public         = true
 
