@@ -60,7 +60,7 @@ jobs:
         ssh-add <(echo $METAL_SSH_PRIVATE_KEY_BASE64 | base64 -d)   
     # Arrays of strings are hard to define via TF env vars (in yaml)
     - run: |
-        echo 'metal_facilities = ["da11"]' > terraform.tfvars
+        echo 'metal_metro = "da"' > terraform.tfvars
         echo 'metal_project_id = "${{ steps.project.outputs.projectID }}"' >> terraform.tfvars
     - name: Terraform Plan
       id: plan

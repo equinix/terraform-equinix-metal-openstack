@@ -2,10 +2,9 @@ variable "metal_auth_token" {
   description = "Your metal API key"
 }
 
-# for best results deploy all hosts in the same facility - list a single facility
-variable "metal_facilities" {
-  description = "Metal facilities: US East(ewr1), US West(sjc1), Tokyo (nrt1) or EU(ams1). Default: ewr1"
-  default     = ["sjc1"]
+variable "metal_metro" {
+  description = "Metal Metro (https://metal.equinix.com/developers/docs/locations/metros/)"
+  default     = "da"
 }
 
 variable "metal_project_id" {
