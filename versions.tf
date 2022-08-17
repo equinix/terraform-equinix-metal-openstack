@@ -5,9 +5,9 @@ terraform {
     null = {
       source = "hashicorp/null"
     }
-    metal = {
-      source  = "equinix/metal"
-      version = "1.0.0"
+    equinix = {
+      source  = "equinix/equinix"
+      version = "1.8.0"
     }
     random = {
       source = "hashicorp/random"

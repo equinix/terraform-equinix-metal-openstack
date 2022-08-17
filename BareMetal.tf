@@ -1,16 +1,16 @@
-resource "metal_project" "new_project" {
+resource "equinix_metal_project" "new_project" {
   count           = var.metal_create_project ? 1 : 0
   name            = (var.metal_project_name != "") ? var.metal_project_name : format("openstack-%s", random_id.cloud.b64_url)
   organization_id = var.metal_organization_id
 }
 
-provider "metal" {
+provider "equinix" {
   auth_token = var.metal_auth_token
 }
 
 locals {
   ssh_key_name     = "metal-key"
-  metal_project_id = var.metal_create_project ? metal_project.new_project[0].id : var.metal_project_id
+  metal_project_id = var.metal_create_project ? equinix_metal_project.new_project[0].id : var.metal_project_id
 }
 
 resource "tls_private_key" "ssh_key_pair" {
@@ -18,7 +18,7 @@ resource "tls_private_key" "ssh_key_pair" {
   rsa_bits  = 4096
 }
 
-resource "metal_ssh_key" "ssh_pub_key" {
+resource "equinix_metal_ssh_key" "ssh_pub_key" {
   name       = random_id.cloud.b64_url
   public_key = chomp(tls_private_key.ssh_key_pair.public_key_openssh)
 }
@@ -35,7 +35,7 @@ resource "local_file" "cluster_public_key" {
   file_permission = "0600"
 }
 
-resource "metal_device" "controller" {
+resource "equinix_metal_device" "controller" {
   hostname = "controller"
   tags     = ["openstack-${random_id.cloud.b64_url}"]
 
@@ -57,7 +57,7 @@ resource "metal_device" "controller" {
   #  }
 }
 
-resource "metal_device" "dashboard" {
+resource "equinix_metal_device" "dashboard" {
   hostname = "dashboard"
   tags     = ["openstack-${random_id.cloud.hex} "]
 
@@ -76,7 +76,7 @@ resource "metal_device" "dashboard" {
   billing_cycle = "hourly"
 }
 
-resource "metal_device" "compute-x86" {
+resource "equinix_metal_device" "compute-x86" {
   hostname = format("compute-x86-%02d", count.index)
   tags     = ["openstack-${random_id.cloud.hex} "]
 
@@ -96,7 +96,7 @@ resource "metal_device" "compute-x86" {
   billing_cycle = "hourly"
 }
 
-resource "metal_device" "compute-arm" {
+resource "equinix_metal_device" "compute-arm" {
   hostname = format("compute-arm-%02d", count.index)
   tags     = ["openstack-${random_id.cloud.hex} "]
 

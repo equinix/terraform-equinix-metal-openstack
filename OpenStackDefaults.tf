@@ -15,7 +15,7 @@ resource "null_resource" "openstack-image-CentOS-8-ARM" {
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -45,7 +45,7 @@ resource "null_resource" "openstack-image-CentOS-8-x86" {
   count = var.openstack_compute-x86_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -75,7 +75,7 @@ resource "null_resource" "openstack-image-Fedora-ARM" {
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -105,7 +105,7 @@ resource "null_resource" "openstack-image-Cirros-x86" {
   count = var.openstack_compute-x86_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -135,7 +135,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-ARM" {
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -166,7 +166,7 @@ resource "null_resource" "openstack-image-Bionic-18_04-x86" {
   count = var.openstack_compute-x86_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -196,7 +196,7 @@ resource "null_resource" "openstack-image-Trusty-14_04-ARM" {
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -226,7 +226,7 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -256,7 +256,7 @@ resource "null_resource" "openstack-image-Cirros-ARM" {
   count = var.openstack_compute-arm_count == 0 ? 0 : 1
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -285,7 +285,7 @@ resource "null_resource" "openstack-flavors" {
   null_resource.controller-neutron]
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
