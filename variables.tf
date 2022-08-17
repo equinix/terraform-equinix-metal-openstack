@@ -28,7 +28,7 @@ variable "metal_create_project" {
 
 variable "metal_project_name" {
   type        = string
-  default     = "baremetal-anthos"
+  default     = "terraform-metal-openstack"
   description = "The name of the Metal project if 'create_project' is 'true'."
 }
 
