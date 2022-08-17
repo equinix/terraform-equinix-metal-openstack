@@ -54,7 +54,7 @@ variable "openstack_compute-x86_count" {
 
 variable "metal_compute-arm_type" {
   description = "Instance type of OpenStack ARM compute nodes"
-  default     = "c2.large.arm"
+  default     = "c3.large.arm64"
 }
 
 variable "openstack_compute-arm_count" {
