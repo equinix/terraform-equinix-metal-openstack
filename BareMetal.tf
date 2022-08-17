@@ -48,6 +48,7 @@ resource "equinix_metal_device" "controller" {
     private_key = local_file.cluster_private_key_pem.content
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
   #  ip_address {
@@ -70,6 +71,7 @@ resource "equinix_metal_device" "dashboard" {
   }
   user_data = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
 
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }
@@ -89,6 +91,7 @@ resource "equinix_metal_device" "compute-x86" {
     private_key = file(local_file.cluster_private_key_pem)
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }
@@ -108,6 +111,7 @@ resource "equinix_metal_device" "compute-arm" {
     private_key = file(local_file.cluster_private_key_pem)
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }

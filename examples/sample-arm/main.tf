@@ -1,9 +1,8 @@
 # 
 # Equinix Metal 2nd Generation ARM Hardware
 #
-# This configuration file will override the defaults in vars.tf
-#
-# c3.large.arm64 - 32 Core Ampere eMAG, 128GB, 480GB, 2x10Gbps
+# c3.large.arm64 - 80 Core Ampere Altra Q80-30, 256GB, 2x960GB NVMe, 2x25Gbps
+#             https://metal.equinix.com/product/servers/c3-large-arm64/
 #
 
 module "sample_arm" {

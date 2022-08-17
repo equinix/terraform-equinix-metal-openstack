@@ -3,9 +3,12 @@
 #
 # This configuration file will override the defaults in vars.tf
 #
-# c2.medium - 24 Core AMD EPYC 7401p, 64GB, 960GB, 2x10Gbps
-# n2.xlarge - 28 Core Xeon Gold 5120, 384GB, 3.8TB, 4x10Gbps
-# c3.large.arm64 - 32 Core Ampere eMAG, 128GB, 480GB, 2x10Gbps
+# c3.medium - 24 Core AMD EPYC 7401p, 64GB, 2x480GB SSD, 2x10Gbps
+#             https://metal.equinix.com/product/servers/c3-medium/
+# n3.xlarge - 32 Core Xeon Gold 6314, 512GB, 2x240GB SSD, 2x3.8TB NVMe, 4x25Gbps
+#             https://metal.equinix.com/product/servers/n3-xlarge/
+# c3.large.arm64 - 80 Core Ampere Altra Q80-30, 256GB, 2x960GB NVMe, 2x25Gbps
+#             https://metal.equinix.com/product/servers/c3-large-arm64/
 #
 
 module "sample_arm" {

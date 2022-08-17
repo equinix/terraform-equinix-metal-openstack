@@ -43,8 +43,8 @@ In this walk-through, we will let Terraform create a randomly named project in t
 We recommend setting the Equinix Metal API Token and Organization ID as environment variables since this prevents tokens from being included in source code files. These values can also be stored within a variables file later if using environment variables isn't desired.
 
 ```bash
-export TF_VAR_metal_organization_id=YOUR_ORGANIZATION_ID_HERE
-export TF_VAR_metal_auth_token=YOUR_METAL_TOKEN_HERE
+export TF_VAR_equinix_metal_organization_id=YOUR_ORGANIZATION_ID_HERE
+export TF_VAR_equinix_metal_auth_token=YOUR_METAL_TOKEN_HERE
 ```
 
 #### Where is my Equinix Metal Organization ID?

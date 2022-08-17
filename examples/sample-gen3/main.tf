@@ -1,10 +1,10 @@
 # 
 # Equinix Metal 3rd Generation Hardware
 #
-# This configuration file will override the defaults in vars.tf
-#
-# c3.medium - 24 Core AMD EPYC 7402P, 64GB, 960GB, 2x10Gbps
-# s3.xlarge - 24 Core Intel 4214, 192GB, 1.9TB, 2x10Gbps
+# c3.medium - 24 Core AMD EPYC 7401p, 64GB, 2x480GB SSD, 2x10Gbps
+#             https://metal.equinix.com/product/servers/c3-medium/
+# s3.xlarge - 24 Core Xeon Silver 4214, 192GB, 2x256GB SSD, 2x960GB, 12x8TB HDD, 2x10Gbps
+#             https://metal.equinix.com/product/servers/s3-xlarge/
 module "sample_arm" {
   source = "../.."
 
