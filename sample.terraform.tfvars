@@ -15,3 +15,11 @@ openstack_compute-arm_count = 1
 openstack_compute-x86_count = 1
 
 metal_facilities = ["sjc1"]
+
+# Use an existing project:
+# metal_create_project        = false
+# metal_project_id           = "..."
+#
+# Or create a new one (default), requiring organization_id :
+# metal_create_project        = true
+# metal_organization_id       = "..."
