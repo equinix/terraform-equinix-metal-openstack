@@ -2,7 +2,7 @@
 
 # OpenStack on Equinix Metal
 
-This repository is [Experimental](https://github.com/packethost/standards/blob/master/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
+This repository is [Experimental](https://github.com/equinix-labs/equinix-labs/blob/main/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
 
 ## Overview
 
@@ -43,7 +43,7 @@ We recommend setting the Equinix Metal API Token and Organization ID as environm
 
 ```bash
 export TF_VAR_metal_organization_id=YOUR_ORGANIZATION_ID_HERE
-export TF_VAR_metal_auth_token=YOUR_PACKET_TOKEN_HERE
+export TF_VAR_metal_auth_token=YOUR_METAL_TOKEN_HERE
 ```
 
 #### Where is my Equinix Metal Organization ID?
@@ -93,9 +93,9 @@ Several configurations files are available each building the cloud with a differ
 | Filename                     | Description             | Controller    | Dashboard     | x86 Compute Nodes | ARM Compute Nodes |
 | :--------------------------- | :---------------------- | :------------ | :------------ | :---------------- | :---------------- |
 | default                      | Minimal Config          | c3.medium.x86 | c3.medium.x86 | c3.medium.x86     | none              |
-| sample.terraform.tfvars      | ARM & x86 compute       | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86     | c2.large.arm      |
-| sample-arm.terraform.tfvars  | Equinix Metal Gen 2 ARM | c2.large.arm  | c2.large.arm  | none              | c2.large.arm      |
-| sample-gen2.terraform.tfvars | Equinix Metal Gen 2 x86 | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86     | none              |
+| sample.terraform.tfvars      | ARM & x86 compute       | c3.medium.x86 | c3.medium.x86 | n3.xlarge.x86     | c3.large.arm64      |
+| sample-arm.terraform.tfvars  | Equinix Metal Gen 3 ARM | c3.large.arm64  | c3.large.arm64  | none              | c3.large.arm64      |
+| sample-gen2.terraform.tfvars | Equinix Metal Gen 3 x86 | c3.medium.x86 | c3.medium.x86 | n3.xlarge.x86     | none              |
 | sample-gen3.terraform.tfvars | Equinix Metal Gen 3 x86 | c3.medium.x86 | c3.medium.x86 | s3.xlarge.x86     | none              |
 
 Running without a "terraform.tfvars" will result in the "default" configuration using Equinix Metal c3.medium.x86 hardware devices
@@ -141,19 +141,19 @@ Compute_ARM_IPs = [
   "139.178.89.34",
 ]
 Compute_ARM_Type = [
-  "c2.large.arm",
+  "c3.large.arm64",
 ]
 Compute_x86_IPs = [
   "147.75.70.59",
 ]
 Compute_x86_Type = [
-  "n2.xlarge.x86",
+  "n3.xlarge.x86",
 ]
 Controller_Provider_Private_IPv4 = "10.88.70.16/28"
 Controller_Provider_Public_IPv6 = "2604:1380:1000:7c01::/64"
 Controller_SSH = "ssh root@147.75.70.123 -i metal-key"
 Controller_SSH6 = "ssh root@2604:1380:1000:7c00::7 -i metal-key"
-Controller_Type = "c2.medium.x86"
+Controller_Type = "c3.medium.x86"
 Horizon_dashboard_via_IP = "http://147.75.109.135/horizon/ default/admin/GgT0VzyrX6Jm9Hd9"
 Horizon_dashboard_via_IP6 = "http://[2604:1380:1000:7c00::3]/horizon/ default/admin/GgT0VzyrX6Jm9Hd9"
 OpenStack_API_Endpoint = "http://147.75.70.123:5000/v3"
@@ -245,7 +245,7 @@ root@controller:~# openstack server list
 
 ## External Networking Support
 
-External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Equinix Metal (elastic IP address). These can be requested through the Equinix Metal Web GUI. Please see https://www.packet.com/developers/docs/network/basic/elastic-ips/ for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
+External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Equinix Metal (elastic IP address). These can be requested through the Equinix Metal Web GUI. Please see <https://metal.equinix.com/developers/docs/networking/elastic-ips/> for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
 
 Once the Terraform has finished, the following steps are required to enable the external networking.
 
