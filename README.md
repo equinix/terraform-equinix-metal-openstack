@@ -96,7 +96,6 @@ Several configurations files are available each building the cloud with a differ
 | default                      | Minimal Config          | c3.medium.x86 | c3.medium.x86 | c3.medium.x86     | none              |
 | sample.terraform.tfvars      | ARM & x86 compute       | c3.medium.x86 | c3.medium.x86 | n3.xlarge.x86     | c3.large.arm64      |
 | sample-arm.terraform.tfvars  | Equinix Metal Gen 3 ARM | c3.large.arm64  | c3.large.arm64  | none              | c3.large.arm64      |
-| sample-gen2.terraform.tfvars | Equinix Metal Gen 3 x86 | c3.medium.x86 | c3.medium.x86 | n3.xlarge.x86     | none              |
 | sample-gen3.terraform.tfvars | Equinix Metal Gen 3 x86 | c3.medium.x86 | c3.medium.x86 | s3.xlarge.x86     | none              |
 
 Running without a "terraform.tfvars" will result in the "default" configuration using Equinix Metal c3.medium.x86 hardware devices
