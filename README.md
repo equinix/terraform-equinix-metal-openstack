@@ -67,7 +67,7 @@ When provisioning the machines, Equinix Metal will preset an SSH key to allow ad
 ### Terraform
 
 These instructions use Terraform from Hashicorp to drive the deployment. If you don't have Terraform installed already, you can download and install Terraform using the instructions on the link below:
-https://www.terraform.io/downloads.html
+<https://www.terraform.io/downloads.html>
 
 ## Deployment Prep
 
@@ -84,7 +84,7 @@ Download the Terraform providers required:
 terraform init
 ```
 
-An SSH keypair will be created and managed by this plan to access the hosts in your Metal account's project. 
+An SSH keypair will be created and managed by this plan to access the hosts in your Metal account's project.
 
 ## Cloud Sizing Defaults
 
@@ -135,7 +135,7 @@ terraform output
 
 Sample output as follows:
 
-```
+```ini
 Cloud_ID_Tag = "5077f6895d12fce0"
 Compute_ARM_IPs = [
   "139.178.89.34",
@@ -168,7 +168,7 @@ The OpenStack Controller (CLI) can be accessed at the SSH address listed with th
 
 This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines. For more information on the deployed workloads, please see:
 
-https://github.com/equinix/terraform-metal-openstack/blob/master/OpenStackSampleWorkload.tf
+<https://github.com/equinix/terraform-metal-openstack/blob/master/OpenStackSampleWorkload.tf>
 
 ## Validation
 
@@ -185,7 +185,7 @@ source admin-openrc
 - Validate that all the OpenStack compute services are running. There will be one nova-compute per bare metal compute node provisioned (ARM or x86).
 - Horizon: Admin->System Information->Compute Services
 
-```
+```sh
 root@controller:~# openstack compute service list
 +----+----------------+----------------+----------+---------+-------+----------------------------+
 | ID | Binary         | Host           | Zone     | Status  | State | Updated At                 |
@@ -199,7 +199,7 @@ root@controller:~# openstack compute service list
 - Validate that all the images have been installed
 - Horizon: Admin->Compute->Images
 
-```
+```sh
 root@controller:~# openstack image list
 +--------------------------------------+-----------------+--------+
 | ID                                   | Name            | Status |
@@ -219,7 +219,7 @@ root@controller:~# openstack image list
 
 - Validate that all the x86 compute node has the appropriate number of vCPUs and memory
 
-```
+```sh
 root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
 +--------------+----------------+
 | Field        | Value          |
@@ -234,7 +234,7 @@ root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_
 - Validate that all the virtual machines are running
 - Horizon: Admin->Compute->Instances
 
-```
+```sh
 root@controller:~# openstack server list
 +--------------------------------------+------+--------+---------------------------+---------------+-----------+
 | ID                                   | Name | Status | Networks                  | Image         | Flavor    |
@@ -252,65 +252,31 @@ Once the Terraform has finished, the following steps are required to enable the 
 - Assign the elastic IP subnet to the "Controller" physical host via the Equinix Metal Web GUI.
 - Log into the Controller physical node via SSH and execute:
 
-```
+```sh
 sudo bash ExternalNetwork.sh <ELASTIC_CIDR>
 ```
 
 For example, if your CIDR subnet is 10.20.30.0/24 the command would be:
 
-```
+```sh
 sudo bash ExternalNetwork.sh 10.20.30.0/24
 ```
 
 From there, assign a floating IPs via the dashboard and update security groups to permit the desired ports.
 
-## External Block Storage
-
-Equinix Metal offeres block storage that can be attached to compute nodes and used as ephemeral storage for VMs. This involves creating the storage via the Equinix Metal Web App, associating the storage with a compute node, and setting up the volume within the compute node. In this example, a 1TB volume is being created for use as ephemeral storage.
-
 # Stop the OpenStack Nova Compute service
 
-```
+```sh
 service nova-compute stop
-```
-
-# Create and assign a storage volume
-
-Create the volume via the Equinix Metal Web App and assign to the compute node.
-See the steps at: https://metal.equinix.com/developers/docs/servers/elastic-block-storage/
-
-```
-apt-get -y install jq
-packet-block-storage-attach
-fdisk /dev/mapper/volume-YOUR_ID_HERE # create a new volume (n) and accept defaults
-mkfs.ext4 /dev/mapper/volume-YOUR_ID_HERE-part1
-blkid | grep volume-YOUR_ID_HERE-part1 # take note of the UUID
-```
-
-# Copy over the existing Nova data
-
-```
-mnt /dev/mapper/volume-YOUR_ID_HERE /mnt
-rsync -avxHAX --progress /var/lib/nova/ /mnt
-umount /mnt
-rm -rf /var/lib/nova/*
-vi /etc/fstab # add a line like UUID=YOUR-UUID-HERE /var/lib/nova ext4 0 2
-mount -a
 ```
 
 # Start the OpenStack Nova Compute service
 
-```
+```sh
 service nova-compute start
 ```
 
 # Tearing it all down
 
 To decommission a compute node, the above steps must be done in reverse order.
-
-```
-umount /var/lib/nova
-packet-block-storage-deatach
-```
-
-Via the Equinix Metal Web App, detach the volume from the host, and then delete the volume. The physical host can then be deprovisioned via Terraform destroy.
+The physical host can then be deprovisioned via Terraform destroy.
