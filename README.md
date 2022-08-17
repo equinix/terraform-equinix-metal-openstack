@@ -1,6 +1,7 @@
-![](https://img.shields.io/badge/Stability-Experimental-red.svg)
-
 # OpenStack on Equinix Metal
+
+![Experimental](https://img.shields.io/badge/Stability-Experimental-red.svg)
+[![integration](https://github.com/equinix/terraform-metal-openstack/actions/workflows/integration.yml/badge.svg)](https://github.com/equinix/terraform-metal-openstack/actions/workflows/integration.yml)
 
 This repository is [Experimental](https://github.com/equinix-labs/equinix-labs/blob/main/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
 
