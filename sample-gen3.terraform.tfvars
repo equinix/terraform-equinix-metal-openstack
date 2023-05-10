@@ -11,7 +11,6 @@ metal_compute-x86_type      = "s3.xlarge.x86"
 openstack_compute-arm_count = 1
 openstack_compute-x86_count = 1
 
-metal_facilities = ["dfw2"]
 
 # Use an existing project:
 # metal_create_project        = false

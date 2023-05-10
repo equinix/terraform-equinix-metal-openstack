@@ -15,7 +15,7 @@ resource "null_resource" "controller-generate-hostfile" {
   depends_on = [null_resource.blank-hostfile]
 
   provisioner "local-exec" {
-    command = "echo ${metal_device.controller.access_private_ipv4} ${metal_device.controller.hostname} >> ${path.module}/assets/hostfile"
+    command = "echo ${equinix_metal_device.controller.access_private_ipv4} ${equinix_metal_device.controller.hostname} >> ${path.module}/assets/hostfile"
   }
 }
 
@@ -23,7 +23,7 @@ resource "null_resource" "dashboard-generate-hostfile" {
   depends_on = [null_resource.blank-hostfile]
 
   provisioner "local-exec" {
-    command = "echo ${metal_device.dashboard.access_private_ipv4} ${metal_device.dashboard.hostname} >> ${path.module}/assets/hostfile"
+    command = "echo ${equinix_metal_device.dashboard.access_private_ipv4} ${equinix_metal_device.dashboard.hostname} >> ${path.module}/assets/hostfile"
   }
 }
 
@@ -33,7 +33,7 @@ resource "null_resource" "compute-x86-generate-hostfile" {
   count = var.openstack_compute-x86_count
 
   provisioner "local-exec" {
-    command = "echo ${element(metal_device.compute-x86.*.access_private_ipv4, count.index)} ${element(metal_device.compute-x86.*.hostname, count.index)} >> ${path.module}/assets/hostfile"
+    command = "echo ${element(equinix_metal_device.compute-x86.*.access_private_ipv4, count.index)} ${element(equinix_metal_device.compute-x86.*.hostname, count.index)} >> ${path.module}/assets/hostfile"
   }
 }
 
@@ -43,7 +43,7 @@ resource "null_resource" "compute-arm-generate-hostfile" {
   count = var.openstack_compute-arm_count
 
   provisioner "local-exec" {
-    command = "echo ${element(metal_device.compute-arm.*.access_private_ipv4, count.index)} ${element(metal_device.compute-arm.*.hostname, count.index)} >> ${path.module}/assets/hostfile"
+    command = "echo ${element(equinix_metal_device.compute-arm.*.access_private_ipv4, count.index)} ${element(equinix_metal_device.compute-arm.*.hostname, count.index)} >> ${path.module}/assets/hostfile"
   }
 }
 
@@ -66,7 +66,7 @@ resource "null_resource" "controller-write-hostfile" {
   depends_on = [null_resource.hostfile-generated]
 
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -86,7 +86,7 @@ resource "null_resource" "dashboard-write-hostfile" {
   depends_on = [null_resource.hostfile-generated]
 
   connection {
-    host        = metal_device.dashboard.access_public_ipv4
+    host        = equinix_metal_device.dashboard.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -108,7 +108,7 @@ resource "null_resource" "compute-x86-write-hostfile" {
   count = var.openstack_compute-x86_count
 
   connection {
-    host        = element(metal_device.compute-x86.*.access_public_ipv4, count.index)
+    host        = element(equinix_metal_device.compute-x86.*.access_public_ipv4, count.index)
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -130,7 +130,7 @@ resource "null_resource" "compute-arm-write-hostfile" {
   count = var.openstack_compute-arm_count
 
   connection {
-    host        = element(metal_device.compute-arm.*.access_public_ipv4, count.index)
+    host        = element(equinix_metal_device.compute-arm.*.access_public_ipv4, count.index)
     private_key = local_file.cluster_private_key_pem.content
   }
 

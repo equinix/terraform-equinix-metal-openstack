@@ -4,7 +4,7 @@
 
 resource "null_resource" "controller-removelocalhost-hostfile" {
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -22,7 +22,7 @@ resource "null_resource" "controller-removelocalhost-hostfile" {
 
 resource "null_resource" "dashboard-removelocalhost-hostfile" {
   connection {
-    host        = metal_device.dashboard.access_public_ipv4
+    host        = equinix_metal_device.dashboard.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -37,7 +37,7 @@ resource "null_resource" "compute-x86-removelocalhost-hostfile" {
   count = var.openstack_compute-x86_count
 
   connection {
-    host        = element(metal_device.compute-x86.*.access_public_ipv4, count.index)
+    host        = element(equinix_metal_device.compute-x86.*.access_public_ipv4, count.index)
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -52,7 +52,7 @@ resource "null_resource" "compute-arm-removelocalhost-hostfile" {
   count = var.openstack_compute-arm_count
 
   connection {
-    host        = element(metal_device.compute-arm.*.access_public_ipv4, count.index)
+    host        = element(equinix_metal_device.compute-arm.*.access_public_ipv4, count.index)
     private_key = local_file.cluster_private_key_pem.content
   }
 

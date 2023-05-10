@@ -5,9 +5,9 @@ terraform {
     null = {
       source = "hashicorp/null"
     }
-    metal = {
-      source  = "equinix/metal"
-      version = "1.0.0"
+    equinix = {
+      source  = "equinix/equinix"
+      version = "~> 1.14"
     }
     random = {
       source = "hashicorp/random"
@@ -15,5 +15,8 @@ terraform {
     template = {
       source = "hashicorp/template"
     }
+  }
+  provider_meta "equinix" {
+    module_name = "equinix-metal-openstack"
   }
 }

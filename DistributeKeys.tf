@@ -4,7 +4,7 @@
 
 resource "null_resource" "controller-distribute-keys" {
   connection {
-    host        = metal_device.controller.access_public_ipv4
+    host        = equinix_metal_device.controller.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
@@ -23,7 +23,7 @@ resource "null_resource" "controller-distribute-keys" {
 
 resource "null_resource" "dashboard-distribute-keys" {
   connection {
-    host        = metal_device.dashboard.access_public_ipv4
+    host        = equinix_metal_device.dashboard.access_public_ipv4
     private_key = local_file.cluster_private_key_pem.content
   }
 
