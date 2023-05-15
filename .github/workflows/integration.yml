@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        tf: [0.14.7]
+        tf: [1]
     env:
       TF_INPUT: 0
       SSH_AUTH_SOCK: /tmp/ssh_agent.sock
