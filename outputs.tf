@@ -46,12 +46,23 @@ output "OpenStack_admin_pass" {
 
 output "Horizon_dashboard_via_IP" {
   description = "Access OpenStack Dashboard over IPv4"
-  value       = "http://${equinix_metal_device.dashboard.access_public_ipv4}/horizon/ default/admin/${random_password.os_admin_password.result}"
+  value       = "http://${equinix_metal_device.dashboard.access_public_ipv4}/horizon/"
+}
+
+output "Horizon_dashboard_admin_password" {
+  description = "OpenStack Dashboard 'admin' password in 'default'"
+  sensitive   = true
+  value       = random_password.os_admin_password.result
 }
 
 output "Horizon_dashboard_via_IP6" {
   description = "Access OpenStack Dashboard over IPv6"
-  value       = "http://[${equinix_metal_device.dashboard.access_public_ipv6}]/horizon/ default/admin/${random_password.os_admin_password.result}"
+  value       = "http://[${equinix_metal_device.dashboard.access_public_ipv6}]/horizon/"
+}
+
+output "Controller_SSH_key" {
+  description = "Private SSH key file to access OpenStack controller instance"
+  value       = local_file.cluster_private_key_pem.filename
 }
 
 output "Controller_SSH" {
@@ -65,7 +76,7 @@ output "Controller_SSH6" {
 }
 
 output "Controller_Provider_Private_IPv4" {
-  description = "OpenStack Contoller IPv4 Address"
+  description = "OpenStack Contoller Private IPv4 Address"
   value       = equinix_metal_ip_attachment.controller_private_ipv4.cidr_notation
 }
 
