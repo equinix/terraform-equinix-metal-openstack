@@ -1,16 +1,16 @@
 resource "equinix_metal_project" "new_project" {
   count           = var.equinix_metal_create_project ? 1 : 0
   name            = (var.equinix_metal_project_name != "") ? var.equinix_metal_project_name : format("openstack-%s", random_id.cloud.b64_url)
-  organization_id = var.equinix_metal_organization_id
+  organization_id = var.metal_organization_id
 }
 
 provider "equinix" {
-  auth_token = var.equinix_metal_auth_token
+  auth_token = var.metal_auth_token
 }
 
 locals {
   ssh_key_name     = "metal-key"
-  metal_project_id = var.equinix_metal_create_project ? equinix_metal_project.new_project[0].id : var.equinix_metal_project_id
+  metal_project_id = var.equinix_metal_create_project ? equinix_metal_project.new_project[0].id : var.metal_project_id
 }
 
 resource "tls_private_key" "ssh_key_pair" {

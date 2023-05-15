@@ -14,14 +14,14 @@ module "sample_arm" {
   openstack_compute-arm_count    = 1
   openstack_compute-x86_count    = 1
 
-  equinix_metal_auth_token      = var.metal_auth_token
-  equinix_metal_organization_id = var.metal_organization_id
+  metal_auth_token      = var.metal_auth_token
+  metal_organization_id = var.metal_organization_id
 
   # Use an existing project:
   # equinix_metal_create_project        = false
-  # equinix_metal_project_id           = "..."
+  # metal_project_id           = "..."
   #
   # Or create a new one (default), requiring organization_id :
   # equinix_metal_create_project        = true
-  # equinix_metal_organization_id       = "..."
+  # metal_organization_id       = "..."
 }

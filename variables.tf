@@ -1,4 +1,4 @@
-variable "equinix_metal_auth_token" {
+variable "metal_auth_token" {
   description = "Your metal API key"
 }
 
@@ -7,13 +7,13 @@ variable "equinix_metal_metro" {
   default     = "da"
 }
 
-variable "equinix_metal_project_id" {
+variable "metal_project_id" {
   type        = string
   default     = "null"
   description = "Equinix Metal Project ID"
 }
 
-variable "equinix_metal_organization_id" {
+variable "metal_organization_id" {
   type        = string
   default     = "null"
   description = "Equinix Metal Organization ID"
