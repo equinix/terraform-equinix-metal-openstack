@@ -10,7 +10,8 @@ In each example, there is a module declaration such as:
 variable "metal_auth_token" {}
 
 module "openstack" {
-  source = "metal/openstack/metal"
+  # source = "../.."
+  source = "equinix/openstack/metal"
   metal_auth_token = var.metal_auth_token
 }
 ```

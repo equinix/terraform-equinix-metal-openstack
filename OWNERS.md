@@ -4,4 +4,4 @@ This project is governed by [Equinix](https://metal.equinix.com) and benefits fr
 
 Members of the Equinix Github organization will strive to triage issues in a timely manner.
 
-See the [packethost/standards glossary](https://github.com/packethost/standards/blob/master/glossary.md#ownersmd) for more details about this file.
+See the [equinix-labs/equinix-labs glossary](https://github.com/equinix-labs/equinix-labs/blob/main/glossary.md#ownersmd) for more details about this file.

@@ -1,14 +1,14 @@
 variable "metal_auth_token" {}
 
 module "openstack" {
-  source = "equinix/openstack/metal"
+  source           = "../.."
   metal_auth_token = var.metal_auth_token
 }
 
 output "OpenStack" {
   value = "Dashboard: ${module.openstack.Horizon_dashboard_via_IP}\n\t${module.openstack.Horizon_dashboard_via_IP6}"
 }
- 
+
 provider "openstack" {
   user_name   = "admin"
   tenant_name = "admin"

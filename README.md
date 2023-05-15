@@ -1,8 +1,9 @@
-![](https://img.shields.io/badge/Stability-Experimental-red.svg)
-
 # OpenStack on Equinix Metal
 
-This repository is [Experimental](https://github.com/packethost/standards/blob/master/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
+![Experimental](https://img.shields.io/badge/Stability-Experimental-red.svg)
+[![integration](https://github.com/equinix/terraform-metal-openstack/actions/workflows/integration.yml/badge.svg)](https://github.com/equinix/terraform-metal-openstack/actions/workflows/integration.yml)
+
+This repository is [Experimental](https://github.com/equinix-labs/equinix-labs/blob/main/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
 
 ## Overview
 
@@ -15,7 +16,7 @@ The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Equinix Metal).
 - By default, the template uses third generation Equinix Metal hardware.
 
-If you require support, please email [metal@equinix.com](mailto:metal@equinix.com), visit the Equinix Metal IRC channel (#equinixmetal on freenode), subscribe to the [Equinix Metal Community Slack channel](https://slack.equinixmetal.com) or post an issue within this repository.
+If you require support, please email [metal@equinix.com](mailto:metal@equinix.com), subscribe to the [Equinix Metal Community Slack channel](https://slack.equinixmetal.com) or post an issue within this repository.
 
 Contributions are welcome to help extend this work!
 
@@ -43,7 +44,7 @@ We recommend setting the Equinix Metal API Token and Organization ID as environm
 
 ```bash
 export TF_VAR_metal_organization_id=YOUR_ORGANIZATION_ID_HERE
-export TF_VAR_metal_auth_token=YOUR_PACKET_TOKEN_HERE
+export TF_VAR_metal_auth_token=YOUR_METAL_TOKEN_HERE
 ```
 
 #### Where is my Equinix Metal Organization ID?
@@ -67,7 +68,7 @@ When provisioning the machines, Equinix Metal will preset an SSH key to allow ad
 ### Terraform
 
 These instructions use Terraform from Hashicorp to drive the deployment. If you don't have Terraform installed already, you can download and install Terraform using the instructions on the link below:
-https://www.terraform.io/downloads.html
+<https://www.terraform.io/downloads.html>
 
 ## Deployment Prep
 
@@ -84,19 +85,18 @@ Download the Terraform providers required:
 terraform init
 ```
 
-An SSH keypair will be created and managed by this plan to access the hosts in your Metal account's project. 
+An SSH keypair will be created and managed by this plan to access the hosts in your Metal account's project.
 
 ## Cloud Sizing Defaults
 
 Several configurations files are available each building the cloud with a different mix of hardware architectures and capacity.
 
-| Filename                     | Description             | Controller    | Dashboard     | x86 Compute Nodes | ARM Compute Nodes |
-| :--------------------------- | :---------------------- | :------------ | :------------ | :---------------- | :---------------- |
-| default                      | Minimal Config          | c3.medium.x86 | c3.medium.x86 | c3.medium.x86     | none              |
-| sample.terraform.tfvars      | ARM & x86 compute       | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86     | c2.large.arm      |
-| sample-arm.terraform.tfvars  | Equinix Metal Gen 2 ARM | c2.large.arm  | c2.large.arm  | none              | c2.large.arm      |
-| sample-gen2.terraform.tfvars | Equinix Metal Gen 2 x86 | c2.medium.x86 | c2.medium.x86 | n2.xlarge.x86     | none              |
-| sample-gen3.terraform.tfvars | Equinix Metal Gen 3 x86 | c3.medium.x86 | c3.medium.x86 | s3.xlarge.x86     | none              |
+| Filename             | Description             | Controller     | Dashboard      | x86 Compute Nodes | ARM Compute Nodes |
+| :------------------- | :---------------------- | :------------- | :------------- | :---------------- | :---------------- |
+| default              | Minimal Config          | c3.medium.x86  | c3.medium.x86  | c3.medium.x86     | none              |
+| examples/sample      | ARM & x86 compute       | c3.medium.x86  | c3.medium.x86  | n3.xlarge.x86     | c3.large.arm64    |
+| examples/sample-arm  | Equinix Metal Gen 3 ARM | c3.large.arm64 | c3.large.arm64 | none              | c3.large.arm64    |
+| examples/sample-gen3 | Equinix Metal Gen 3 x86 | c3.medium.x86  | c3.medium.x86  | s3.xlarge.x86     | none              |
 
 Running without a "terraform.tfvars" will result in the "default" configuration using Equinix Metal c3.medium.x86 hardware devices
 and no ARM capabilities. The other sample configurations deploy a mix of ARM and x86 hardware across different Equinix Metal hardware generations.
@@ -135,25 +135,25 @@ terraform output
 
 Sample output as follows:
 
-```
+```ini
 Cloud_ID_Tag = "5077f6895d12fce0"
 Compute_ARM_IPs = [
   "139.178.89.34",
 ]
 Compute_ARM_Type = [
-  "c2.large.arm",
+  "c3.large.arm64",
 ]
 Compute_x86_IPs = [
   "147.75.70.59",
 ]
 Compute_x86_Type = [
-  "n2.xlarge.x86",
+  "n3.xlarge.x86",
 ]
 Controller_Provider_Private_IPv4 = "10.88.70.16/28"
 Controller_Provider_Public_IPv6 = "2604:1380:1000:7c01::/64"
 Controller_SSH = "ssh root@147.75.70.123 -i metal-key"
 Controller_SSH6 = "ssh root@2604:1380:1000:7c00::7 -i metal-key"
-Controller_Type = "c2.medium.x86"
+Controller_Type = "c3.medium.x86"
 Horizon_dashboard_via_IP = "http://147.75.109.135/horizon/ default/admin/GgT0VzyrX6Jm9Hd9"
 Horizon_dashboard_via_IP6 = "http://[2604:1380:1000:7c00::3]/horizon/ default/admin/GgT0VzyrX6Jm9Hd9"
 OpenStack_API_Endpoint = "http://147.75.70.123:5000/v3"
@@ -168,7 +168,7 @@ The OpenStack Controller (CLI) can be accessed at the SSH address listed with th
 
 This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines. For more information on the deployed workloads, please see:
 
-https://github.com/equinix/terraform-metal-openstack/blob/master/OpenStackSampleWorkload.tf
+<https://github.com/equinix/terraform-metal-openstack/blob/master/OpenStackSampleWorkload.tf>
 
 ## Validation
 
@@ -185,7 +185,7 @@ source admin-openrc
 - Validate that all the OpenStack compute services are running. There will be one nova-compute per bare metal compute node provisioned (ARM or x86).
 - Horizon: Admin->System Information->Compute Services
 
-```
+```sh
 root@controller:~# openstack compute service list
 +----+----------------+----------------+----------+---------+-------+----------------------------+
 | ID | Binary         | Host           | Zone     | Status  | State | Updated At                 |
@@ -199,7 +199,7 @@ root@controller:~# openstack compute service list
 - Validate that all the images have been installed
 - Horizon: Admin->Compute->Images
 
-```
+```sh
 root@controller:~# openstack image list
 +--------------------------------------+-----------------+--------+
 | ID                                   | Name            | Status |
@@ -219,7 +219,7 @@ root@controller:~# openstack image list
 
 - Validate that all the x86 compute node has the appropriate number of vCPUs and memory
 
-```
+```sh
 root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
 +--------------+----------------+
 | Field        | Value          |
@@ -234,7 +234,7 @@ root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_
 - Validate that all the virtual machines are running
 - Horizon: Admin->Compute->Instances
 
-```
+```sh
 root@controller:~# openstack server list
 +--------------------------------------+------+--------+---------------------------+---------------+-----------+
 | ID                                   | Name | Status | Networks                  | Image         | Flavor    |
@@ -245,72 +245,38 @@ root@controller:~# openstack server list
 
 ## External Networking Support
 
-External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Equinix Metal (elastic IP address). These can be requested through the Equinix Metal Web GUI. Please see https://www.packet.com/developers/docs/network/basic/elastic-ips/ for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
+External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Equinix Metal (elastic IP address). These can be requested through the Equinix Metal Web GUI. Please see <https://metal.equinix.com/developers/docs/networking/elastic-ips/> for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
 
 Once the Terraform has finished, the following steps are required to enable the external networking.
 
 - Assign the elastic IP subnet to the "Controller" physical host via the Equinix Metal Web GUI.
 - Log into the Controller physical node via SSH and execute:
 
-```
+```sh
 sudo bash ExternalNetwork.sh <ELASTIC_CIDR>
 ```
 
 For example, if your CIDR subnet is 10.20.30.0/24 the command would be:
 
-```
+```sh
 sudo bash ExternalNetwork.sh 10.20.30.0/24
 ```
 
 From there, assign a floating IPs via the dashboard and update security groups to permit the desired ports.
 
-## External Block Storage
-
-Equinix Metal offeres block storage that can be attached to compute nodes and used as ephemeral storage for VMs. This involves creating the storage via the Equinix Metal Web App, associating the storage with a compute node, and setting up the volume within the compute node. In this example, a 1TB volume is being created for use as ephemeral storage.
-
 # Stop the OpenStack Nova Compute service
 
-```
+```sh
 service nova-compute stop
-```
-
-# Create and assign a storage volume
-
-Create the volume via the Equinix Metal Web App and assign to the compute node.
-See the steps at: https://metal.equinix.com/developers/docs/servers/elastic-block-storage/
-
-```
-apt-get -y install jq
-packet-block-storage-attach
-fdisk /dev/mapper/volume-YOUR_ID_HERE # create a new volume (n) and accept defaults
-mkfs.ext4 /dev/mapper/volume-YOUR_ID_HERE-part1
-blkid | grep volume-YOUR_ID_HERE-part1 # take note of the UUID
-```
-
-# Copy over the existing Nova data
-
-```
-mnt /dev/mapper/volume-YOUR_ID_HERE /mnt
-rsync -avxHAX --progress /var/lib/nova/ /mnt
-umount /mnt
-rm -rf /var/lib/nova/*
-vi /etc/fstab # add a line like UUID=YOUR-UUID-HERE /var/lib/nova ext4 0 2
-mount -a
 ```
 
 # Start the OpenStack Nova Compute service
 
-```
+```sh
 service nova-compute start
 ```
 
 # Tearing it all down
 
 To decommission a compute node, the above steps must be done in reverse order.
-
-```
-umount /var/lib/nova
-packet-block-storage-deatach
-```
-
-Via the Equinix Metal Web App, detach the volume from the host, and then delete the volume. The physical host can then be deprovisioned via Terraform destroy.
+The physical host can then be deprovisioned via Terraform destroy.

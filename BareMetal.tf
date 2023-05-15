@@ -1,16 +1,16 @@
 resource "equinix_metal_project" "new_project" {
   count           = var.equinix_metal_create_project ? 1 : 0
   name            = (var.equinix_metal_project_name != "") ? var.equinix_metal_project_name : format("openstack-%s", random_id.cloud.b64_url)
-  organization_id = var.equinix_metal_organization_id
+  organization_id = var.metal_organization_id
 }
 
 provider "equinix" {
-  auth_token = var.equinix_metal_auth_token
+  auth_token = var.metal_auth_token
 }
 
 locals {
   ssh_key_name     = "metal-key"
-  metal_project_id = var.equinix_metal_create_project ? equinix_metal_project.new_project[0].id : var.equinix_metal_project_id
+  metal_project_id = var.equinix_metal_create_project ? equinix_metal_project.new_project[0].id : var.metal_project_id
 }
 
 resource "tls_private_key" "ssh_key_pair" {
@@ -48,6 +48,7 @@ resource "equinix_metal_device" "controller" {
     private_key = local_file.cluster_private_key_pem.content
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
   #  ip_address {
@@ -70,6 +71,7 @@ resource "equinix_metal_device" "dashboard" {
   }
   user_data = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
 
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }
@@ -89,6 +91,7 @@ resource "equinix_metal_device" "compute-x86" {
     private_key = file(local_file.cluster_private_key_pem)
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }
@@ -108,6 +111,7 @@ resource "equinix_metal_device" "compute-arm" {
     private_key = file(local_file.cluster_private_key_pem)
   }
   user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${local_file.cluster_public_key.content}\""
+  metro         = var.equinix_metal_metro
   project_id    = local.metal_project_id
   billing_cycle = "hourly"
 }

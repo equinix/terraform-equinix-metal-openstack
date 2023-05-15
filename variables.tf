@@ -1,14 +1,19 @@
-variable "equinix_metal_auth_token" {
+variable "metal_auth_token" {
   description = "Your metal API key"
 }
 
-variable "equinix_metal_project_id" {
+variable "equinix_metal_metro" {
+  description = "Metal Metro (https://metal.equinix.com/developers/docs/locations/metros/)"
+  default     = "da"
+}
+
+variable "metal_project_id" {
   type        = string
   default     = "null"
   description = "Equinix Metal Project ID"
 }
 
-variable "equinix_metal_organization_id" {
+variable "metal_organization_id" {
   type        = string
   default     = "null"
   description = "Equinix Metal Organization ID"
@@ -48,7 +53,7 @@ variable "openstack_compute-x86_count" {
 
 variable "equinix_metal_compute-arm_type" {
   description = "Instance type of OpenStack ARM compute nodes"
-  default     = "c2.large.arm"
+  default     = "c3.large.arm64"
 }
 
 variable "openstack_compute-arm_count" {
