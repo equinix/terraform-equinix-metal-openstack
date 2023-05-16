@@ -4,7 +4,7 @@
 
 # use private IPv4 addresses to save precious Internet resources
 data "equinix_metal_precreated_ip_block" "private_ipv4" {
-
+  metro          = equinix_metal_device.controller.metro
   project_id     = local.metal_project_id
   address_family = 4
   public         = false
@@ -21,7 +21,7 @@ resource "equinix_metal_ip_attachment" "controller_private_ipv4" {
 
 # ipv6 is free so let's go crazy
 data "equinix_metal_precreated_ip_block" "public_ipv6" {
-
+  metro          = equinix_metal_device.controller.metro
   project_id     = local.metal_project_id
   address_family = 6
   public         = true

@@ -16,7 +16,7 @@
 #
 #  domain = "openstacksandiego.us"
 #  name   = "controller-${random_id.cloud.hex}"
-#  value  = "${metal_device.dashboard.access_public_ipv4}"
+#  value  = "${equinix_metal_device.dashboard.access_public_ipv4}"
 #  type   = "A"
 #  ttl    = 3600
 #}
@@ -26,7 +26,7 @@
 #
 #  domain = "openstacksandiego.us"
 #  name   = "dashboard-${random_id.cloud.hex}"
-#  value  = "${metal_device.dashboard.access_public_ipv4}"
+#  value  = "${equinix_metal_device.dashboard.access_public_ipv4}"
 #  type   = "A"
 #  ttl    = 3600
 #}
