@@ -1,4 +1,5 @@
 ![](https://img.shields.io/badge/Stability-Experimental-red.svg)
+[![Equinix Community](https://img.shields.io/badge/Equinix%20Community%20-%20%23E91C24?logo=equinixmetal)](https://community.equinix.com)
 
 # OpenStack on Equinix Metal
 
@@ -8,14 +9,12 @@ This repository is [Experimental](https://github.com/packethost/standards/blob/m
 
 Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Equinix Metal. Specifically, this deployment showcases how a multi-node cloud can be deployed on Equinix Metal bare metal.
 
-This repo supports the Ussuri version of OpenStack.
+This repo supports the [OpenStack Ussuri](https://www.openstack.org/software/ussuri/) version.
 
 The deployment defaults to a minimum 3 node OpenStack cloud, consisting of 2 x86 infrastructure nodes and a single x86 compute node.
 
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Equinix Metal).
 - By default, the template uses third generation Equinix Metal hardware.
-
-If you require support, please email [metal@equinix.com](mailto:metal@equinix.com), visit the Equinix Metal IRC channel (#equinixmetal on freenode), subscribe to the [Equinix Metal Community Slack channel](https://slack.equinixmetal.com) or post an issue within this repository.
 
 Contributions are welcome to help extend this work!
 
